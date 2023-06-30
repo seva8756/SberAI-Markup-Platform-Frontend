@@ -4,14 +4,13 @@ import '@/app/styles/variables/global.scss'
 </script>
 
 <template>
-  <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet">
   <nav class="navbar">
-    <img class="logo" src="/public/Logotype.png" alt="">
+    <img class="logo" src="/src/shared/assets/icons/logo.png" alt="">
       <ul class="nav-body">
-        <li><a class="link-text" href="">Задания</a></li>
-        <li><a class="link-text" href="">Пользователи</a></li>
-        <li><a class="link-text" href="">Поддержка</a></li>
-        <li><a class="link-text" href="">О проекте</a></li>
+        <li class="link">Задания</li>
+        <li class="link">Пользователи</li>
+        <li class="link">Поддержка</li>
+        <li class="link">О проекте</li>
       </ul>
     <CurrentProfile />
   </nav>
@@ -36,7 +35,7 @@ import '@/app/styles/variables/global.scss'
   height: 35px;
 }
 
-.link-text {
+.link {
   display: block;
   padding: 0px;
   color: var(--text-secondary-color);
@@ -48,23 +47,22 @@ import '@/app/styles/variables/global.scss'
   position: relative;
 }
 
-.link-text::after {
+.link::after {
   content: '';
   position: absolute;
   bottom: -2px;
   left: 0;
   width: 0;
   height: 2px;
-
   background-color: var(--text-primary-color);
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
-.link-text:hover::after {
+.link:hover::after {
   width: 100%;
 }
 
-.link-text:hover {
+.link:hover {
   color: var(--text-primary-color);
 }
 
@@ -75,6 +73,5 @@ import '@/app/styles/variables/global.scss'
   height: 101px;
   display: flex;
   align-items: center;
-
 }
 </style>

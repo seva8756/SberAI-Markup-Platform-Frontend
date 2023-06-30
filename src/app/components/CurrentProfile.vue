@@ -8,7 +8,7 @@ import '@/app/styles/variables/global.scss'
             <div class="username"><a>Имя пользователя</a></div>
             <div class="role">Разметчик</div>
         </div>
-        <img class="pfp" src="/public/DefaultProfilePic.png" alt="">
+        <img class="pfp" src="/src/shared/assets/icons/default_pfp.png" alt="">
     </div>
 </template>
 

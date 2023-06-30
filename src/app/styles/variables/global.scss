@@ -3,3 +3,13 @@
 :root {
   --font-family: Montserrat;
 }
+
+h1 {
+  color: var(--accent-color);
+  text-align: center;
+  font-size: 32px;
+  font-family: var(--font-family);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
