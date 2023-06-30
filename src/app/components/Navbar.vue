@@ -1,30 +1,34 @@
 <script setup lang="ts">
 import CurrentProfile from './CurrentProfile.vue'
+import '@/app/styles/variables/global.scss'
 </script>
 
 <template>
   <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet">
   <nav class="navbar">
-    <img src="/public/Logotype.png" alt="">
-      <ul>
-        <li><a href="">Задания</a></li>
-        <li><a href="">Пользователи</a></li>
-        <li><a href="">Поддержка</a></li>
-        <li><a href="">О проекте</a></li>
+    <img class="logo" src="/public/Logotype.png" alt="">
+      <ul class="nav-body">
+        <li><a class="link-text" href="">Задания</a></li>
+        <li><a class="link-text" href="">Пользователи</a></li>
+        <li><a class="link-text" href="">Поддержка</a></li>
+        <li><a class="link-text" href="">О проекте</a></li>
       </ul>
     <CurrentProfile />
   </nav>
 </template>
 
-<style scoped>
-ul {
+<style lang="scss" scoped>
+.nav-body{
   list-style-type: none;
   margin: 0;
   padding: 0;
   width: 43.9%;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 30px;
 }
 
-img{
+.logo{
   margin-left: 6.25%;
   margin-right: 8.59%;
   float: left;
@@ -32,40 +36,45 @@ img{
   height: 35px;
 }
 
-li {
-  margin-left: 2.34%;
-  padding: 0px;
-  display: inline-block;
-}
-
-li:first-child{ 
-  margin-left: 0px;
-}
-
-a {
+.link-text {
   display: block;
   padding: 0px;
-  background-color: #353535;
-  color: #f4f4f4;
-  font-family: Montserrat;
+  color: var(--text-secondary-color);
+  font-family: var(--font-family);
   font-size: 20px;
-  padding: 0px;
+  font-weight: 500;
+  word-wrap: break-word;
+  text-decoration: none;
+  position: relative;
 }
 
-.active {
-  text-decoration: underline;
+.link-text::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+
+  background-color: var(--text-primary-color);
+  transition: 0.3s ease-in-out;
+}
+
+.link-text:hover::after {
+  width: 100%;
+}
+
+.link-text:hover {
+  color: var(--text-primary-color);
 }
 
 .navbar {
-  background-color: #353535;
+  background-color: var(--background-color-secondary);
   width: 100%;
   overflow: auto;
   height: 101px;
   display: flex;
   align-items: center;
-}
 
-body {
-  height: 101px;
 }
 </style>
