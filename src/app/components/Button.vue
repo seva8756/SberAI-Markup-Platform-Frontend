@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import '@/app/styles/variables/global.scss'
 const props = defineProps({
   label: {
     type: String,
@@ -13,10 +14,15 @@ const props = defineProps({
     default: "big"
   }
 })
+
+const emit = defineEmits(["click"])
+const clickOnButton = () => {
+  emit("click")
+}
 </script>
 
 <template>
-  <button :class="['btn', `btn_${color}`, `btn_${size}`]">{{label}}</button>
+  <button :class="['btn', `btn_${color}`, `btn_${size}`]" @click="clickOnButton">{{label}}</button>
 </template>
 
 <style lang="scss" scoped>
@@ -29,6 +35,8 @@ const props = defineProps({
   gap: 10px;
   flex-shrink: 10;
   height: 45px;
+  border-radius: 22.5px;
+  padding: 10px 15px;
 
   font-family: var(--font-family);
   color: var(--text-primary-color);
@@ -44,12 +52,10 @@ const props = defineProps({
     background: var(--button-secondary-color);
   }
   &_big {
-    padding: 25px 42px;
-    border-radius: 23px;
+    min-width: 250px;
   }
   &_small {
-    padding: 10px 15px;
-    border-radius: 21px;
+    min-width: 210px;
   }
 
 }

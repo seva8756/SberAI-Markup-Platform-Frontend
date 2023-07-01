@@ -5,7 +5,7 @@ import  '@/app/styles/variables/global.scss'
 </script>
 
 <template>
-  <div class="container">
+  <div class="app">
     <Navbar/>
     <div class="content">
       <RouterView />
@@ -13,4 +13,9 @@ import  '@/app/styles/variables/global.scss'
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.app {
+  background-color: var(--background-color-primary);
+  min-height: 100vh;
+}
+</style>
