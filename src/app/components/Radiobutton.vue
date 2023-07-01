@@ -34,16 +34,18 @@ const handleClick = (event) => {
 </script>
 
 <template>
-  <input
-      class="radiobutton"
-      type="radio"
-      :name="name"
-      :id="id"
-      :value="value"
-      :checked="checked"
-      :disabled="disabled"
-      @input="handleClick($event)">
-  <label class="options" :for="id">{{label}}</label>
+  <div class="button-area" style="display: flex; align-items: center;">
+    <input
+        class="radiobutton"
+        type="radio"
+        :name="name"
+        :id="id"
+        :value="value"
+        :checked="checked"
+        @input="handleClick($event)">
+    <label class="options" :for="id" style="margin-left: 20px;">{{label}}</label>
+  </div>
+
 </template>
 
 <style lang="scss" scoped>
@@ -55,16 +57,32 @@ const handleClick = (event) => {
   font-weight: 500;
   line-height: normal;
 }
-.radiobutton {
+.radiobutton  {
   width: 25px;
   height: 25px;
-  flex-shrink: 0;
-  background-color: var(--background-color-secondary);
-  &:checked {
-    border-color: var(--primary);
-    background-color: var(--primary);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
-  }
+  display: inline-block;
+  position: relative;
+  color: var(--background-color-secondary);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
 
+  &:checked {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+    }
+  }
+}
+
+.button-area {
+  margin: 10px;
 }
 </style>

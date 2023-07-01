@@ -36,6 +36,7 @@ const clickOnButton = () => {
   flex-shrink: 10;
   height: 45px;
   border-radius: 22.5px;
+  border: none;
   padding: 10px 15px;
 
   font-family: var(--font-family);
@@ -44,6 +45,7 @@ const clickOnButton = () => {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+
 
   &_primary {
     background: var(--button-primary-color);
@@ -57,6 +59,8 @@ const clickOnButton = () => {
   &_small {
     min-width: 210px;
   }
-
+}
+.btn:hover {
+  opacity: 80%;
 }
 </style>
