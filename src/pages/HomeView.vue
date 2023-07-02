@@ -2,6 +2,7 @@
 import Button from "@/app/components/Button.vue";
 import Panel from "@/app/components/Panel.vue";
 import Radiobutton from "@/app/components/Radiobutton.vue";
+import UserInfo from "@/app/components/UserInfo.vue";
 import {ref} from "vue";
 
 const options = ref([
@@ -34,6 +35,7 @@ const selected = ref('')
           v-model:checkedValue="selected"/>
     </div>
   </Panel>
+  <UserInfo username="Имя Пользователя" role="Разметчик" :rating=100 style="margin: 20px;"/>
 </template>
 
 <style lang="scss" scoped>

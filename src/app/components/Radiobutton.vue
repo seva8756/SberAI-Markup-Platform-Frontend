@@ -28,7 +28,7 @@ const props = defineProps({
   }
 })
 
-const handleClick = (event) => {
+const handleClick = (event: any) => {
   emits('update:checkedValue', event.target.value)
 }
 </script>
