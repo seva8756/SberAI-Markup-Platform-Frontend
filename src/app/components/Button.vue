@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import '@/app/styles/variables/global.scss'
+import {ref} from "vue";
 const props = defineProps({
   label: {
     type: String,
@@ -38,6 +39,7 @@ const clickOnButton = () => {
   border-radius: 22.5px;
   border: none;
   padding: 10px 15px;
+  transition: transform 0.1s;
 
   font-family: var(--font-family);
   color: var(--text-primary-color);
@@ -62,5 +64,8 @@ const clickOnButton = () => {
 }
 .btn:hover {
   opacity: 80%;
+}
+.btn:active {
+  transform: scale(0.99);
 }
 </style>

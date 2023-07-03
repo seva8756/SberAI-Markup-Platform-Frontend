@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CurrentProfile from './CurrentProfile.vue'
+import CurrentProfile from '../CurrentProfile.vue'
 import '@/app/styles/variables/global.scss'
 
 const props = defineProps({
