@@ -5,6 +5,7 @@ import Radiobutton from "@/app/components/Radiobutton.vue";
 import {ref} from "vue";
 import TextInput from "@/app/components/TextInput.vue";
 
+
 const options = ref([
   {name: 'Вариант 1', id: '0'},
   {name: 'Вариант 2', id: '1'},
@@ -39,7 +40,7 @@ const inputValue = ref('')
     </div>
   </Panel>
 
-  <Panel>
+  <Panel accented>
     <h1>Ввод текста</h1>
     <TextInput placeholder="Ввод" v-model="inputValue"/>
     <p>Веденный текст: "{{inputValue}}"</p>
