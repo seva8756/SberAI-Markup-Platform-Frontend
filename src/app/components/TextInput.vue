@@ -2,7 +2,7 @@
   <input class="input" v-model="input" :placeholder="placeholder" @mouseover="hovered = true" @mouseleave="hovered = false"/>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
 const input = ref('');

@@ -5,6 +5,8 @@ import Radiobutton from "@/app/components/Radiobutton.vue";
 import Task from "@/app/components/Task.vue";
 import {ref} from "vue";
 import TextInput from "@/app/components/TextInput.vue";
+import UserInfo from "@/app/components/UserInfo.vue";
+import SideButton from "@/app/components/SideButton.vue";
 
 
 const options = ref([
@@ -46,9 +48,11 @@ const inputValue = ref('')
     <TextInput placeholder="Ввод" v-model="inputValue"/>
     <p>Веденный текст: "{{inputValue}}"</p>
   </Panel>
-
+  
   <UserInfo username="Имя Пользователя" role="Разметчик" :rating=100 style="margin: 20px;"/>
-  <Task title="Опрос о качестве работы сервиса" description="Пройдите короткий опрос и оцените качество работы сервиса. Это поможет нам стать лучше! :)" style="margin: 20px;"/>
+  <Task title="Опрос о качестве работы сервиса" description="Пройдите короткий опрос и оцените качество работы сервиса. Это поможет нам стать лучше! :)" style="margin: 20px;"/>  
+  <SideButton orientation="left" />
+  <SideButton orientation="right" />
 </template>
 
 <style lang="scss" scoped>
