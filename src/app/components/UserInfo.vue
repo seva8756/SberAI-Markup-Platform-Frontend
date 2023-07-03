@@ -61,19 +61,19 @@ const props = defineProps({
 
 .name {
     font-weight: bold;
-    font-size: 21px;
+    font-size: 18px;
 }
 
 .info {
     font-weight: 300;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-secondary-color);
 }
 
 .id {
     font-weight: 300;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-secondary-color);
 }

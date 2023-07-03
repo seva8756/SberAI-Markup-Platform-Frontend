@@ -1,28 +1,49 @@
 <script setup lang="ts">
 import CurrentProfile from './CurrentProfile.vue'
 import '@/app/styles/variables/global.scss'
+
+const props = defineProps({
+  username: {
+    type: String,
+    default: ''
+  },
+  role: {
+    type: String,
+    default: ''
+  },
+  profilePic: {
+    type: String,
+    default: '/src/shared/assets/icons/default_pfp.png'
+  }
+})
 </script>
 
 <template>
   <nav class="navbar">
-    <img class="logo" src="/src/shared/assets/icons/logo.png" alt="">
-      <ul class="nav-body">
-        <li class="link">Задания</li>
-        <li class="link">Пользователи</li>
-      </ul>
-    <CurrentProfile username="Имя Пользователя" role="Разметчик"/>
+    <img class="logo" src="/src/shared/assets/icons/logo.png" alt=""/>
+    <CurrentProfile :username=username :role=role />
+    <ul class="nav-body">
+      <li class="link">Задания</li>
+      <li class="link" v-show="role === 'Root'">Создать</li>
+      <li class="link">Пользователи</li>
+    </ul>
   </nav>
 </template>
 
 <style lang="scss" scoped>
 .nav-body{
   list-style-type: none;
-  margin-left: 244.5px;
+  margin-left: 0px;
   padding: 0;
   width: auto;
   display: inline-flex;
   align-items: flex-start;
+  position: absolute;
   gap: 30px;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .logo{

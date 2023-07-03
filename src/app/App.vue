@@ -5,8 +5,9 @@ import  '@/app/styles/variables/global.scss'
 </script>
 
 <template>
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
   <div class="app">
-    <Navbar/>
+    <Navbar username="Имя пользователя" role="Root"/>
     <div class="content">
       <RouterView />
     </div>
