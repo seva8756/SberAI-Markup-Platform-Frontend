@@ -9,19 +9,17 @@ import '@/app/styles/variables/global.scss'
       <ul class="nav-body">
         <li class="link">Задания</li>
         <li class="link">Пользователи</li>
-        <li class="link">Поддержка</li>
-        <li class="link">О проекте</li>
       </ul>
-    <CurrentProfile />
+    <CurrentProfile username="Имя Пользователя" role="Разметчик"/>
   </nav>
 </template>
 
 <style lang="scss" scoped>
 .nav-body{
   list-style-type: none;
-  margin: 0;
+  margin-left: 244.5px;
   padding: 0;
-  width: 43.9%;
+  width: auto;
   display: inline-flex;
   align-items: flex-start;
   gap: 30px;
@@ -73,5 +71,6 @@ import '@/app/styles/variables/global.scss'
   height: 101px;
   display: flex;
   align-items: center;
+  position: relative;
 }
 </style>

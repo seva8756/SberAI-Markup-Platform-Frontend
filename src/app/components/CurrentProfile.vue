@@ -1,28 +1,45 @@
 <script setup lang="ts">
 import '@/app/styles/variables/global.scss'
+const props = defineProps({
+  username: {
+    type: String,
+    default: ''
+  },
+  role: {
+    type: String,
+    default: ''
+  },
+  profilePic: {
+    type: String,
+    default: '/src/shared/assets/icons/default_pfp.png'
+  }
+})
 </script>
 
 <template>
     <div class="profile-block">
         <div class="user-text-info">
-            <div class="username"><a>Имя пользователя</a></div>
-            <div class="role">Разметчик</div>
+            <div class="username"><a>{{username}}</a></div>
+            <div class="role">{{role}}</div>
         </div>
-        <img class="pfp" src="/src/shared/assets/icons/default_pfp.png" alt="">
+        <img class="pfp" :src= profilePic alt="">
     </div>
 </template>
 
 <style scoped>
     .pfp {
       border-radius: 50%;
+      height: 45px;
+      width: 45px;
       vertical-align: middle;
+      display: inline-block;
     }
 
     .user-text-info {
       font-family: var(--font-family);
-      display: inline-block;
       margin-right: 12px;
       vertical-align: middle;
+      display: inline-block;
     }
 
     .username {
@@ -46,6 +63,8 @@ import '@/app/styles/variables/global.scss'
     .profile-block {
         width: auto;
         height: 45px;
-        margin-left: 53.5px;
+        float: right;
+        position: absolute;
+        right: 6.25%;
     }
 </style>
