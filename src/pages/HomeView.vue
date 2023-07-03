@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Button from "@/app/components/Button.vue";
-import Panel from "@/app/components/Panel.vue";
+import Panel from "@/app/components/layout/Panel.vue";
 import Radiobutton from "@/app/components/Radiobutton.vue";
 import {ref} from "vue";
 import TextInput from "@/app/components/TextInput.vue";
