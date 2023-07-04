@@ -20,12 +20,24 @@ const props = defineProps({
 
 <template>
   <nav class="navbar">
-    <img class="logo" src="/src/shared/assets/icons/logo.png" alt=""/>
+    <router-link to="/" class="logo">
+      <img src="/src/shared/assets/icons/logo.png" alt="">
+    </router-link>
     <CurrentProfile :username=username :role=role />
+
     <ul class="nav-body">
-      <li class="link">Задания</li>
-      <li class="link" v-show="role === 'Root'">Создать</li>
-      <li class="link">Пользователи</li>
+      <li>
+        <router-link class="link" to="/tasks">Задания</router-link>
+      </li>
+
+      <li v-show="role === 'Root'">
+        <router-link class="link" to="/createTask">Создать</router-link>
+      </li>
+
+      <li>
+        <router-link class="link" to="/users">Пользователи</router-link>
+      </li>
+
     </ul>
   </nav>
 </template>

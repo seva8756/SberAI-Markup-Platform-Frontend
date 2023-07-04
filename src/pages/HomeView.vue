@@ -45,7 +45,7 @@ const inputValue = ref('')
     </div>
   </Panel>
 
-  <Panel accented>
+  <Panel type="accented">
     <h1>Ввод текста</h1>
     <TextInput placeholder="Ввод" v-model="inputValue"/>
     <p>Веденный текст: "{{inputValue}}"</p>
@@ -55,6 +55,10 @@ const inputValue = ref('')
   <Task title="Опрос о качестве работы сервиса" description="Пройдите короткий опрос и оцените качество работы сервиса. Это поможет нам стать лучше! :)" style="margin: 20px;"/>  
   <SideButton orientation="left" />
   <SideButton orientation="right" />
+
+  <Panel type="info">
+    <h2>В ходе выполнения разметки вам будут попадаться задания разных типов:</h2>
+  </Panel>
 </template>
 
 <style lang="scss" scoped>

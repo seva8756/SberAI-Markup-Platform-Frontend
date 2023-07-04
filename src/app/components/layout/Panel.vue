@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import '@/app/styles/variables/global.scss'
 const props = defineProps({
-  accented: {
-    type: Boolean,
-    required: false
+  type: {
+    type: String,
+    default: ""
   },
 })
 </script>
 
 <template>
-  <div :class="['panel', {'panel_accented': accented}]">
+  <div :class="['panel', `panel_${type}`]">
     <slot></slot>
   </div>
 </template>
@@ -27,6 +27,11 @@ const props = defineProps({
 
     &_accented {
       border: 3px solid var(--accent-color);
+    }
+    &_info {
+      border-radius: 15px;
+      border: 3px solid #505050;
+      background: transparent;
     }
   }
 </style>
