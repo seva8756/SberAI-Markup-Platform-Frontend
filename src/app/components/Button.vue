@@ -6,9 +6,13 @@ const props = defineProps({
     type: String,
     default: "Button"
   },
-  color: {
+  type: {
     type: String,
     default: "primary"
+  },
+  scenario: {
+    type: String,
+    default: ""
   },
   size: {
     type: String,
@@ -23,7 +27,7 @@ const clickOnButton = () => {
 </script>
 
 <template>
-  <button :class="['btn', `btn_${color}`, `btn_${size}`]" @click="clickOnButton">{{label}}</button>
+  <button :class="['btn', `btn_${type}`, `btn_${size}`, `btn_${scenario}`]" @click="clickOnButton">{{label}}</button>
 </template>
 
 <style lang="scss" scoped>
@@ -60,6 +64,18 @@ const clickOnButton = () => {
   }
   &_small {
     min-width: 210px;
+  }
+  &_delete {
+    border-radius: 23px;
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    background-color: transparent;
+  }
+  &_add {
+    border-radius: 23px;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    background-color: transparent;
   }
 }
 .btn:hover {

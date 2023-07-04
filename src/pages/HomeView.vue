@@ -23,9 +23,11 @@ const inputValue = ref('')
 <template>
     <Panel>
       <h1>Кнопки</h1>
-      <Button label="Кнопка 1" color="primary"/>
-      <Button label="Кнопка 2" color="secondary"/>
-      <Button label="Назад" color="secondary" size="small"/>
+      <Button label="Кнопка 1" type="primary"/>
+      <Button label="Кнопка 2" type="secondary"/>
+      <Button label="Назад" type="secondary" size="small"/>
+      <Button label="Удалить" type="secondary" size="small" scenario="delete"/>
+      <Button label="Добавить" type="secondary" size="small" scenario="add"/>
     </Panel>
 
   <Panel>

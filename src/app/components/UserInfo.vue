@@ -30,7 +30,7 @@ const props = defineProps({
             <img :src=profilePic alt="" class="avatar">
             <div class="user-info">
             <p class="name">{{ username }}</p>
-            <p class="info">{{ role }} | Рейтинг:{{ rating }}</p>
+            <p class="info">{{ role }} | Рейтинг: {{ rating }}</p>
             <p class="id">ID: {{ id }}</p>
         </div>
         </div>
