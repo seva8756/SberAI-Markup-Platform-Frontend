@@ -1,4 +1,16 @@
 @import "reset";
 @import "variables/global";
-@import "themes/light";
 @import "themes/dark";
+@import "@/shared/assets/fonts/Montserrat/font";
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-color);
+  font-family: var(--font-family-main);
+  font-size: var(--font-size-m);
+}
+
+#app {
+  position: relative;
+  overflow: hidden;
+}

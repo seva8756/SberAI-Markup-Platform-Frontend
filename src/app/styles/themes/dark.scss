@@ -1,36 +1,16 @@
 :root {
-  --background-color-primary: #151515;
-  --background-color-secondary: #252525;
+  // Text
+  --text-color: #FFF;
+
+  --bg-primary: #151515;
+
+  --hint-color: rgba(255, 255, 255, 0.5);
+  --hint-color-muted: rgba(255, 255, 255, 0.2);
+
+  --gray-primary: #373737;
+  --gray-secondary: #252525;
+
   --accent-color: #21A049;
-  --text-primary-color: #F4F4F4;
-  --text-secondary-color: #FFFFFF60;
-  --button-primary-color: #21A049;
-  --button-secondary-color: #21A04970;
-  --input-text-color: #505050;
-  --input-hover-color:#606060;
-  --danger-color: #B00;
-}
-
-h2 {
-  color: var(--text-primary-color);
-  font-size: 18px;
-  font-family: var(--font-family);
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
-
-p {
-  font-family: var(--font-family);
-  color: var(--text-primary-color);
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  &_service {
-    color: var(--text-secondary-color);
-    text-align: center;
-    font-weight: 500;
-    line-height: 100%;
-  }
+  --accent-color-muted: rgba(33, 160, 73, 0.7);
+  --accent-color-super-muted: rgba(33, 160, 73, 0.7);
 }

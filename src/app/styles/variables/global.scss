@@ -1,16 +1,8 @@
-@import '../themes/dark';
-
 :root {
-  --font-family: Montserrat;
-}
+  --font-family-main: Montserrat, sans-serif;
 
-h1 {
-  color: var(--accent-color);
-  text-align: center;
-  font-size: 32px;
-  font-family: var(--font-family);
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  margin: 50px;
+  --font-size-s: 14px;
+  --font-size-m: 18px;
+  --font-size-l: 24px;
+  --font-size-xl: 32px;
 }
