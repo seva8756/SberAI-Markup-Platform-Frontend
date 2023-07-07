@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PropType, VueElement } from 'vue'
+import { type PropType, VueElement } from 'vue'
 
 type ButtonSize = 's' | 'm' | 'l'
 type ButtonColor = 'primary' | 'muted'
