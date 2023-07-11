@@ -22,15 +22,20 @@ const props = defineProps({
         default: 0
     }
   })
+
+  const emit = defineEmits(["click"])
+  const goToUserPage = () => {
+    emit("click");
+  }
 </script>
 
 <template>
-    <div class="user-info-block">
+    <div class="user-info-block" @click="goToUserPage">
         <div class="content">
             <img :src=profilePic alt="" class="avatar">
             <div class="user-info">
             <p class="name">{{ username }}</p>
-            <p class="info">{{ role }} | Рейтинг:{{ rating }}</p>
+            <p class="info">{{ role }} | Рейтинг: {{ rating }}</p>
             <p class="id">ID: {{ id }}</p>
         </div>
         </div>
@@ -39,13 +44,16 @@ const props = defineProps({
 
 <style>
 .user-info-block {
-    background-color: var(--gray-primary);
+    background-color: var(--gray-secondary);
     border-radius: 20px;
     font-family: var(--font-family-main);
     color: var(--text-color);
     height: 114px;
     width: 455px;
     position: relative;
+    margin: 10px;
+    cursor: pointer;
+    display: inline-block;
 }
 
 .avatar {

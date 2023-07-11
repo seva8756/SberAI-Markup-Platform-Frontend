@@ -13,6 +13,11 @@ export const router = createRouter({
       path: routes.auth(),
       name: AppRoutes.AUTH,
       component: () => import('@/pages/AuthPage')
+    },
+    {
+      path: routes.users(),
+      name: AppRoutes.USERS,
+      component: () => import('@/pages/UsersPage')
     }
   ]
 })
