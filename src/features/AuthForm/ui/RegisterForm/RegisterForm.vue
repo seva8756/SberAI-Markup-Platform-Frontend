@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppText from '@/shared/ui/AppText/AppText.vue'
-import AppButton from '@/shared/ui/AppButton/AppButton.vue'
+import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import AppInput from '@/shared/ui/AppInput/AppInput.vue'
 import { PropType } from 'vue'
 
