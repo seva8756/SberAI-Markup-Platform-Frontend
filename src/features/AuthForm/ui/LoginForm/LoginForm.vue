@@ -2,7 +2,7 @@
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppText from '@/shared/ui/AppText/AppText.vue'
 import AppInput from '@/shared/ui/AppInput/AppInput.vue'
-import AppButton from '@/shared/ui/AppButton/AppButton.vue'
+import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import type { PropType } from 'vue'
 
 import { AuthForm } from '@/features/AuthForm/const/const'

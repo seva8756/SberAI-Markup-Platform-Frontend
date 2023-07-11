@@ -11,7 +11,7 @@ const props = defineProps({
     },
     profilePic: {
       type: String,
-      default: '/src/shared/assets/icons/default_pfp.png'
+      default: 'src/shared/assets/icons/defaultPfp.png'
     },
     rating: {
         type: Number,
@@ -39,10 +39,10 @@ const props = defineProps({
 
 <style>
 .user-info-block {
-    background-color: var(--background-color-secondary);
+    background-color: var(--gray-primary);
     border-radius: 20px;
-    font-family: var(--font-family);
-    color: var(--text-primary-color);
+    font-family: var(--font-family-main);
+    color: var(--text-color);
     height: 114px;
     width: 455px;
     position: relative;
@@ -68,14 +68,14 @@ const props = defineProps({
     font-weight: 300;
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-secondary-color);
+    color: var(--text-color-secondary);
 }
 
 .id {
     font-weight: 300;
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-secondary-color);
+    color: var(--text-color-secondary);
 }
 
 .user-info {   

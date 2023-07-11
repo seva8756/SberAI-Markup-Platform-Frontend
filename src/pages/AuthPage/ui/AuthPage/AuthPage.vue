@@ -7,7 +7,7 @@ import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 
 <template>
   <VStack gap="30" class="login-page">
-    <Logo />
+    <Logo width="218" height="45"/>
     <AuthForm />
     <BackgroundLight left="-273px" bottom="-273px" />
     <BackgroundLight right="-273px" top="-273px" />

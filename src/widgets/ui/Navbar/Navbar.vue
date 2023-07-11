@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CurrentProfile from '@/shared/ui/CurrentProfile/CurrentProfile.vue'
+import Logo from '@/shared/assets/icons/logo.svg'
 import '@/app/styles/variables/global.scss'
 
 const props = defineProps({
@@ -13,15 +14,17 @@ const props = defineProps({
   },
   profilePic: {
     type: String,
-    default: '/src/shared/assets/icons/default_pfp.png'
+    default: 'src/shared/assets/icons/defaultPfp.png'
   }
 })
 </script>
 
 <template>
   <nav class="navbar">
-    <img class="logo" src="/src/shared/assets/icons/logo.png" alt=""/>
-    <CurrentProfile :username=username :role=role />
+    <div class="image-container">
+      <Logo class="logo"/>
+    </div>
+    <CurrentProfile :username=username :role=role :profilePic=profilePic />
     <ul class="nav-body">
       <li class="link">Задания</li>
       <li class="link" v-show="role === 'Root'">Создать</li>
@@ -45,19 +48,22 @@ const props = defineProps({
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-
-.logo{
+.image-container{
   margin-left: 6.25%;
   margin-right: 8.59%;
   float: left;
+  display: flex;
+  justify-content: center;
+}
+.logo{
   width: 170px;
   height: 35px;
-}
 
+}
 .link {
   display: block;
   padding: 0px;
-  color: var(--text-secondary-color);
+  color: var(--hint-color);
   font-family: var(--font-family);
   font-size: 20px;
   font-weight: 500;
@@ -73,7 +79,7 @@ const props = defineProps({
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--text-primary-color);
+  background-color: var(--text-color);
   transition: 0.2s ease-in-out;
 }
 
@@ -82,11 +88,11 @@ const props = defineProps({
 }
 
 .link:hover {
-  color: var(--text-primary-color);
+  color: var(--text-color);
 }
 
 .navbar {
-  background-color: var(--background-color-secondary);
+  background-color: var(--gray-secondary);
   width: 100%;
   overflow: auto;
   height: 101px;

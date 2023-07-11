@@ -11,7 +11,7 @@ const props = defineProps({
   },
   profilePic: {
     type: String,
-    default: '/src/shared/assets/icons/default_pfp.png'
+    default: ''
   }
 })
 </script>
@@ -22,7 +22,7 @@ const props = defineProps({
             <div class="username"><a>{{username}}</a></div>
             <div class="role">{{role}}</div>
         </div>
-        <img class="pfp" :src= profilePic alt="">
+        <img class="pfp" :src=profilePic />
     </div>
 </template>
 
@@ -36,14 +36,14 @@ const props = defineProps({
     }
 
     .user-text-info {
-      font-family: var(--font-family);
+      font-family: var(--font-family-main);
       margin-right: 12px;
       vertical-align: middle;
       display: inline-block;
     }
 
     .username {
-      color: var(--text-primary-color);
+      color: var(--text-color);
       text-align: right;
       font-size: 17px;
       font-style: normal;
@@ -52,7 +52,7 @@ const props = defineProps({
     }
 
     .role {
-      color: var(--text-secondary-color);
+      color: var(--text-color-secondary);
       font-size: 15px;
       font-style: normal;
       font-weight: 300;
