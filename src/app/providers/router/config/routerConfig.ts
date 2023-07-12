@@ -15,6 +15,11 @@ export const router = createRouter({
       component: () => import('@/pages/AuthPage')
     },
     {
+      path: routes.createTask(),
+      name: AppRoutes.CREATETASK,
+      component: () => import('@/pages/CreateTaskPage')
+    },
+    {
       path: routes.users(),
       name: AppRoutes.USERS,
       component: () => import('@/pages/UsersPage')
