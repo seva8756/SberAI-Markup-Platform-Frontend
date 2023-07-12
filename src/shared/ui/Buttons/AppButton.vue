@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { type PropType, VueElement } from 'vue'
 
-type ButtonSize = 's' | 'm' | 'l'
+type ButtonSize = 'xs' | 's' | 'm' | 'l'
 type ButtonColor = 'primary' | 'muted'
+type ButtonBorder = 'normal' | 'dashed'
 
 defineProps({
   disabled: {
@@ -23,12 +24,16 @@ defineProps({
   size: {
     type: String as PropType<ButtonSize>,
     default: 'm'
+  },
+  border: {
+    type: String as PropType<ButtonBorder>,
+    default: 'normal'
   }
 })
 </script>
 
 <template>
-  <button :class="['Button', color, { 'full-round': fullRound }, size]">
+  <button :class="['Button', color, { 'full-round': fullRound }, size, border]">
     <slot />
   </button>
 </template>
@@ -74,5 +79,21 @@ defineProps({
 
 .m {
   width: 250px;
+}
+
+.xs {
+  height: 35px;
+  width: 147px;
+  font-size: 14px
+}
+
+.dashed {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='18.5' ry='18.5' stroke='%2321A049FF' stroke-width='3' stroke-dasharray='10' stroke-dashoffset='0' /%3e%3c/svg%3e");
+  background-color: transparent;
+  color: var(--accent-color);
+
+  &:hover{
+    background-color: var(--gray-primary);
+  }
 }
 </style>
