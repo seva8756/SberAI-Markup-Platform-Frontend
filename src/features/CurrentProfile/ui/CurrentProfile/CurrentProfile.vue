@@ -22,18 +22,6 @@ defineProps({
         type: Number,
         default: 0
     },
-    gender: {
-        type: String,
-        default: "Муж"
-    },
-    residence: {
-        type: String,
-        default: "Россия, Москва"
-    },
-    age: {
-        type: Number,
-        default: 0
-    },
     mail: {
         type: String,
         default: ""
@@ -48,9 +36,15 @@ defineProps({
     },
     regDate: {
         type: Date,
-        default: new Date(1970, 0, 1)
+        default: new Date('January 1, 1970')
     },
 })
+
+function parseDateToString(date: Date){
+    const offset = date.getTimezoneOffset()
+    date = new Date(date.getTime() - (offset*60*1000))
+    return date.toDateString()
+}
 </script>
 
 <template>
@@ -63,21 +57,16 @@ defineProps({
         <VStack class="user-info" align="start" gap="16">
             <div class="main-info">
                 <AppText size="xl" weight="600">{{ username }}</AppText>
-                <AppText size="xl" variant="muted">ID: {{ id }}</AppText>
+                <AppText size="xl" variant="secondary">ID: {{ id }}</AppText>
             </div>
-            <AppText variant="muted" class="additional-info">{{ role }} | Рейтинг: {{ rating }}</AppText>
+            <AppText variant="secondary" class="additional-info">{{ role }} | Рейтинг: {{ rating }}</AppText>
             <hr class="line"/>
             
-            <AppText size="l" weight="600" variant="underlined" style="margin-top: 20px">Личная информация</AppText>
-            <AppText>Пол: {{ gender }}</AppText>
-            <AppText>Место проживания: {{ residence }}</AppText>
-            <AppText>Возраст: {{ age }}</AppText>
-            <AppText>Почта: {{ mail }}</AppText>
-
             <AppText size="l" weight="600" variant="underlined" style="margin-top: 20px">Статистика</AppText>
             <AppText>Количество выполненных заданий: {{ taskCount }}</AppText>
             <AppText>Количество размеченных изображений: {{ imgCount }}</AppText>
-            <AppText>Дата регистрации: {{ regDate.toDateString() }}</AppText>
+            <AppText>Дата регистрации: {{ parseDateToString(regDate) }}</AppText>
+            <AppText>Почта: {{ mail }}</AppText>
         </VStack>
     </HStack>
 </template>
