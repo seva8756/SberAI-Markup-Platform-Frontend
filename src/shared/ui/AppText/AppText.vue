@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 
-export type TextVariant = 'primary' | 'accent' | 'error'
+export type TextVariant = 'primary' | 'accent' | 'error' | 'muted' | 'underlined'
 export type TextSize = 's' | 'm' | 'l' | 'xl'
 export type TextAlign = 'right' | 'left' | 'center'
 export type TextWeight = '400' | '500' | '600'
@@ -85,5 +85,13 @@ defineProps({
 
 .accent {
   color: var(--accent-color);
+}
+
+.muted {
+  color: var(--text-color-secondary);
+}
+
+.underlined {
+  text-decoration: underline;
 }
 </style>
