@@ -33,7 +33,7 @@ defineProps({
 </script>
 
 <template>
-  <button :class="['Button', color, { 'full-round': fullRound }, size, border]">
+  <button :class="['Button', color, size,{ 'full-round': fullRound }, border]">
     <slot />
   </button>
 </template>

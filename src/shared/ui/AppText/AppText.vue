@@ -4,12 +4,13 @@ import type { PropType } from 'vue'
 export type TextVariant = 'primary' | 'accent' | 'error' | 'secondary'
 export type TextSize = 's' | 'm' | 'l' | 'xl'
 export type TextAlign = 'right' | 'left' | 'center'
-export type TextWeight = '400' | '500' | '600'
+export type TextWeight = '400' | '500' | '600' | '700'
 
 const mapWeightToClass: Record<TextWeight, string> = {
   400: 'weight_400',
   500: 'weight_500',
-  600: 'weight_600'
+  600: 'weight_600',
+  700: 'weight_700',
 }
 
 defineProps({
@@ -82,6 +83,9 @@ defineProps({
 
 .weight_600 {
   font-weight: 600;
+}
+.weight_700 {
+  font-weight: 700;
 }
 
 .s {
