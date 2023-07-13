@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 
-export type TextVariant = 'primary' | 'accent' | 'error' | 'muted' | 'underlined'
+export type TextVariant = 'primary' | 'accent' | 'error' | 'secondary' | 'underlined'
 export type TextSize = 's' | 'm' | 'l' | 'xl'
 export type TextAlign = 'right' | 'left' | 'center'
 export type TextWeight = '400' | '500' | '600'
@@ -28,17 +28,38 @@ defineProps({
   variant: {
     type: String as PropType<TextVariant>,
     default: 'primary'
+  },
+  remark: {
+    type: String,
+    default: ''
   }
 })
 </script>
 
 <template>
-  <p :class="['text', variant, align, size, mapWeightToClass[weight]]">
-    <slot />
-  </p>
+
+    <p :class="['text', variant, align, size, mapWeightToClass[weight]]">
+      <slot />
+      <p v-if="remark" class="remark">{{ remark }}</p>
+    </p>
+
+
 </template>
 
 <style scoped lang="scss">
+.content {
+  display: flex;
+}
+
+.remark {
+  color: rgba(255, 255, 255, 0.60);
+  font-family: Montserrat;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
 .left {
   text-align: left;
 }
@@ -87,7 +108,7 @@ defineProps({
   color: var(--accent-color);
 }
 
-.muted {
+.secondary {
   color: var(--text-color-secondary);
 }
 
