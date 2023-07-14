@@ -24,8 +24,8 @@ defineProps({
 <template>
   <AppCard class="card">
     <h-stack>
-      <v-stack align="start" class="text-block" max="false">
-        <AppText variant="primary" size="m" weight="700">{{title}}</AppText>
+      <v-stack align="start" class="text-block" max="true">
+        <AppText variant="primary" size="m" weight="700" class="title">{{title}}</AppText>
         <AppText variant="primary" size="s" weight="400">{{description}}</AppText>
       </v-stack>
       <v-stack>
@@ -57,8 +57,7 @@ defineProps({
     margin-top: 35px;
   }
 
-  .amount{
-    margin-top: 10px;
-   // margin-bottom: 35px;
+  .amount {
+    margin-top: 10px;;
   }
 </style>
