@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { type PropType, VueElement } from 'vue'
 
-type ButtonSize = 'xs' | 's' | 'm' | 'l'
+type ButtonSize = 'xs' | 's' | 'm' | 'l' | 'long'
 type ButtonColor = 'primary' | 'muted'
 type ButtonBorder = 'normal' | 'dashed'
+type ButtonType = 'normal' | 'square'
 
 defineProps({
   disabled: {
@@ -28,12 +29,16 @@ defineProps({
   border: {
     type: String as PropType<ButtonBorder>,
     default: 'normal'
+  },
+  type: {
+    type: String as PropType<ButtonType>,
+    default: 'normal'
   }
 })
 </script>
 
 <template>
-  <button :class="['Button', color, size,{ 'full-round': fullRound }, border]">
+  <button :class="['Button', color, size,{ 'full-round': fullRound }, border, type]">
     <slot />
   </button>
 </template>
@@ -87,6 +92,11 @@ defineProps({
   font-size: 14px
 }
 
+.long{
+  width: 298px;
+  height: 45px;
+}
+
 .dashed {
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='18.5' ry='18.5' stroke='%2321A049FF' stroke-width='3' stroke-dasharray='10' stroke-dashoffset='0' /%3e%3c/svg%3e");
   background-color: transparent;
@@ -95,5 +105,11 @@ defineProps({
   &:hover{
     background-color: var(--gray-primary);
   }
+}
+
+.square {
+  height: 34px;
+  width: 34px;
+  border-radius: 5px;
 }
 </style>

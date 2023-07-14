@@ -14,7 +14,7 @@ const props = defineProps({
   },
   profilePic: {
     type: String,
-    default: 'src/shared/assets/icons/defaultPfp.png'
+    default: '/src/shared/assets/icons/defaultPfp.png'
   }
 })
 </script>

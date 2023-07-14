@@ -16,14 +16,13 @@ const clickOnButton = () => {
 
 <template>
     <button :class="['side-button', `side-button_${orientation}`]" @click="clickOnButton">
-        <img v-if="orientation == 'left'" src="/src/shared/assets/icons/arrow_left.png" alt="" class="button-arrow">
-        <img v-else src="/src/shared/assets/icons/arrow_right.png" alt="" class="button-arrow">
+        <img v-if="orientation == 'left'" src="/src/shared/assets/icons/arrow_left.svg" alt="" class="button-arrow">
+        <img v-else src="/src/shared/assets/icons/arrow_right.svg" alt="" class="button-arrow">
     </button>
 </template>
 
 <style scoped lang="scss">
 .side-button {    
-    background-color: var(--button-primary-color);
     width: 114px;
     height: 505px;
 
@@ -32,7 +31,7 @@ const clickOnButton = () => {
     
     border: none;
     transition: transform 0.1s;
-    background: var(--button-primary-color);
+    background: var(--accent-color);
 
     
     &_left {

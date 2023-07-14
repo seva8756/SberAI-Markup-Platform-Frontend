@@ -30,6 +30,11 @@ export const router = createRouter({
       component: () => import('@/pages/TasksPage')
     },
     {
+      path: routes.project(),
+      name: AppRoutes.PROJECT,
+      component: () => import('@/pages/ProjectPage')
+    },
+    {
       path: routes.userAccount(),
       name: AppRoutes.USERACCOUNT,
       component: () => import('@/pages/ProfilePage')
