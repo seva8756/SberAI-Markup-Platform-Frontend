@@ -15,9 +15,14 @@ export const router = createRouter({
       component: () => import('@/pages/AuthPage')
     },
     {
-      path: routes.createTask(),
-      name: AppRoutes.CREATETASK,
-      component: () => import('@/pages/CreateTaskPage')
+      path: routes.createTaskAuto(),
+      name: AppRoutes.CREATETASKAUTO,
+      component: () => import('@/pages/CreateTaskAutoPage')
+    },
+    {
+      path: routes.createTaskManual(),
+      name: AppRoutes.CREATETASKMANUAL,
+      component: () => import('@/pages/CreateTaskManualPage')
     },
     {
       path: routes.users(),

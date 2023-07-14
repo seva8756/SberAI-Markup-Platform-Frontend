@@ -7,6 +7,7 @@ import Navbar from "@/widgets/ui/Navbar/Navbar.vue";
 import SideButton from "@/shared/ui/Buttons/SideButton.vue";
 import AppButton from "@/shared/ui/Buttons/AppButton.vue";
 import AppUpload from "@/shared/ui/AppUpload/AppUpload.vue";
+import AppTextArea from "@/shared/ui/AppTextArea/AppTextArea.vue";
 
 defineProps({
   projectId: {
@@ -76,7 +77,7 @@ defineProps({
 }
 
 .input {
- margin-top: 30px;
   margin-bottom: 30px;
+  width: 100%;
 }
 </style>

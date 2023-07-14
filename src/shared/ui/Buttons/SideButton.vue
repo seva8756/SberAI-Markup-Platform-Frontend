@@ -23,6 +23,7 @@ const clickOnButton = () => {
 
 <style scoped lang="scss">
 .side-button {    
+    background-color: var(--accent-color);
     width: 114px;
     height: 505px;
 
