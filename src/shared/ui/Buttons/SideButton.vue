@@ -23,7 +23,7 @@ const clickOnButton = () => {
 
 <style scoped lang="scss">
 .side-button {    
-    background-color: var(--button-primary-color);
+    background-color: var(--accent-color);
     width: 114px;
     height: 505px;
 
@@ -32,7 +32,6 @@ const clickOnButton = () => {
     
     border: none;
     transition: transform 0.1s;
-    background: var(--button-primary-color);
 
     
     &_left {

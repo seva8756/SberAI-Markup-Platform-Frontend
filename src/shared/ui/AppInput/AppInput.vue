@@ -44,7 +44,6 @@ const updateInput = (event: Event) => {
 <style scoped lang="scss">
 .file-button {
   outline: none;
-  border: none;
   color: var(--text-color);
   padding: 8px 15px;
   background: var(--gray-primary);

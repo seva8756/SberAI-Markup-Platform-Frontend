@@ -17,7 +17,7 @@ export const router = createRouter({
     {
       path: routes.createTaskAuto(),
       name: AppRoutes.CREATETASKAUTO,
-      component: () => import('@/pages/CreateTaskAutoPagee')
+      component: () => import('@/pages/CreateTaskAutoPage')
     },
     {
       path: routes.createTaskManual(),
