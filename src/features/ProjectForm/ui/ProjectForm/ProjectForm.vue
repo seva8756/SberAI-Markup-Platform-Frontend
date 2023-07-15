@@ -8,7 +8,7 @@ import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { QuestionType } from '@/features/ProjectForm/const/const'
 import { type Task } from '@/features/ProjectForm/const/TaskType'
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const tasks: Task[] = [
     {
@@ -27,19 +27,53 @@ const tasks: Task[] = [
     }
 ]
 
-const currentTaskNum = ref(0)   
-let currentTask: Task = tasks[currentTaskNum.value]    
+onMounted(() => {
+    let firstButton = document.getElementById("0");
+    firstButton?.classList.add("completed");
+    firstButton?.classList.add("current");
+});
+
+const currentTaskNum = ref(0);
+let currentTask: Task = tasks[currentTaskNum.value];    
 
 function changeTask(taskNum: number){
+    let taskCompleted = true;
+    if(currentTask.taskType == QuestionType.CHOICE){
+        for(let i = 0; i < currentTask.questions?.length!; i++){
+            var selected = document.querySelector(`input[name="${i.toString()}"]:checked`);
+            if(!selected){
+                taskCompleted = false;
+            }
+        }
+    }
+    else if(currentTask.taskType == QuestionType.DESCRIPTION){
+        let inputs = document.getElementsByTagName('input');
+        if(inputs[0].type == "text" && inputs[0].value == ""){
+            taskCompleted = false;
+        }
+    }
+
+    let currentButton = document.getElementById(currentTaskNum.value.toString());
+    if(taskCompleted || currentTaskNum.value == 0){
+        currentButton?.classList.add("completed");
+    }
+    else {
+        currentButton?.classList.remove("completed");
+    }
+
+    currentButton?.classList.remove("current");
+
     if(taskNum < 0){
-        taskNum = 0
+        taskNum = 0;
     }
     if(taskNum >= tasks.length){
-        taskNum = tasks.length - 1
+        taskNum = tasks.length - 1;
     }
 
     currentTask = tasks[taskNum];
     currentTaskNum.value = taskNum;
+    currentButton = document.getElementById(taskNum.toString());
+    currentButton?.classList.add("current");
 }
 
 defineProps({
@@ -62,7 +96,7 @@ defineProps({
         <AppText size="xl" weight="600">{{ projectName }}</AppText>
         <AppText variant="secondary" style="margin-top: 10px;">Код задания: {{ projectCode }}</AppText>
         <HStack gap="10" style="margin-top: 30px;">
-            <AppButton type="square" v-for="(index) in tasks.length" @click="changeTask(index - 1)">{{ index - 1 }} </AppButton>
+            <AppButton type="square" v-for="(index) in tasks.length" @click="changeTask(index - 1)" :id="index-1">{{ index - 1 }} </AppButton>
         </HStack>
         <keep-alive>
             <component :key="currentTaskNum" :is="TaskContent" :task=currentTask></component>

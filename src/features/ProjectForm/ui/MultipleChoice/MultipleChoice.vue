@@ -21,7 +21,7 @@ defineProps({
 <template>
     <VStack max justify="center">
         <img :src=imageSource class="image"/>
-        <ChoiceQuestion v-for="(question, index) in questions" :question=question :answers=answers[index] class="question"/>
+        <ChoiceQuestion v-for="(question, index) in questions" :question=question :answers=answers[index] :groupNumber=index class="question"/>
     </VStack>
 </template>
 
@@ -30,6 +30,7 @@ defineProps({
     margin-top: 25px;
     margin-bottom: 80px;
 }
+
 .question {
     align-self: start;
     margin-bottom: 50px;

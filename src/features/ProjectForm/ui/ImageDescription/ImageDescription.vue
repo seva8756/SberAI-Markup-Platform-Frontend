@@ -18,8 +18,6 @@ defineProps({
 </template>
 
 <style>
-.image-description {
-}
 .image {
     margin-top: 25px;
     margin-bottom: 80px;

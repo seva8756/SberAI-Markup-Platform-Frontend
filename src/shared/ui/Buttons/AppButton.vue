@@ -111,5 +111,20 @@ defineProps({
   height: 34px;
   width: 34px;
   border-radius: 5px;
+  background-color: var(--accent-color-super-muted);
+
+  &:hover {
+    background-color: var(--accent-color);
+  }
+}
+
+.completed{
+  background-color: var(--accent-color);
+}
+
+.current{
+  background-color: var(--accent-color);
+  border-style: solid;
+  border-color: var(--text-color);
 }
 </style>

@@ -11,6 +11,9 @@ defineProps({
     answers: {
         type: Array<string>,
         default: []
+    },
+    groupNumber: {
+        type: Number
     }
 })
 </script>
@@ -18,7 +21,7 @@ defineProps({
 <template>
     <VStack align="start">
         <AppText class="question-text">{{ question }}</AppText>
-        <Radiobutton class="answer-text" v-for="(question, index) in answers" :label=question />
+        <Radiobutton class="answer-text" v-for="(question, index) in answers" :label=question :name=groupNumber?.toString() />
     </VStack>
 </template>
 
