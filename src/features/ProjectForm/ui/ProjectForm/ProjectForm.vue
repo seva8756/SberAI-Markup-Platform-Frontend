@@ -36,7 +36,7 @@ onMounted(() => {
 const currentTaskNum = ref(0);
 let currentTask: Task = tasks[currentTaskNum.value];    
 
-function changeTask(taskNum: number){
+function checkIfTaskCompleted(){
     let taskCompleted = true;
     if(currentTask.taskType == QuestionType.CHOICE){
         for(let i = 0; i < currentTask.questions?.length!; i++){
@@ -47,12 +47,17 @@ function changeTask(taskNum: number){
         }
     }
     else if(currentTask.taskType == QuestionType.DESCRIPTION){
-        let inputs = document.getElementsByTagName('input');
-        if(inputs[0].type == "text" && inputs[0].value == ""){
+        let inputs = document.getElementsByTagName('textarea');
+        if(inputs[0].value.length == 0){
             taskCompleted = false;
         }
     }
+    return taskCompleted;
+}
 
+function changeTask(taskNum: number){
+    
+    let taskCompleted = checkIfTaskCompleted();
     let currentButton = document.getElementById(currentTaskNum.value.toString());
     if(taskCompleted || currentTaskNum.value == 0){
         currentButton?.classList.add("completed");
@@ -90,8 +95,8 @@ defineProps({
 
 <template>
     <Navbar username="Имя Пользователя" role="Root"/>
-    <SideButton orientation="left" class="side-button" @click="changeTask(currentTaskNum - 1)"/>
-    <SideButton orientation="right" class="side-button" @click="changeTask(currentTaskNum + 1)"/>
+    <SideButton orientation="left" class="side-button" @click="changeTask(currentTaskNum-1)"/>
+    <SideButton orientation="right" class="side-button" @click="changeTask(currentTaskNum+1)"/>
     <VStack justify="center" class="page-content">
         <AppText size="xl" weight="600">{{ projectName }}</AppText>
         <AppText variant="secondary" style="margin-top: 10px;">Код задания: {{ projectCode }}</AppText>
