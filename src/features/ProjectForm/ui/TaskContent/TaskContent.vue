@@ -4,7 +4,7 @@ import MultipleChoice from '../MultipleChoice/MultipleChoice.vue'
 import FirstTask from '../FirstTask/FirstTask.vue'
 import { QuestionType } from '@/features/ProjectForm/const/const'
 import type { PropType } from 'vue'
-import { type Task } from '@/features/ProjectForm/const/TaskType'
+import { type Task } from '@/features/ProjectForm/const/const'
 
 defineProps({
     task: {

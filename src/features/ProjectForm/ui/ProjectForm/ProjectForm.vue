@@ -7,7 +7,7 @@ import SideButton from '@/shared/ui/Buttons/SideButton.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { QuestionType } from '@/features/ProjectForm/const/const'
-import { type Task } from '@/features/ProjectForm/const/TaskType'
+import { type Task } from '@/features/ProjectForm/const/const'
 import { ref, onMounted } from 'vue';
 
 const tasks: Task[] = [
@@ -90,8 +90,8 @@ defineProps({
 
 <template>
     <Navbar username="Имя Пользователя" role="Root"/>
-    <SideButton orientation="left" class="side-button" @click="changeTask(--currentTaskNum)"/>
-    <SideButton orientation="right" class="side-button" @click="changeTask(++currentTaskNum)"/>
+    <SideButton orientation="left" class="side-button" @click="changeTask(currentTaskNum - 1)"/>
+    <SideButton orientation="right" class="side-button" @click="changeTask(currentTaskNum + 1)"/>
     <VStack justify="center" class="page-content">
         <AppText size="xl" weight="600">{{ projectName }}</AppText>
         <AppText variant="secondary" style="margin-top: 10px;">Код задания: {{ projectCode }}</AppText>
