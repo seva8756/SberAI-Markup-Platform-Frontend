@@ -9,7 +9,7 @@ const currentScreen = ref(AuthForm.LOGIN)
 </script>
 
 <template>
-  <AppCard border padding-horizontal="45" padding-vertical="30" class="auth">
+  <AppCard border padding-horizontal="45" padding-vertical="30" :class="[currentScreen == AuthForm.LOGIN ? 'auth' : 'register']">
     <LoginForm v-model:form="currentScreen" v-if="currentScreen === AuthForm.LOGIN" />
     <RegisterForm v-model:form="currentScreen" v-else />
   </AppCard>
@@ -18,5 +18,9 @@ const currentScreen = ref(AuthForm.LOGIN)
 <style scoped lang="scss">
 .auth {
   width: 450px;
+}
+
+.register {
+  width: 930px;
 }
 </style>

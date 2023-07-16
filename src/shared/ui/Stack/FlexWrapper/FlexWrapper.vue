@@ -4,7 +4,7 @@ import type { PropType } from 'vue'
 export type FlexJustify = 'start' | 'end' | 'between' | 'center'
 export type FlexAlign = 'start' | 'end' | 'center' | 'stretch'
 export type FlexDirection = 'row' | 'column'
-export type FlexGap = '4' | '8' | '10' | '16' | '24' | '30' | '85'
+export type FlexGap = '4' | '8' | '10' | '16' | '24' | '30' | '50' | '85'
 
 const justifyClasses: Record<FlexJustify, string> = {
   start: 'justifyStart',
@@ -32,6 +32,7 @@ const gapClasses: Record<FlexGap, string> = {
   16: 'gap16',
   24: 'gap24',
   30: 'gap30',
+  50: 'gap50',
   85: 'gap85'
 }
 
@@ -140,6 +141,10 @@ defineProps({
 
 .gap30 {
   gap: 30px;
+}
+
+.gap50 {
+  gap: 50px;
 }
 
 .gap85 {
