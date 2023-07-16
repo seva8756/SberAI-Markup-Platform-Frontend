@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppInput from '@/shared/ui/AppInput/AppInput.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
+import AppTextArea from '@/shared/ui/AppTextArea/AppTextArea.vue'
 
 defineProps({
     imageSource:{
@@ -13,7 +14,7 @@ defineProps({
 <template>
     <VStack>
         <img :src=imageSource class="image"/>
-        <AppInput placeholder="Опишите изображение..." class="image-description" size="large"/>
+        <AppTextArea placeholder="Опишите изображение..." backgroundType="filled"></AppTextArea>
     </VStack>
 </template>
 
