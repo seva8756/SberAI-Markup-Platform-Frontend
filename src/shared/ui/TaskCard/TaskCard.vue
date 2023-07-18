@@ -4,6 +4,7 @@ import VStack from "@/shared/ui/Stack/VStack/VStack.vue";
 import AppText from "@/shared/ui/AppText/AppText.vue";
 import HStack from "@/shared/ui/Stack/HStack/HStack.vue";
 import AppButton from "@/shared/ui/Buttons/AppButton.vue";
+import { router } from '@/app/providers/router'
 
 defineProps({
   title: {
@@ -17,6 +18,10 @@ defineProps({
   questionAmount: {
     type: Number,
     default: 0
+  },
+  isActive: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
@@ -29,11 +34,10 @@ defineProps({
         <AppText variant="primary" size="s" weight="400">{{description}}</AppText>
       </v-stack>
       <v-stack>
-        <AppButton border="normal" size="s" color="primary" :class="['start-block', 'start-button']" >Приступить</AppButton>
+        <AppButton border="normal" size="s" color="primary" :class="['start-block', 'start-button']" @click="router.push('project')">Приступить</AppButton>
         <AppText variant="secondary" size="s" :class="['start-block', 'amount']">Количество вопросов: {{questionAmount}}</AppText>
       </v-stack>
     </h-stack>
-
   </AppCard>
 </template>
 

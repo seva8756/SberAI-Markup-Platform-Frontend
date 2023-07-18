@@ -6,6 +6,7 @@ import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import type { PropType } from 'vue'
 
 import { AuthForm } from '@/features/AuthForm/const/const'
+import { router } from '@/app/providers/router'
 
 defineProps({
   form: {
@@ -26,7 +27,7 @@ const switchToRegisterForm = () => {
     <hr class="line" />
     <AppInput label="Почта или ID:" />
     <AppInput label="Пароль:" />
-    <AppButton size="m">Войти</AppButton>
+    <AppButton size="m" @click="router.push('tasks')">Войти</AppButton>
     <AppButton color="muted" size="s" @click="switchToRegisterForm">Зарегистрироваться</AppButton>
   </VStack>
 </template>

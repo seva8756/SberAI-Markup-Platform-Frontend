@@ -2,6 +2,7 @@
 import CurrentProfile from '@/shared/ui/CurrentProfile/CurrentProfile.vue'
 import Logo from '@/shared/assets/icons/logo.svg'
 import '@/app/styles/variables/global.scss'
+import { router } from '@/app/providers/router'
 
 const props = defineProps({
   username: {
@@ -22,13 +23,13 @@ const props = defineProps({
 <template>
   <nav class="navbar">
     <div class="image-container">
-      <Logo class="logo"/>
+      <Logo class="logo" @click="router.push('tasks')"/>
     </div>
     <CurrentProfile :username=username :role=role :profilePic=profilePic />
     <ul class="nav-body">
-      <li class="link">Задания</li>
-      <li class="link" v-show="role === 'Root'">Создать</li>
-      <li class="link">Пользователи</li>
+      <li class="link" @click="router.push('tasks')">Задания</li>
+      <li class="link" v-show="role === 'Root'" @click="router.push('createTaskAuto')">Создать</li>
+      <li class="link" @click="router.push('users')">Пользователи</li>
     </ul>
   </nav>
 </template>
@@ -58,7 +59,7 @@ const props = defineProps({
 .logo{
   width: 170px;
   height: 35px;
-
+  cursor: pointer;
 }
 .link {
   display: block;
@@ -70,6 +71,7 @@ const props = defineProps({
   word-wrap: break-word;
   text-decoration: none;
   position: relative;
+  cursor: pointer;
 }
 
 .link::after {

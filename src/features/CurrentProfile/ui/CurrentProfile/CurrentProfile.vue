@@ -54,7 +54,7 @@ function parseDateToString(date: Date){
             <img src="@/shared/assets/icons/defaultPfp.png" alt="">
             <AppButton size="xs" border="dashed">Обновить фото</AppButton>
         </VStack>
-        <VStack class="user-info" align="start" gap="16">
+        <VStack class="user-information" align="start" gap="16">
             <div class="main-info">
                 <AppText size="xl" weight="600">{{ username }}</AppText>
                 <AppText size="xl" variant="secondary">ID: {{ id }}</AppText>
@@ -89,7 +89,7 @@ function parseDateToString(date: Date){
     margin-top: 10px;
 }
 
-.user-info {
+.user-information {
     flex-grow: 1;
 }
 

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import '@/app/styles/variables/global.scss'
+import { router } from '@/app/providers/router'
+
 const props = defineProps({
   username: {
     type: String,
@@ -17,7 +19,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="profile-block">
+    <div class="profile-block" @click="router.push('userAccount')">
         <div class="user-text-info">
             <div class="username"><a>{{username}}</a></div>
             <div class="role">{{role}}</div>
@@ -66,5 +68,6 @@ const props = defineProps({
         float: right;
         position: absolute;
         right: 6.25%;
+        cursor: pointer;
     }
 </style>

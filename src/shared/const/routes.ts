@@ -17,7 +17,6 @@ export const routes: Record<AppRoutes, () => string> = {
   [AppRoutes.CREATETASKMANUAL]: () => '/createTaskManual',
   [AppRoutes.USERS]: () => '/users',
   [AppRoutes.TASKS]: () => '/tasks',
-  [AppRoutes.USERS]: () => '/users',
   [AppRoutes.USERACCOUNT]: () => '/userAccount',
   [AppRoutes.PROJECT]: () => '/project',
 }
