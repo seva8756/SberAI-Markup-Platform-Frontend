@@ -1,0 +1,68 @@
+.content {
+  display: flex;
+}
+
+.remark {
+  color: rgba(255, 255, 255, 0.60);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
+
+.weight_400 {
+  font-weight: 400;
+}
+
+.weight_500 {
+  font-weight: 500;
+}
+
+.weight_600 {
+  font-weight: 600;
+}
+.weight_700 {
+  font-weight: 700;
+}
+
+.s {
+  font-size: var(--font-size-s);
+}
+
+.m {
+  font-size: var(--font-size-m);
+}
+
+.l {
+  font-size: var(--font-size-l);
+}
+
+.xl {
+  font-size: var(--font-size-xl);
+}
+
+.primary {
+  color: var(--text-color);
+}
+
+.accent {
+  color: var(--accent-color);
+}
+
+.secondary {
+  color: var(--text-color-secondary);
+}
+
+.underlined {
+  text-decoration: underline;
+}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 
-export type CardPadding = '0' | '8' | '30' | '45'
+export type CardPadding = '0' | '8' | '25' | '30' | '45'
 export type CardBorderRadius = '20' | '40'
 
 defineProps({
@@ -27,12 +27,14 @@ const mapPaddingVerticalToClass: Record<CardPadding, string> = {
   0: 'padding_0-vert',
   8: 'padding_8-vert',
   30: 'padding_30-vert',
+  25: 'padding_25-vert',
   45: 'padding_45-vert'
 }
 
 const mapPaddingHorizontalToClass: Record<CardPadding, string> = {
   0: 'padding_0-horizontal',
   8: 'padding_8-horizontal',
+  25: 'padding_25-horizontal',
   30: 'padding_30-horizontal',
   45: 'padding_45-horizontal'
 }
@@ -79,6 +81,11 @@ const mapRadiusToClass: Record<CardBorderRadius, string> = {
   padding-bottom: 8px;
 }
 
+.padding_25-vert {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
 .padding_30-vert {
   padding-top: 30px;
   padding-bottom: 30px;
@@ -96,6 +103,11 @@ const mapRadiusToClass: Record<CardBorderRadius, string> = {
 .padding_8-horizontal {
   padding-left: 8px;
   padding-right: 8px;
+}
+
+.padding_25-horizontal {
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .padding_30-horizontal {

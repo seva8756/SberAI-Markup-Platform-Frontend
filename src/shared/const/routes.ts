@@ -1,22 +1,22 @@
 export enum AppRoutes {
   MAIN = 'main',
   ABOUT = 'about',
-  CREATETASKAUTO = 'createTaskAuto',
-  CREATETASKMANUAL = 'createTaskManual',
+  CREATE_TASK_AUTO = 'createTaskAuto',
+  CREATE_TASK_MANUAL = 'createTaskManual',
   AUTH = 'auth',
   USERS = 'users',
-  TASKS = 'tasks',
-  USERACCOUNT = 'userAccount',
+  PROJECTS = 'projects',
+  USER_ACCOUNT = 'userAccount',
   PROJECT = 'project'
 }
 export const routes: Record<AppRoutes, () => string> = {
   [AppRoutes.MAIN]: () => '/',
   [AppRoutes.ABOUT]: () => '/about',
   [AppRoutes.AUTH]: () => '/auth',
-  [AppRoutes.CREATETASKAUTO]: () => '/createTaskAuto',
-  [AppRoutes.CREATETASKMANUAL]: () => '/createTaskManual',
+  [AppRoutes.CREATE_TASK_AUTO]: () => '/create-task-auto',
+  [AppRoutes.CREATE_TASK_MANUAL]: () => '/create-task-manual',
   [AppRoutes.USERS]: () => '/users',
-  [AppRoutes.TASKS]: () => '/tasks',
-  [AppRoutes.USERACCOUNT]: () => '/userAccount',
-  [AppRoutes.PROJECT]: () => '/project',
+  [AppRoutes.PROJECTS]: () => '/projects',
+  [AppRoutes.USER_ACCOUNT]: () => '/userAccount',
+  [AppRoutes.PROJECT]: () => '/project'
 }

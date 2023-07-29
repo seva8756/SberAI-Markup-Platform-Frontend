@@ -1,23 +1,29 @@
 <script setup lang="ts">
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
-import AppText from '@/shared/ui/AppText/AppText.vue'
+import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import AppInput from '@/shared/ui/AppInput/AppInput.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
-import type { PropType } from 'vue'
+import Loader from '@/shared/assets/icons/loader.svg'
 
 import { AuthForm } from '@/features/AuthForm/const/const'
 import { router } from '@/app/providers/router'
+import { useAuthFormStore } from '@/features/AuthForm/model/store/authForm'
+import { routes } from '@/shared/const/routes'
 
-defineProps({
-  form: {
-    type: String as PropType<AuthForm>
-  }
-})
+interface LoginFormProps {
+  formType: AuthForm
+}
 
-const emit = defineEmits(['update:form'])
+defineProps<LoginFormProps>()
 
+const emit = defineEmits(['update:formType'])
+const authFormStore = useAuthFormStore()
 const switchToRegisterForm = () => {
-  emit('update:form', AuthForm.REGISTER)
+  emit('update:formType', AuthForm.REGISTER)
+}
+const onLogin = async () => {
+  await authFormStore.login()
+  router.push(routes.projects())
 }
 </script>
 
@@ -25,9 +31,21 @@ const switchToRegisterForm = () => {
   <VStack max gap="30">
     <AppText variant="accent" weight="600">Логин</AppText>
     <hr class="line" />
-    <AppInput label="Почта или ID:" />
-    <AppInput label="Пароль:" />
-    <AppButton size="m" @click="router.push('tasks')">Войти</AppButton>
+    <AppInput
+      :value="authFormStore.loginForm.email"
+      v-model="authFormStore.loginForm.email"
+      label="Почта или ID:"
+    />
+    <AppInput
+      :value="authFormStore.loginForm.password"
+      v-model="authFormStore.loginForm.password"
+      type="password"
+      label="Пароль:"
+    />
+    <AppButton :disabled="authFormStore.isLoading" size="m" @click="onLogin">
+      <Loader height="22" v-if="authFormStore.isLoading" />
+      <span v-else> Войти </span>
+    </AppButton>
     <AppButton color="muted" size="s" @click="switchToRegisterForm">Зарегистрироваться</AppButton>
   </VStack>
 </template>

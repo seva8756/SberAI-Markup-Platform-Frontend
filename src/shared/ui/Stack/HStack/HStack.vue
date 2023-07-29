@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import FlexWrapper, {
-  FlexAlign,
-  FlexGap,
-  FlexJustify
-} from '@/shared/ui/Stack/FlexWrapper/FlexWrapper.vue'
+import FlexWrapper from '@/shared/ui/Stack/FlexWrapper/FlexWrapper.vue'
 import { PropType } from 'vue'
+import type { FlexAlign, FlexGap, FlexJustify } from '@/shared/types/flex'
 
 defineProps({
   justify: {
     type: String as PropType<FlexJustify>,
-    default: 'justify'
+    default: 'start'
   },
   gap: {
     type: String as PropType<FlexGap>

@@ -9,9 +9,14 @@ const currentScreen = ref(AuthForm.LOGIN)
 </script>
 
 <template>
-  <AppCard border padding-horizontal="45" padding-vertical="30" :class="[currentScreen == AuthForm.LOGIN ? 'auth' : 'register']">
-    <LoginForm v-model:form="currentScreen" v-if="currentScreen === AuthForm.LOGIN" />
-    <RegisterForm v-model:form="currentScreen" v-else />
+  <AppCard
+    border
+    padding-horizontal="45"
+    padding-vertical="30"
+    :class="[currentScreen == AuthForm.LOGIN ? 'auth' : 'register']"
+  >
+    <LoginForm v-model:formType="currentScreen" v-if="currentScreen === AuthForm.LOGIN" />
+    <RegisterForm v-model:formType="currentScreen" v-else />
   </AppCard>
 </template>
 

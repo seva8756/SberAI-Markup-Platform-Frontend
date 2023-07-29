@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type PropType, VueElement } from 'vue'
 
-type ButtonSize = 'xs' | 's' | 'm' | 'l' | 'long'
+type ButtonSize = 'xs' | 's' | 'm' | 'l'
 type ButtonColor = 'primary' | 'muted'
 type ButtonBorder = 'normal' | 'dashed'
 type ButtonType = 'normal' | 'square'
@@ -38,7 +38,18 @@ defineProps({
 </script>
 
 <template>
-  <button :class="['Button', color, size,{ 'full-round': fullRound }, border, type]">
+  <button
+    :disabled="disabled"
+    :class="[
+      'Button',
+      color,
+      size,
+      { 'full-round': fullRound },
+      { disabled: disabled },
+      border,
+      type
+    ]"
+  >
     <slot />
   </button>
 </template>
@@ -77,6 +88,12 @@ defineProps({
   color: var(--text-color);
 }
 
+.xs {
+  height: 35px;
+  width: 150px;
+  font-size: 14px;
+}
+
 .s {
   width: 210px;
   font-size: 14px;
@@ -86,14 +103,8 @@ defineProps({
   width: 250px;
 }
 
-.xs {
-  height: 35px;
-  width: 147px;
-  font-size: 14px
-}
-
-.long{
-  width: 298px;
+.l {
+  width: 300px;
   height: 45px;
 }
 
@@ -102,7 +113,7 @@ defineProps({
   background-color: transparent;
   color: var(--accent-color);
 
-  &:hover{
+  &:hover {
     background-color: var(--gray-primary);
   }
 }
@@ -118,13 +129,17 @@ defineProps({
   }
 }
 
-.completed{
+.completed {
   background-color: var(--accent-color);
 }
 
-.current{
+.current {
   background-color: var(--accent-color);
   border-style: solid;
   border-color: var(--text-color);
+}
+
+.disabled {
+  background-color: var(--accent-color-super-muted);
 }
 </style>

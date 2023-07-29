@@ -1,45 +1,48 @@
 <script setup lang="ts">
-import AppText from '@/shared/ui/AppText/AppText.vue'
-import Navbar from '@/widgets/ui/Navbar/Navbar.vue'
+import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import AppInput from '@/shared/ui/AppInput/AppInput.vue'
 import UserInfo from '@/shared/ui/UserInfo/UserInfo.vue'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const users = ref([
-    {username: "Имя Пользователя 1", role: "Разметчик"},
-    {username: "Имя Пользователя 2", role: "Разметчик"},
-    {username: "Имя Пользователя 3", role: "Разметчик"},
-    {username: "Имя Пользователя 4", role: "Разметчик"},
-    {username: "Имя Пользователя 5", role: "Разметчик"},
-    {username: "Имя Пользователя 6", role: "Разметчик"},
-    {username: "Имя Пользователя 7", role: "Разметчик"},
-    {username: "Имя Пользователя 8", role: "Разметчик"},
+  { username: 'Имя Пользователя 1', role: 'Разметчик' },
+  { username: 'Имя Пользователя 2', role: 'Разметчик' },
+  { username: 'Имя Пользователя 3', role: 'Разметчик' },
+  { username: 'Имя Пользователя 4', role: 'Разметчик' },
+  { username: 'Имя Пользователя 5', role: 'Разметчик' },
+  { username: 'Имя Пользователя 6', role: 'Разметчик' },
+  { username: 'Имя Пользователя 7', role: 'Разметчик' },
+  { username: 'Имя Пользователя 8', role: 'Разметчик' }
 ])
 </script>
 
 <template>
-    <Navbar username="Имя Пользователя" role="Root" />
-    <div class="content-area">
-        <AppText variant="accent" size="xl" weight="600">Пользователи</AppText>
-        <AppInput placeholder="Введите имя пользователя..." class="user-search-input"/>
-        <div class="user-list">
-            <UserInfo v-for="(user, index) in users" :username="user.username" :role="user.role" class="user-card"/>
-        </div>
-    </div>    
+  <div class="content-area">
+    <AppText variant="accent" size="xl" weight="600">Пользователи</AppText>
+    <AppInput placeholder="Введите имя пользователя..." class="user-search-input" />
+    <div class="user-list">
+      <UserInfo
+        v-for="(user, index) in users"
+        :username="user.username"
+        :role="user.role"
+        class="user-card"
+      />
+    </div>
+  </div>
 </template>
 
 <style>
-.content-area{
-    width: 75%;
-    height: auto;
-    margin: auto;
-    margin-top: 50px;
+.content-area {
+  width: 75%;
+  height: auto;
+  margin: auto;
+  margin-top: 50px;
 }
-.user-search-input{
-    margin-top: 50px;
-    margin-bottom: 30px;
+.user-search-input {
+  margin-top: 50px;
+  margin-bottom: 30px;
 }
-.user-card{
-    margin: 7.5px 10px 7.5px 10px;
+.user-card {
+  margin: 7.5px 10px 7.5px 10px;
 }
 </style>

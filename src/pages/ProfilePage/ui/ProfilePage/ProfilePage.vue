@@ -3,9 +3,12 @@ import { CurrentProfile } from '@/features/CurrentProfile'
 </script>
 
 <template>
-    <CurrentProfile/>
+  <Suspense>
+    <template #default>
+      <CurrentProfile />
+    </template>
+    <template #fallback> Loading... </template>
+  </Suspense>
 </template>
 
-<style>
-
-</style>
+<style></style>
