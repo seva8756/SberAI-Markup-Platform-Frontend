@@ -5,14 +5,20 @@ import {
   gapClasses,
   justifyClasses
 } from '@/shared/const/flexMappers'
+import classes from '../../ui/Stack/FlexWrapper/FlexWrapper.module.scss'
 
-export const getVStack = (
-  justify: FlexJustify = 'start',
-  gap?: FlexGap,
-  max: boolean = false,
-  align: FlexAlign = 'center'
-) => {
+interface getVtackParams {
+  justify?: FlexJustify
+  gap?: FlexGap
+  max?: boolean
+  align?: FlexAlign
+}
+
+export const getVStack = (params: getVtackParams) => {
+  const { justify = 'start', gap, max, align = 'start' } = params
+
   return [
+    classes.flex,
     directionClasses['column'],
     justifyClasses[justify],
     alignClasses[align],

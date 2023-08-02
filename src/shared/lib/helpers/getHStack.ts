@@ -14,7 +14,7 @@ interface getHStackParams {
   align?: FlexAlign
 }
 
-export const getHStack = (params?: getHStackParams) => {
+export const getHStack = (params: getHStackParams) => {
   const { justify = 'start', gap, max, align = 'center' } = params
   return [
     classes.flex,

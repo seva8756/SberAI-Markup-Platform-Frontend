@@ -2,6 +2,7 @@ export interface AuthState {
   loginForm: LoginForm
   registerForm: RegisterForm
   isLoading: boolean
+  error: string | null
 }
 
 export interface LoginForm {

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const API_URL = 'http://127.0.0.1:5000'
 
-const $api = axios.create({
+export const $api = axios.create({
   withCredentials: true,
   baseURL: API_URL,
   headers: {
@@ -21,10 +21,12 @@ $api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config
+    console.log(originalRequest)
+
     if (error.response.status == 401 && error.config && !error.config._isRetry) {
       originalRequest._isRetry = true
       try {
-        const response = await axios.post(`${API_URL}/users/refresh`, { withCredentials: true })
+        await axios.post(`${API_URL}/users/refresh`, {}, { withCredentials: true })
         return $api.request(originalRequest)
       } catch (e) {
         console.log('Unauthorised')

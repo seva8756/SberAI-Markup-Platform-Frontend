@@ -1,13 +1,21 @@
 <template>
-  <content-loader viewBox="0 0 1500 900" :speed="2" primaryColor="#151C1F" secondaryColor="#090F11">
-    <rect x="0" y="0" rx="0" ry="0" width="562" height="100" />
-    <rect x="0" y="140" rx="10" ry="10" width="930" height="60" />
-    <rect x="0" y="265" rx="20" ry="20" width="930" height="150" />
-  </content-loader>
+  <div class="skeleton"></div>
 </template>
 
-<script setup>
-import { ContentLoader } from 'vue-content-loader'
-</script>
+<script setup lang="ts"></script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.skeleton {
+  background: #eee;
+  background: linear-gradient(110deg, #151c1f 8%, #090f11 18%, #151c1f 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+  animation: 1.5s shine linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+</style>

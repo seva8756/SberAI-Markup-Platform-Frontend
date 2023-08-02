@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import MainLayout from '@/widgets/MainLayout/ui/MainLayout.vue'
-import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
+import MainLayout from '@/shared/ui/layouts/MainLayout/MainLayout.vue'
 import { useUserStore } from '@/entities/User'
-import NavBar from '@/widgets/NavBar'
+import { NavBar } from '@/widgets/NavBar'
+import AppLoaderLayout from '@/widgets/AppLoaderLayout'
 
 const userStore = useUserStore()
 </script>
@@ -13,7 +13,7 @@ const userStore = useUserStore()
     <RouterView />
   </MainLayout>
   <div v-else>
-    <AppSkeleton />
+    <AppLoaderLayout />
   </div>
 </template>
 
