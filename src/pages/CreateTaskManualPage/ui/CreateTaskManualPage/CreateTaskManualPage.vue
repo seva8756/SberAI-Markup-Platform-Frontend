@@ -1,12 +1,7 @@
-<script setup lang="ts">
-
-import CreateTaskManuallyForm from '@/features/CreateTaskForm';
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <CreateTaskManuallyForm/>
+  <div>123</div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

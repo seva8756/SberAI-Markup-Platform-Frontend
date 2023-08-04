@@ -1,13 +1,9 @@
 <script setup lang="ts">
-
-import CreateTaskAutoForm from '@/features/CreateTaskForm';
+// import CreateTaskAutoForm from '@/features/CreateTaskForm';
 </script>
 
 <template>
-  <CreateTaskAutoForm/>
+  <div></div>
 </template>
 
-<style scoped lang="scss">
-
-
-</style>
+<style scoped lang="scss"></style>

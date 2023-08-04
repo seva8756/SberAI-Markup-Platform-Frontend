@@ -1,5 +1,5 @@
 import { describe, expect, test, vi, beforeEach } from 'vitest'
-import { User } from '@/entities/User'
+import type { User } from '@/entities/User'
 import AuthService from '../services/AuthService'
 
 // vi.mock('axios', axiosFactory)

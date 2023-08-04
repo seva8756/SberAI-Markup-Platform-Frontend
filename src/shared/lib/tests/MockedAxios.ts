@@ -13,8 +13,8 @@ export const axiosFactory = async (importActual: <T = unknown>() => Promise<T>) 
       ...actual.default,
       create: vi.fn(() => ({
         ...actual.default.create(),
-        get: mocks.fn,
-        post: mocks.fn
+        get: mocks.get,
+        post: mocks.post
       }))
     }
   }

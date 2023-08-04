@@ -19,16 +19,6 @@ export const configurableRoutes: RouteRecordRaw[] = [
     }
   },
   {
-    path: routes.createTaskAuto(),
-    name: AppRoutes.CREATE_TASK_AUTO,
-    component: () => import('@/pages/CreateTaskAutoPage')
-  },
-  {
-    path: routes.createTaskManual(),
-    name: AppRoutes.CREATE_TASK_MANUAL,
-    component: () => import('@/pages/CreateTaskManualPage')
-  },
-  {
     path: routes.users(),
     name: AppRoutes.USERS,
     component: () => import('@/pages/UsersPage')
