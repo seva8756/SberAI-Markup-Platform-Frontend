@@ -24,6 +24,7 @@ const users = ref([
       <UserInfo
         v-for="(user, index) in users"
         :username="user.username"
+        :key="index"
         :role="user.role"
         class="user-card"
       />

@@ -3,7 +3,7 @@ import AppCard from '@/shared/ui/AppCard/AppCard.vue'
 import LoginForm from '../LoginForm/LoginForm.vue'
 import RegisterForm from '../RegisterForm/RegisterForm.vue'
 import { ref } from 'vue'
-import { AuthForm } from '@/features/AuthForm/const/const'
+import { AuthForm } from '../../const/const'
 
 const currentScreen = ref(AuthForm.LOGIN)
 </script>

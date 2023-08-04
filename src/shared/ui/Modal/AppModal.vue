@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppOverlay from '@/shared/ui/Overlay/AppOverlay.vue'
+import AppOverlay from '../Overlay/AppOverlay.vue'
 import CloseIcon from '../../assets/icons/close.svg'
 
 interface ModalProps {

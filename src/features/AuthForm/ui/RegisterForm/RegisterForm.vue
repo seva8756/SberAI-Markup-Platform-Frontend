@@ -5,11 +5,9 @@ import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import AppInput from '@/shared/ui/AppInput/AppInput.vue'
 import BirthdateInput from '@/shared/ui/BirthdateInput/BirthdateInput.vue'
-import type { PropType } from 'vue'
-import { computed, ref } from 'vue'
-import Loader from '@/shared/assets/icons/loader.svg'
+import { ref } from 'vue'
 
-import { AuthForm } from '@/features/AuthForm/const/const'
+import { AuthForm } from '../../const/const'
 import { useAuthFormStore } from '../../model/store/authForm'
 import { useRouter } from 'vue-router'
 import { routes } from '@/shared/const/routes'
@@ -69,42 +67,24 @@ const onRegister = async () => {
     <hr class="line" />
     <HStack gap="50" max>
       <VStack gap="30" class="left inner-wrapper">
-        <AppInput
-          :value="authFormStore.registerForm.lastName"
-          v-model="authFormStore.registerForm.lastName"
-          label="Фамилия:"
-        />
-        <AppInput
-          :value="authFormStore.registerForm.firstName"
-          v-model="authFormStore.registerForm.firstName"
-          label="Имя:"
-        />
+        <AppInput v-model="authFormStore.registerForm.lastName" label="Фамилия:" />
+        <AppInput v-model="authFormStore.registerForm.firstName" label="Имя:" />
         <BirthdateInput label="Дата рождения:" />
       </VStack>
       <div class="vertical-line"></div>
       <VStack gap="30" class="right inner-wrapper">
-        <AppInput
-          :value="authFormStore.registerForm.email"
-          v-model="authFormStore.registerForm.email"
-          label="Почта:"
-        />
-        <AppInput
-          :value="authFormStore.registerForm.password"
-          v-model="authFormStore.registerForm.password"
-          type="password"
-          label="Пароль:"
-        />
-        <AppInput
-          :value="repeatedPass"
-          v-model="repeatedPass"
-          type="password"
-          label="Повторите пароль:"
-        />
+        <AppInput v-model="authFormStore.registerForm.email" label="Почта:" />
+        <AppInput v-model="authFormStore.registerForm.password" type="password" label="Пароль:" />
+        <AppInput v-model="repeatedPass" type="password" label="Повторите пароль:" />
       </VStack>
     </HStack>
-    <AppButton @click="onRegister">
-      <Loader height="22" v-if="authFormStore.isLoading" />
-      <span v-else> Зарегистрироваться </span>
+    <AppText variant="error">{{ authFormStore.error }}</AppText>
+    <AppButton
+      :disabled="authFormStore.isLoading"
+      :is-loading="authFormStore.isLoading"
+      @click="onRegister"
+    >
+      Зарегистрироваться
     </AppButton>
     <AppButton size="s" color="muted" @click="switchToLoginForm">Назад</AppButton>
   </VStack>
@@ -128,7 +108,6 @@ const onRegister = async () => {
 .right.inner-wrapper {
   flex: 1;
   display: flex;
-  min-width: -webkit-min-content;
   align-items: center;
 }
 

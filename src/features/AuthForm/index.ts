@@ -1,2 +1,3 @@
-import AuthForm from '@/features/AuthForm/ui/AuthForm/AuthForm.vue'
+import AuthForm from './ui/AuthForm/AuthForm.vue'
+export { useAuthFormStore } from './model/store/authForm'
 export { AuthForm }

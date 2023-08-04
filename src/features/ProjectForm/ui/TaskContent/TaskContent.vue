@@ -2,9 +2,9 @@
 import ImageDescription from '../ImageDescription/ImageDescription.vue'
 import MultipleChoice from '../MultipleChoice/MultipleChoice.vue'
 import FirstTask from '../FirstTask/FirstTask.vue'
-import { QuestionType } from '@/features/ProjectForm/const/const'
+import { QuestionType } from '../../const/const'
 import type { PropType } from 'vue'
-import { type Task } from '@/features/ProjectForm/const/const'
+import { type Task } from '../../const/const'
 
 defineProps({
     task: {

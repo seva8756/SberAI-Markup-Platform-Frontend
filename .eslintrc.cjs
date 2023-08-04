@@ -11,5 +11,20 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
+  },
+  plugins: ['fsd-architecture-plugin'],
+  rules: {
+    'fsd-architecture-plugin/path-checker': ['error', { alias: '@' }],
+    'fsd-architecture-plugin/public-api-imports': [
+      'error',
+      { alias: '@', testFilesPatterns: ['**/*.test.ts'] },
+    ],
+    'fsd-architecture-plugin/layer-imports': [
+      'error',
+      {
+        alias: '@',
+        testFilesPatterns: ['**/componentRender.ts']
+      },
+    ],
   }
 }

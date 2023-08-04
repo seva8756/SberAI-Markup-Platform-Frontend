@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import '@/app/styles/variables/global.scss'
-import { router } from '@/app/providers/router'
-import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
-import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
+import AppText from '../TextViews/AppText/AppText.vue'
+import HStack from '../Stack/HStack/HStack.vue'
 import { routes } from '@/shared/const/routes'
 import { getHStack } from '@/shared/lib/helpers/getHStack'
 

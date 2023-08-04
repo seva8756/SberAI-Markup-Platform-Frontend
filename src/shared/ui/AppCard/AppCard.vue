@@ -20,6 +20,10 @@ defineProps({
   border: {
     type: Boolean,
     default: false
+  },
+  selected: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -52,7 +56,8 @@ const mapRadiusToClass: Record<CardBorderRadius, string> = {
       mapPaddingVerticalToClass[paddingVertical],
       mapPaddingHorizontalToClass[paddingHorizontal],
       mapRadiusToClass[borderRadius],
-      { 'with-border': border }
+      { 'with-border': border },
+      { selected: selected }
     ]"
   >
     <slot />
@@ -66,6 +71,10 @@ const mapRadiusToClass: Record<CardBorderRadius, string> = {
 
 .with-border {
   border: 3px solid var(--accent-color);
+}
+
+.selected {
+  background: var(--accent-color);
 }
 
 .max {

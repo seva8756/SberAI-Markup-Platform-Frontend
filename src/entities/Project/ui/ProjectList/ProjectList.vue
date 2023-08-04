@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import type { Project } from '@/entities/Project/model/types/project'
+import type { Project } from '../../model/types/project'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
-import ProjectCard from '@/entities/Project/ui/ProjectCard/ProjectCard.vue'
+import ProjectCard from '../ProjectCard/ProjectCard.vue'
 
 defineProps({
   projects: {
@@ -14,6 +14,6 @@ defineProps({
 
 <template>
   <VStack gap="24" max>
-    <ProjectCard v-for="n in 10" :key="n" :project="{ title: '' }" />
+    <ProjectCard v-for="project in projects" :key="project.ID" :project="project" />
   </VStack>
 </template>

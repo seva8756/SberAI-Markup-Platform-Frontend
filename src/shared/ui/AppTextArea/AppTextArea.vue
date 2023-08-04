@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue';
+import { ref, type PropType } from 'vue'
 
-const message = ref('');
+const message = ref('')
 type BackgroundType = 'transparent' | 'filled'
 
 defineProps({
@@ -10,39 +10,53 @@ defineProps({
     default: 'transparent'
   },
   placeholder: {
-    type: String,
-  }
+    type: String
+  },
+  modelValue: [String, Number]
 })
+const emit = defineEmits(['update:modelValue'])
 
+const updateInput = (event: Event) => {
+  emit('update:modelValue', (event.target as HTMLInputElement).value)
+}
 </script>
 
 <template>
   <div>
-    <textarea v-model="message" :class="[backgroundType]" :placeholder=placeholder></textarea>
+    <textarea
+      :value="modelValue"
+      @change="updateInput"
+      :class="['textarea', backgroundType]"
+      :placeholder="placeholder"
+    ></textarea>
   </div>
 </template>
 
 <style scoped lang="scss">
-  .transparent{
-    border-radius: 15px;
-    border: 3px solid #505050;
-    background-color: transparent;
-    color: var(--text-color);
-    resize: vertical;
-  }
+.textarea {
+  resize: none;
+  outline: none;
+}
 
-  .filled {
-    border-radius: 28.5px;
-    border: 1px solid #505050;
-    background-color: var(--gray-primary);
-    color: var(--text-color);
-    height: 270px;
-    width: 930px;
-    resize: vertical;
-    padding: 8px 15px;
+.transparent {
+  border-radius: 15px;
+  border: 3px solid #505050;
+  background-color: transparent;
+  color: var(--text-color);
+  resize: vertical;
+}
 
-    &::placeholder{
-      color: var(--hint-color);
-    }
+.filled {
+  border-radius: 28.5px;
+  border: 1px solid var(--hint-color-muted);
+  background-color: var(--gray-secondary);
+  color: var(--text-color);
+  width: 720px;
+  height: 350px;
+  padding: 20px;
+
+  &::placeholder {
+    color: var(--hint-color);
   }
+}
 </style>

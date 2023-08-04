@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Navbar from '@/widgets/NavBar/ui/NavBar.vue'
 import SideButton from '@/shared/ui/Buttons/SideButton.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'

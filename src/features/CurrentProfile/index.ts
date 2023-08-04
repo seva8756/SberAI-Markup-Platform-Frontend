@@ -1,2 +1,2 @@
-import CurrentProfile from '@/features/CurrentProfile/ui/CurrentProfile/CurrentProfile.vue'
+import CurrentProfile from './ui/CurrentProfile/CurrentProfile.vue'
 export { CurrentProfile }

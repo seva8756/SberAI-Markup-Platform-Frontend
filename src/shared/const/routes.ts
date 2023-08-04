@@ -7,9 +7,11 @@ export enum AppRoutes {
   USERS = 'users',
   PROJECTS = 'projects',
   USER_ACCOUNT = 'userAccount',
-  PROJECT = 'project'
+  PROJECT = 'project',
+  PROJECT_WELCOME = 'project_welcome',
+  PROJECT_TASK = 'project_task'
 }
-export const routes: Record<AppRoutes, () => string> = {
+export const routes: Record<AppRoutes, (id?: string) => string> = {
   [AppRoutes.MAIN]: () => '/',
   [AppRoutes.ABOUT]: () => '/about',
   [AppRoutes.AUTH]: () => '/auth',
@@ -18,5 +20,7 @@ export const routes: Record<AppRoutes, () => string> = {
   [AppRoutes.USERS]: () => '/users',
   [AppRoutes.PROJECTS]: () => '/projects',
   [AppRoutes.USER_ACCOUNT]: () => '/userAccount',
-  [AppRoutes.PROJECT]: () => '/project'
+  [AppRoutes.PROJECT]: (id?: string) => '/project/' + id,
+  [AppRoutes.PROJECT_WELCOME]: (id?: string) => '/project/' + id,
+  [AppRoutes.PROJECT_TASK]: (id?: string) => `/project/${id}/task`
 }

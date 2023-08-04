@@ -1,2 +1,2 @@
-import ProjectForm from '@/features/ProjectForm/ui/ProjectForm/ProjectForm.vue'
+import ProjectForm from './ui/ProjectForm/ProjectForm.vue'
 export { ProjectForm }

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import TaskContent from '../TaskContent/TaskContent.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
-import Navbar from '@/widgets/NavBar/ui/NavBar.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import SideButton from '@/shared/ui/Buttons/SideButton.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
-import { QuestionType } from '@/features/ProjectForm/const/const'
-import { type Task } from '@/features/ProjectForm/const/const'
+import { QuestionType } from '../../const/const'
+import { type Task } from '../../const/const'
 import { ref, onMounted } from 'vue'
 
 const tasks: Task[] = [
@@ -96,13 +95,14 @@ defineProps({
 <template>
   <SideButton orientation="left" class="side-button" @click="changeTask(currentTaskNum - 1)" />
   <SideButton orientation="right" class="side-button" @click="changeTask(currentTaskNum + 1)" />
-  <VStack justify="center" class="page-content">
+  <VStack justify="center">
     <AppText size="xl" weight="600">{{ projectName }}</AppText>
     <AppText variant="secondary" style="margin-top: 10px">Код задания: {{ projectCode }}</AppText>
     <HStack gap="10" style="margin-top: 30px">
       <AppButton
         type="square"
         v-for="index in tasks.length"
+        :key="index"
         @click="changeTask(index - 1)"
         :id="index - 1"
         >{{ index - 1 }}
@@ -111,15 +111,11 @@ defineProps({
     <keep-alive>
       <component :key="currentTaskNum" :is="TaskContent" :task="currentTask"></component>
     </keep-alive>
-    <AppButton size="long" style="margin-top: 50px; align-self: end">Завершить задание</AppButton>
+    <AppButton size="l" style="margin-top: 50px; align-self: end">Завершить задание</AppButton>
   </VStack>
 </template>
 
 <style>
-.page-content {
-  margin: 50px 18.9% 0 18.9%;
-}
-
 .side-button {
   margin-top: 50px;
 }

@@ -3,7 +3,7 @@
 }
 
 .remark {
-  color: rgba(255, 255, 255, 0.60);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 24px;
   font-weight: 500;
 }
@@ -51,6 +51,10 @@
   font-size: var(--font-size-xl);
 }
 
+.xxl {
+  font-size: var(--font-size-xxl);
+}
+
 .primary {
   color: var(--text-color);
 }
@@ -61,6 +65,10 @@
 
 .secondary {
   color: var(--text-color-secondary);
+}
+
+.error {
+  color: var(--error-color);
 }
 
 .underlined {

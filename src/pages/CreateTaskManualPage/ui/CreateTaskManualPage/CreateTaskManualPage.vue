@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import CreateTaskManuallyForm from "@/features/CreateTaskForm/ui/CreateTaskManuallyForm/CreateTaskManuallyForm.vue";
+import CreateTaskManuallyForm from '@/features/CreateTaskForm';
 </script>
 
 <template>

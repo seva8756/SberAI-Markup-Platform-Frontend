@@ -3,7 +3,8 @@ import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
-import { useAuthFormStore } from '@/features/AuthForm/model/store/authForm'
+// eslint-disable-next-line fsd-architecture-plugin/layer-imports
+import { useAuthFormStore } from '@/features/AuthForm'
 import { useRouter } from 'vue-router'
 import { routes } from '@/shared/const/routes'
 

@@ -1,2 +1,2 @@
-import UsersForm from '@/features/UsersForm/ui/UsersForm/UsersForm.vue'
+import UsersForm from './ui/UsersForm/UsersForm.vue'
 export { UsersForm }

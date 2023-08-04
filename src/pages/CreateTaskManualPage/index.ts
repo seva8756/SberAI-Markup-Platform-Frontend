@@ -1,2 +1,2 @@
-import CreateTaskManualPage from '@/pages/CreateTaskManualPage/ui/CreateTaskManualPage/CreateTaskManualPage.vue'
+import CreateTaskManualPage from './ui/CreateTaskManualPage/CreateTaskManualPage.vue'
 export default CreateTaskManualPage

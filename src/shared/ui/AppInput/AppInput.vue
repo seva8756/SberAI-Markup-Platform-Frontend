@@ -12,7 +12,7 @@ defineProps({
   placeholder: {
     type: String
   },
-  value: {
+  modelValue: {
     type: [String, Number]
   },
   bigplaceholder: {
@@ -23,6 +23,9 @@ defineProps({
     type: Boolean,
     default: false
   },
+  dataTestId: {
+    type: String
+  }
 })
 
 const updateInput = (event: Event) => {
@@ -31,13 +34,20 @@ const updateInput = (event: Event) => {
 </script>
 
 <template>
-  <label :class="['input', { 'bigplaceholder': bigplaceholder }, { 'squared': squared }]">
+  <label :class="['input', { bigplaceholder: bigplaceholder }, { squared: squared }]">
     <span>{{ label }}</span>
     <div v-if="type === 'file'" class="file-input">
       <input type="file" multiple @change="updateInput" :placeholder="placeholder" />
       <button class="file-button">Choose Files</button>
     </div>
-    <input v-else :type="type" :value="value" @input="updateInput" :placeholder="placeholder" />
+    <input
+      v-else
+      :type="type"
+      :data-testid="dataTestId"
+      :value="modelValue"
+      @input="updateInput"
+      :placeholder="placeholder"
+    />
   </label>
 </template>
 

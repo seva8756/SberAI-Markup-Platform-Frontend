@@ -2,12 +2,13 @@
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import AppCard from '@/shared/ui/AppCard/AppCard.vue'
 import type { PropType } from 'vue'
-import type { Project } from '@/entities/Project/model/types/project'
+import type { Project } from '../../model/types/project'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import { getHStack } from '@/shared/lib/helpers/getHStack'
 import ProjectIcon from '@/shared/assets/icons/project.svg'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
+import { routes } from '@/shared/const/routes'
 
 defineProps({
   project: {
@@ -33,7 +34,12 @@ defineProps({
         </AppText>
       </VStack>
     </HStack>
-    <AppButton class="begin-btn">Приступить</AppButton>
+    <AppButton
+      class="begin-btn"
+      button-tag="link"
+      :to="routes.project_welcome(project.ID.toString())"
+      >Приступить</AppButton
+    >
   </AppCard>
 </template>
 

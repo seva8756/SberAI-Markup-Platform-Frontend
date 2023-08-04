@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import CreateTaskAutoForm from "@/features/CreateTaskForm/ui/CreateTaskAutoForm/CreateTaskAutoForm.vue";
+import CreateTaskAutoForm from '@/features/CreateTaskForm';
 </script>
 
 <template>

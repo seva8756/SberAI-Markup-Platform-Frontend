@@ -1,88 +1,85 @@
 <script lang="ts" setup>
-const emits = defineEmits(['update:checkedValue'])
-import '@/app/styles/variables/global.scss'
+import { getHStack } from '@/shared/lib/helpers/getHStack'
+import { computed } from 'vue'
+
+const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
-  name: {
-    type: String,
-    default: ''
-  },
-  id: {
+  modelValue: {
     type: String,
     default: ''
   },
   value: {
-    type: String,
-    default: ''
+    type: String
   },
   label: {
     type: String,
     default: ''
-  },
-  checked: {
-    type: Boolean,
-    default: false
-  },
-  group: {
-    type: Boolean,
-    default: false
   }
 })
 
-const handleClick = (event: any) => {
-  emits('update:checkedValue', event.target.value)
+const handleClick = (event: Event) => {
+  emits('update:modelValue', (event.target as HTMLInputElement).value)
 }
+
+const isChecked = computed(() => props.modelValue === props.value)
 </script>
 
 <template>
-  <div class="button-area" style="display: flex; align-items: center;">
+  <label :class="[getHStack({ gap: '24' })]">
     <input
-        class="radiobutton"
-        type="radio"
-        :name="name"
-        :id="id"
-        :value="value"
-        :checked="checked"
-        @input="handleClick($event)">
-    <label class="options" :for="id" style="margin-left: 20px;">{{label}}</label>
-  </div>
-
+      type="radio"
+      :checked="isChecked"
+      :value="value"
+      @change="handleClick"
+      class="real-radio-btn"
+    />
+    <span class="custom-radio-btn"></span>
+    <span class="input_text">{{ label }}</span>
+  </label>
 </template>
 
 <style lang="scss" scoped>
-.options {
-  color: var(--text-primary-color);
-  font-size: 20px;
-  font-family: var(--font-family);
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-}
-.radiobutton  {
-  width: 25px;
-  height: 25px;
-  display: inline-block;
+.custom-radio-btn {
   position: relative;
-  color: var(--background-color-secondary);
-  border: 0;
-  border-radius: 50%;
-  cursor: pointer;
-
-  &:checked {
-    &:before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 14px;
-      height: 14px;
-      background-color: var(--accent-color);
-      border-radius: 50%;
-    }
-  }
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--text-color);
+  border-radius: 10px;
+  vertical-align: text-top;
 }
 
-.button-area {
-  margin: 10px;
+.custom-radio-btn::before {
+  content: '';
+  /* Рисуем внешний круг */
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  background-color: var(--text-color);
+  border-radius: 5px;
+  /* Выравниваем по центру */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 0.2s ease-in;
+}
+
+.real-radio-btn {
+  width: 0;
+  height: 0;
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.real-radio-btn:checked + .custom-radio-btn::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.input_text {
+  color: var(--text-color);
+  font-size: 24px;
+  font-weight: 500;
 }
 </style>

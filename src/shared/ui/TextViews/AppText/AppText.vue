@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type {PropType} from 'vue'
-import type {TextAlign, TextSize, TextVariant, TextWeight} from "@/shared/types/textTypes";
-import {mapWeightToClass} from "@/shared/const/textMappers";
+import type { PropType } from 'vue'
+import type { TextAlign, TextSize, TextVariant, TextWeight } from '@/shared/types/textTypes'
+import { mapWeightToClass } from '@/shared/const/textMappers'
 import classes from '../TextView.module.scss'
 
-interface AppTextProps {
-  size: TextSize
-  weight: TextWeight;
-  align: TextAlign
-  variant: TextVariant
-  remark: string;
-}
+// interface AppTextProps {
+//   size: TextSize
+//   weight: TextWeight;
+//   align: TextAlign
+//   variant: TextVariant
+//   remark: string;
+// }
 
 defineProps({
   size: {
@@ -34,13 +34,12 @@ defineProps({
     default: ''
   }
 })
-
 </script>
 
 <template>
   <p :class="[classes[variant], classes[align], classes[size], mapWeightToClass[weight]]">
     <slot />
-    <p v-if="remark" :class="classes.remark">{{ remark }}</p>
   </p>
 </template>
 
+<style scoped></style>

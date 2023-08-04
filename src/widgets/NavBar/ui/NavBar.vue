@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import CurrentProfile from '@/shared/ui/CurrentProfile/CurrentProfile.vue'
 import Logo from '@/shared/assets/icons/logo.svg'
-import '@/app/styles/variables/global.scss'
 import { routes } from '@/shared/const/routes'
 import { getHStack } from '@/shared/lib/helpers/getHStack'
-import { links } from '@/widgets/NavBar/const/links'
+import { links } from '../const/links'
 import AppLink from '@/shared/ui/TextViews/AppLink/AppLink.vue'
 
 defineProps({

@@ -2,7 +2,6 @@
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import AppInput from '@/shared/ui/AppInput/AppInput.vue'
-import Navbar from '@/widgets/NavBar/ui/NavBar.vue'
 import SideButton from '@/shared/ui/Buttons/SideButton.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import AppUpload from '@/shared/ui/AppUpload/AppUpload.vue'

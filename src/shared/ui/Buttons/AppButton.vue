@@ -1,57 +1,70 @@
 <script setup lang="ts">
-import { type PropType, VueElement } from 'vue'
+import Loader from '@/shared/assets/icons/loader.svg'
 
-type ButtonSize = 'xs' | 's' | 'm' | 'l'
-type ButtonColor = 'primary' | 'muted'
+import { computed } from 'vue'
+
+type ButtonSize = 'xs' | 's' | 'm' | 'l' | 'custom'
+type ButtonColor = 'primary' | 'muted' | 'gray'
 type ButtonBorder = 'normal' | 'dashed'
-type ButtonType = 'normal' | 'square'
+type ButtonType = 'button' | 'link'
 
-defineProps({
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  fullRound: {
-    type: Boolean,
-    default: false
-  },
-  Suffix: {
-    type: VueElement
-  },
-  color: {
-    type: String as PropType<ButtonColor>,
-    default: 'primary'
-  },
-  size: {
-    type: String as PropType<ButtonSize>,
-    default: 'm'
-  },
-  border: {
-    type: String as PropType<ButtonBorder>,
-    default: 'normal'
-  },
-  type: {
-    type: String as PropType<ButtonType>,
-    default: 'normal'
-  }
+interface BaseAppButtonProps {
+  disabled?: boolean
+  isLoading?: boolean
+  fullRound?: boolean
+  color?: ButtonColor
+  size?: ButtonSize
+  border?: ButtonBorder
+  buttonTag?: ButtonType
+  selected?: boolean
+  to?: string
+  dataTestId?: string
+}
+
+interface ButtonProps extends BaseAppButtonProps {
+  buttonTag?: 'button'
+}
+
+interface LinkProps extends BaseAppButtonProps {
+  buttonTag?: 'link'
+  to: string
+}
+
+const props = withDefaults(defineProps<LinkProps | ButtonProps>(), {
+  disabled: false,
+  isLoading: false,
+  fullRound: false,
+  selected: false,
+  color: 'primary',
+  size: 'm',
+  buttonTag: 'button',
+  border: 'normal'
 })
+
+const classes = computed(() => [
+  'Button',
+  props.color,
+  props.size,
+  { 'full-round': props.fullRound },
+  { disabled: props.disabled },
+  { selected: props.selected },
+  props.border
+])
 </script>
 
 <template>
   <button
+    v-if="buttonTag === 'button'"
+    :data-testid="dataTestId"
     :disabled="disabled"
-    :class="[
-      'Button',
-      color,
-      size,
-      { 'full-round': fullRound },
-      { disabled: disabled },
-      border,
-      type
-    ]"
+    :class="classes"
   >
-    <slot />
+    <Loader height="22" v-if="isLoading" />
+    <slot v-else />
   </button>
+  <router-link v-else :to="to" :class="classes">
+    <slot />
+  </router-link>
 </template>
 
 <style scoped lang="scss">
@@ -86,6 +99,19 @@ defineProps({
 .muted {
   background: var(--accent-color-super-muted);
   color: var(--text-color);
+}
+
+.gray {
+  background: var(--hint-color-muted);
+  color: var(--text-color);
+
+  &:hover {
+    background: var(--accent-color);
+  }
+
+  &.selected {
+    background-color: var(--accent-color);
+  }
 }
 
 .xs {

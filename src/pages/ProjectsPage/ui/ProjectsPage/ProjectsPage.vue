@@ -1,12 +1,14 @@
 <script setup lang="ts">
-
-import TasksForm from "@/features/TasksForm/ui/TasksForm/TasksForm.vue";
+import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
+import UsersProjects from '../UsersProjects/UsersProjects.vue'
+import ProjectsListHeader from '../ProjectsListHeader/ProjectsListHeader.vue'
 </script>
 
 <template>
-  <TasksForm/>
+  <VStack gap="50">
+    <ProjectsListHeader />
+    <UsersProjects />
+  </VStack>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

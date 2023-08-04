@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import type { AuthState } from '@/features/AuthForm/model/types/authState'
-import AuthService from '@/features/AuthForm/model/services/AuthService'
+import type { AuthState } from '../types/authState'
+import AuthService from '../services/AuthService'
 import { useUserStore } from '@/entities/User'
 import { AxiosError } from 'axios'
 

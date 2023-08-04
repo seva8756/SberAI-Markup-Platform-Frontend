@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FlexWrapper from '@/shared/ui/Stack/FlexWrapper/FlexWrapper.vue'
+import FlexWrapper from '../FlexWrapper/FlexWrapper.vue'
 import type { PropType } from 'vue'
 import type { FlexAlign, FlexGap, FlexJustify } from '@/shared/types/flex'
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Radiobutton from '../AppRadiobutton/RadioButton.vue'
-import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
+import AppText from '../TextViews/AppText/AppText.vue'
 import VStack from '../Stack/VStack/VStack.vue'
 
 defineProps({
@@ -24,6 +24,7 @@ defineProps({
     <Radiobutton
       class="answer-text"
       v-for="(question, index) in answers"
+      :key="index"
       :label="question"
       :name="groupNumber?.toString()"
     />
