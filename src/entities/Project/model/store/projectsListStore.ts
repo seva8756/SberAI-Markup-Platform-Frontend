@@ -7,15 +7,9 @@ import { AnswerType } from '@/entities/Task'
 
 export const useProjectsListStore = defineStore('projectsListStore', {
   state: (): ProjectsListState => ({
-    projects: [
-      {
-        ID: 1,
-        description: 'Desc of project',
-        title: 'Cool project',
-        answer_type: AnswerType.TEXT
-      }
-    ],
-    category: ProjectsFilterCategory.ALL
+    projects: [],
+    category: ProjectsFilterCategory.ALL,
+    isLoading: false
   }),
   getters: {
     getProjectById: (state) => {
@@ -25,9 +19,13 @@ export const useProjectsListStore = defineStore('projectsListStore', {
   actions: {
     async fetchProjects() {
       try {
-        const response = await $api.get<Project[]>('/projects')
+        this.isLoading = true
+        const response = await $api.get<Project[]>('/projects/all')
+        this.projects = response.data
       } catch (e) {
         console.log(e)
+      } finally {
+        this.isLoading = false
       }
     },
     addNewProject(project: Project) {

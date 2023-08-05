@@ -1,12 +1,12 @@
 <template>
   <VStack v-if="!isLoading" gap="24">
     <RadioButton
-      v-for="(variant, index) in variants"
-      :class="['answer', { selected: variant === modelValue }]"
+      v-for="([key, value], index) in Object.entries(variants)"
+      :class="['answer', { selected: key === modelValue }]"
       :key="index"
-      :value="variant"
+      :value="key"
       :model-value="modelValue"
-      :label="variant"
+      :label="value"
       @update:model-value="onChange"
     />
   </VStack>
@@ -20,7 +20,7 @@ import RadioButton from '@/shared/ui/AppRadiobutton/RadioButton.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 interface AnswerVariantsProps {
-  variants: string[]
+  variants: Record<string, string>
   modelValue?: string
   onChange: (value: string) => void
   isLoading?: boolean

@@ -3,4 +3,5 @@ import type { Project } from './project'
 export interface ProjectsListState {
   projects: Project[]
   category: ProjectsFilterCategory
+  isLoading: boolean
 }

@@ -7,7 +7,7 @@ import AppInput from '@/shared/ui/AppInput/AppInput.vue'
 import BirthdateInput from '@/shared/ui/BirthdateInput/BirthdateInput.vue'
 import { ref } from 'vue'
 
-import { AuthForm } from '../../const/const'
+import { AuthForm, validationErrorsMapper } from '../../const/const'
 import { useAuthFormStore } from '../../model/store/authForm'
 import { useRouter } from 'vue-router'
 import { routes } from '@/shared/const/routes'
@@ -38,7 +38,7 @@ const repeatedPass = ref('')
 const onRegister = async () => {
   if (repeatedPass.value === authFormStore.registerForm.password) {
     await authFormStore.register()
-    router.push(routes.projects())
+    await router.push(routes.projects())
   }
 }
 </script>
@@ -78,7 +78,11 @@ const onRegister = async () => {
         <AppInput v-model="repeatedPass" type="password" label="Повторите пароль:" />
       </VStack>
     </HStack>
-    <AppText variant="error">{{ authFormStore.error }}</AppText>
+    <VStack v-if="authFormStore.validationErrors.length">
+      <AppText v-for="error in authFormStore.validationErrors" :key="error" variant="error">{{
+        validationErrorsMapper[error]
+      }}</AppText>
+    </VStack>
     <AppButton
       :disabled="authFormStore.isLoading"
       :is-loading="authFormStore.isLoading"

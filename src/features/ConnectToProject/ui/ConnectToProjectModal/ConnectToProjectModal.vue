@@ -13,13 +13,13 @@ interface ConnectToProjectModalProps {
   onClose: () => void
 }
 
-defineProps<ConnectToProjectModalProps>()
+const props = defineProps<ConnectToProjectModalProps>()
 
 const connectToProjectStore = useConnectToProjectStore()
 const router = useRouter()
 const connectToProject = async () => {
   await connectToProjectStore.connectToProject()
-  router.push(routes.project_welcome())
+  props.onClose()
 }
 </script>
 

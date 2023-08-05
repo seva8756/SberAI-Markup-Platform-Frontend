@@ -8,7 +8,7 @@ import $api from '@/shared/api/api'
 import axios from 'axios'
 import type { User } from '@/entities/User'
 import { useUserStore } from '@/entities/User'
-import AuthService from '../../model/services/AuthService'
+import AuthService from '../../model/services/AuthService/AuthService'
 
 // const mocks = vi.hoisted(() => ({
 //   get: vi.fn(),
@@ -35,8 +35,10 @@ import AuthService from '../../model/services/AuthService'
 const mocks = vi.hoisted(() => ({
   login: vi.fn()
 }))
-vi.mock('../../model/services/AuthService.ts', () => {
+vi.mock('../../model/services/AuthService.ts', async (importOriginal) => {
+  const mod = await importOriginal<typeof AuthService>()
   return {
+    ...mod,
     login: mocks.login
   }
 })
@@ -89,11 +91,11 @@ describe('feature/LoginForm', () => {
   //   const loginBtn = getByTestId('LoginForm.loginBtn')
   //   await fireEvent.update(emailInput, 'test@test.ru')
   //   await fireEvent.update(passwordInput, '123456')
-  //   await fireEvent.click(loginBtn)
-  //
+  //   // await fireEvent.click(loginBtn)
+  //   await authStore.login()
   //   // await authStore.login()
   //
   //   // expect(userStore.userData).toStrictEqual(mockedUserData)
-  //   expect(mocks.login).toHaveBeenCalled()
+  //   expect(authStore.isLoading).toBe(true)
   // })
 })

@@ -1,5 +1,5 @@
 <template>
-  <ProjectList :projects="projectsListStore.projects" />
+  <ProjectList :is-loading="projectsListStore.isLoading" :projects="projectsListStore.projects" />
 </template>
 
 <script setup lang="ts">

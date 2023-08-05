@@ -6,13 +6,13 @@
       :is-loading="isLoading"
       :on-change="onChangeChoice"
       :model-value="modelValue"
-      :variants="Object.keys(project.answer_choice)"
+      :variants="project.answer_choice"
     />
     <AnswerTextArea
       v-else
       :on-change="onChangeChoice"
       :model-value="modelValue"
-      :placeholder="currentTask.placeholder"
+      :placeholder="currentTask?.placeholder"
     />
   </VStack>
 </template>
@@ -29,7 +29,7 @@ interface AnswerTaskFormProps {
   question: string
   onChangeChoice: (value: string) => void
   modelValue?: string
-  currentTask: Task
+  currentTask: Task | null
   project: Project
   isLoading: boolean
 }

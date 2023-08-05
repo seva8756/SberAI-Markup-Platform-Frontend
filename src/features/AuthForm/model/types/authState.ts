@@ -1,8 +1,11 @@
+import { ValidationErrors } from '../../const/const'
+
 export interface AuthState {
   loginForm: LoginForm
   registerForm: RegisterForm
   isLoading: boolean
   error: string | null
+  validationErrors: ValidationErrors[]
 }
 
 export interface LoginForm {

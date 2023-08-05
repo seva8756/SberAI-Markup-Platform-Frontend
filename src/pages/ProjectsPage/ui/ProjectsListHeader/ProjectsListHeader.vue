@@ -5,6 +5,7 @@ import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import ConnectToProjectModal from '@/features/ConnectToProject'
+import { watchEffect } from 'vue'
 
 const [isVisible, { openModal, closeModal }] = useModal()
 </script>

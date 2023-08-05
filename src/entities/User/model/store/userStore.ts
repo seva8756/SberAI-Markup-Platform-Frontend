@@ -8,6 +8,14 @@ export const useUserStore = defineStore('userStore', {
     mounted: false,
     isLoading: false
   }),
+  getters: {
+    getTextRole: (state) => {
+      return state.userData?.isAdmin ? 'Root' : 'Разметчик'
+    },
+    getUserFullName: (state) => {
+      return `${state.userData?.lastName} ${state.userData?.lastName}`
+    }
+  },
   actions: {
     async initAuthData() {
       try {

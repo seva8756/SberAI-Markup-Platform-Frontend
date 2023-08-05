@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import AppText from '../TextViews/AppText/AppText.vue'
-import HStack from '../Stack/HStack/HStack.vue'
+import AppText from '../../../../shared/ui/TextViews/AppText/AppText.vue'
+import HStack from '../../../../shared/ui/Stack/HStack/HStack.vue'
 import { routes } from '@/shared/const/routes'
 import { getHStack } from '@/shared/lib/helpers/getHStack'
+import { useUserStore } from '@/entities/User'
 
 const props = defineProps({
   username: {
@@ -18,15 +19,17 @@ const props = defineProps({
     default: ''
   }
 })
+
+const userStore = useUserStore()
 </script>
 
 <template>
   <router-link :to="routes.userAccount()" :class="getHStack({ gap: '10' })">
     <div>
-      <AppText weight="600">Имя Пользователя</AppText>
-      <AppText size="s" variant="secondary" align="right">Root</AppText>
+      <AppText weight="600">{{ userStore.getUserFullName }}</AppText>
+      <AppText size="s" variant="secondary" align="right">{{ userStore.getTextRole }}</AppText>
     </div>
-    <img class="pfp" :src="profilePic" />
+    <img class="pfp" src="@/shared/assets/icons/defaultPfp.png" />
   </router-link>
 </template>
 

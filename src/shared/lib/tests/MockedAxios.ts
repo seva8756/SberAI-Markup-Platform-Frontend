@@ -1,25 +1,11 @@
-import axios from 'axios'
-import { vi } from 'vitest'
+import axios, { type AxiosStatic } from 'axios'
+import { type MockedFunction, vi } from 'vitest'
+vi.mock('axios')
+const mockedAxios = vi.mocked(axios, true)
 
-export const mocks = vi.hoisted(() => ({
-  get: vi.fn(),
-  post: vi.fn()
-}))
-
-export const axiosFactory = async (importActual: <T = unknown>() => Promise<T>) => {
-  const actual = await importActual<typeof import('axios')>()
-  const mockAxios = {
-    default: {
-      ...actual.default,
-      create: vi.fn(() => ({
-        ...actual.default.create(),
-        get: mocks.get,
-        post: mocks.post
-      }))
-    }
+export class TestAsync {
+  api: MockedFunction<AxiosStatic>
+  constructor() {
+    this.api = mockedAxios
   }
-
-  return mockAxios
 }
-
-// export const mockedAxios = vi.mocked(axios, true)

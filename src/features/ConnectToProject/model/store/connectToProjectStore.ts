@@ -16,7 +16,10 @@ export const useConnectToProjectStore = defineStore('connectToProject', {
       try {
         const projectsListStore = useProjectsListStore()
         this.isLoading = true
-        const response = await $api.post<Project>('/project/connect', {})
+        const response = await $api.post<Project>('/projects/join', {
+          code: this.code,
+          password: this.password
+        })
 
         projectsListStore.addNewProject(response.data)
       } catch (e) {

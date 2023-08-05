@@ -3,9 +3,7 @@ import { UsersForm } from '@/features/UsersForm'
 </script>
 
 <template>
-    <UsersForm></UsersForm>
+  <UsersForm />
 </template>
 
-<style>
-
-</style>
+<style></style>

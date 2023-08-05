@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router'
 import { type Project, useProjectsListStore } from '@/entities/Project'
 import { computed } from 'vue'
+import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 
 const { params } = useRoute()
 const projectListStore = useProjectsListStore()
@@ -18,7 +19,9 @@ console.log(route)
   <template v-if="currentProject">
     <router-view :current-project="currentProject" />
   </template>
-  <template v-else> </template>
+  <template v-else>
+    <AppText>Project not found</AppText>
+  </template>
 </template>
 
 <style></style>

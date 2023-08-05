@@ -9,6 +9,7 @@ import { getHStack } from '@/shared/lib/helpers/getHStack'
 import ProjectIcon from '@/shared/assets/icons/project.svg'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { routes } from '@/shared/const/routes'
+import classes from './ProjectCard.module.scss'
 
 defineProps({
   project: {
@@ -22,15 +23,14 @@ defineProps({
   <AppCard
     padding-horizontal="30"
     padding-vertical="25"
-    :class="['task', getHStack({ justify: 'between', align: 'center' })]"
+    :class="[classes.task, getHStack({ justify: 'between', align: 'center' })]"
   >
     <HStack gap="30" align="start">
       <ProjectIcon />
-      <VStack gap="10" align="start" class="text-info">
-        <AppText weight="700">Заголовок</AppText>
+      <VStack gap="10" align="start" :class="classes.textInfo">
+        <AppText weight="700">{{ project.title }}</AppText>
         <AppText size="s" class="task-description">
-          Длинное и подробное описание задания 5. Описывается суть задания, дается краткая инструкци
-          к выполнению.
+          {{ project.description }}
         </AppText>
       </VStack>
     </HStack>
@@ -42,15 +42,3 @@ defineProps({
     >
   </AppCard>
 </template>
-
-<style scoped lang="scss">
-.task {
-  width: 930px;
-  height: 150px;
-  position: relative;
-}
-
-.text-info {
-  width: 455px;
-}
-</style>

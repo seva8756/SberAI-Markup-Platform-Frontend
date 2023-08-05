@@ -1,6 +1,7 @@
 import { describe, expect, test, vi, beforeEach } from 'vitest'
 import type { User } from '@/entities/User'
-import AuthService from '../services/AuthService'
+import AuthService from './AuthService'
+import { TestAsync } from '@/shared/lib/tests/MockedAxios'
 
 // vi.mock('axios', axiosFactory)
 //

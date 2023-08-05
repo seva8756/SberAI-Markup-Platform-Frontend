@@ -35,15 +35,13 @@ const users = ref([
 <style>
 .content-area {
   width: 75%;
-  height: auto;
-  margin: auto;
-  margin-top: 50px;
+  margin: 0 auto;
 }
 .user-search-input {
   margin-top: 50px;
   margin-bottom: 30px;
 }
 .user-card {
-  margin: 7.5px 10px 7.5px 10px;
+  margin: 8px 10px 8px 10px;
 }
 </style>

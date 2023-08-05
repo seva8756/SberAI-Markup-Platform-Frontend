@@ -1,13 +1,21 @@
 <template>
   <div class="container">
-    <template v-if="currentTaskStore.currentTask && currentProject">
+    <template v-if="currentTaskStore.error">
+      <VStack gap="24">
+        <AppText size="xl">{{ taskErrorsMapper[currentTaskStore.error] }}</AppText>
+        <AppButton button-tag="link" :to="routes.projects()">На главную</AppButton>
+      </VStack>
+    </template>
+    <template v-else>
       <HStack justify="between" align="end">
         <VStack gap="50" align="start">
           <VStack align="start">
             <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
-            <AppText size="l" variant="secondary">Название проекта</AppText>
           </VStack>
-          <ImageSwiper :images="currentTaskStore.currentTask.images" />
+          <ImageSwiper
+            :images="currentTaskStore.currentTask?.images"
+            :is-loading="currentTaskStore.isLoading"
+          />
         </VStack>
         <VStack>
           <ProjectTaskForm
@@ -18,14 +26,15 @@
             question="Какие цвета преобладают?"
             :is-loading="currentTaskStore.isLoading"
           />
-          <AppButton class="continue" size="custom" :is-loading="currentTaskStore.isLoading"
+          <AppButton
+            @click="currentTaskStore.fetchCurrentTask(currentProject.ID)"
+            class="continue"
+            size="custom"
+            :is-loading="currentTaskStore.isLoading"
             >Далее</AppButton
           >
         </VStack>
       </HStack>
-    </template>
-    <template v-else>
-      <AppText variant="error">Error while getting task</AppText>
     </template>
   </div>
 </template>
@@ -40,20 +49,34 @@ import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { type Project, useProjectsListStore } from '@/entities/Project'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
+import { routes } from '@/shared/const/routes'
+import { taskErrorsMapper } from '../../const/serverErrors'
 const { params } = useRoute()
-const projectId = params.id as string
+// const projectId = params.id as string
 const projectListStore = useProjectsListStore()
-const currentProject = computed<Project | undefined>(() =>
-  projectListStore.getProjectById(projectId)
-)
+// const currentProject = computed<Project | undefined>(() =>
+//   projectListStore.getProjectById(projectId)
+// )
 
 const currentTaskStore = useCurrentTaskStore()
 const projectsListStore = useProjectsListStore()
 
+interface ProjectTaskProps {
+  currentProject: Project
+}
+
+const props = defineProps<ProjectTaskProps>()
+
 const onChange = (value: string) => {
   currentTaskStore.setAnswer(value)
 }
+
+onMounted(() => {
+  if (props.currentProject) {
+    currentTaskStore.fetchCurrentTask(props.currentProject.ID)
+  }
+})
 </script>
 
 <style scoped>

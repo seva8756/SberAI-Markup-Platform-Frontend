@@ -4,7 +4,7 @@ import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import AppInput from '@/shared/ui/AppInput/AppInput.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 
-import { AuthForm } from '../../const/const'
+import { AuthForm, validationErrorsMapper } from '../../const/const'
 import { useAuthFormStore } from '../../model/store/authForm'
 import { routes } from '@/shared/const/routes'
 import { useRouter } from 'vue-router'
@@ -43,7 +43,11 @@ const onLogin = async () => {
       type="password"
       label="Пароль:"
     />
-    <AppText variant="error">{{ authFormStore.error }}</AppText>
+    <VStack v-if="authFormStore.validationErrors.length">
+      <AppText v-for="error in authFormStore.validationErrors" :key="error" variant="error">{{
+        validationErrorsMapper[error]
+      }}</AppText>
+    </VStack>
     <AppButton
       data-test-id="LoginForm.loginBtn"
       :disabled="authFormStore.isLoading"

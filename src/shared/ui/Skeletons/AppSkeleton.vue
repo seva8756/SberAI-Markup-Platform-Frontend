@@ -1,8 +1,13 @@
 <template>
-  <div class="skeleton"></div>
+  <div class="skeleton" :style="{ borderRadius }" />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+interface AppSkeletonProps {
+  borderRadius?: string
+}
+defineProps<AppSkeletonProps>()
+</script>
 
 <style lang="scss" scoped>
 .skeleton {

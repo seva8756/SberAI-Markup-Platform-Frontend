@@ -12,6 +12,7 @@ swiper-container::part(bullet-active) {
 
 swiper-container::part(container) {
   width: 100%;
+  height: 100%;
 }
 
 

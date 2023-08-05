@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import CurrentProfile from '@/shared/ui/CurrentProfile/CurrentProfile.vue'
 import Logo from '@/shared/assets/icons/logo.svg'
 import { routes } from '@/shared/const/routes'
 import { getHStack } from '@/shared/lib/helpers/getHStack'
 import { links } from '../const/links'
 import AppLink from '@/shared/ui/TextViews/AppLink/AppLink.vue'
+import { NavbarProfile } from '@/features/CurrentProfile'
 
 defineProps({
   username: {
@@ -32,7 +32,7 @@ defineProps({
         <AppLink weight="500" :to="link.to">{{ link.title }}</AppLink>
       </li>
     </ul>
-    <CurrentProfile :username="username" :role="role" :profilePic="profilePic" />
+    <NavbarProfile :username="username" :role="role" :profilePic="profilePic" />
   </nav>
 </template>
 

@@ -1,2 +1,3 @@
 import CurrentProfile from './ui/CurrentProfile/CurrentProfile.vue'
-export { CurrentProfile }
+import NavbarProfile from './ui/NavbarProfile/NavbarProfile.vue'
+export { CurrentProfile, NavbarProfile }

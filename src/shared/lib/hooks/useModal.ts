@@ -1,4 +1,4 @@
-import { type Ref, ref } from 'vue'
+import { type Ref, ref, type UnwrapRef } from 'vue'
 
 interface useModalBind<T> {
   closeModal: () => void
@@ -6,7 +6,14 @@ interface useModalBind<T> {
   extra: T | null
 }
 
-export function useModal<T>(): [boolean, useModalBind<T>] {
+export function useModal<T>(): [
+  Ref<UnwrapRef<boolean>>,
+  {
+    extra: Ref<T | null>
+    openModal: (extraValue?: T | null) => void
+    closeModal: () => void
+  }
+] {
   const isVisible = ref(false)
   const extra = ref<T | null>(null) as Ref<T | null>
 
@@ -22,5 +29,5 @@ export function useModal<T>(): [boolean, useModalBind<T>] {
       extra.value = extraValue
     }
   }
-  return [isVisible.value, { closeModal, openModal, extra: extra.value }]
+  return [isVisible, { closeModal, openModal, extra: extra }]
 }

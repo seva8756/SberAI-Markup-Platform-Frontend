@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import type { AuthState } from '../types/authState'
-import AuthService from '../services/AuthService'
+import AuthService from '../services/AuthService/AuthService'
 import { useUserStore } from '@/entities/User'
 import { AxiosError } from 'axios'
+import { ValidateAuthData } from '../services/ValidateAuthData/ValidateAuthData'
 
 export const useAuthFormStore = defineStore('authForm', {
   state: (): AuthState => ({
@@ -17,22 +18,24 @@ export const useAuthFormStore = defineStore('authForm', {
       lastName: ''
     },
     isLoading: false,
-    error: null
+    error: null,
+    validationErrors: []
   }),
   actions: {
     async login() {
       const userStore = useUserStore()
-
-      if (this.loginForm.email && this.loginForm.password) {
+      this.validationErrors = ValidateAuthData(this.loginForm)
+      if (!this.validationErrors.length) {
         try {
           this.isLoading = true
+
           const response = await AuthService.login(this.loginForm.email, this.loginForm.password)
           userStore.userData = response.data
           this.$reset()
         } catch (e) {
           if (e instanceof AxiosError) {
-            console.log(e)
-            this.error = e.response?.data?.error
+            const axiosError = JSON.parse(e.response?.data?.error)
+            this.validationErrors.push(axiosError.name)
           } else {
             console.log(e)
           }
@@ -43,8 +46,9 @@ export const useAuthFormStore = defineStore('authForm', {
     },
     async register() {
       const userStore = useUserStore()
+      this.validationErrors = ValidateAuthData(this.registerForm)
 
-      if (Object.values(this.registerForm).every((el) => el)) {
+      if (!this.validationErrors.length) {
         try {
           this.isLoading = true
           const response = await AuthService.registration(
@@ -57,8 +61,8 @@ export const useAuthFormStore = defineStore('authForm', {
           this.$reset()
         } catch (e) {
           if (e instanceof AxiosError) {
-            this.error = e.response?.data?.error
-            console.log(e)
+            const axiosError = JSON.parse(e.response?.data?.error)
+            this.validationErrors.push(axiosError.name)
           } else {
             console.log(e)
           }

@@ -7,15 +7,12 @@ import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { useAuthFormStore } from '@/features/AuthForm'
 import { useRouter } from 'vue-router'
 import { routes } from '@/shared/const/routes'
+import { useUserStore } from '@/entities/User'
 
 defineProps({
   username: {
     type: String,
     default: 'Имя Пользователя'
-  },
-  role: {
-    type: String,
-    default: 'Root'
   },
   id: {
     type: Number,
@@ -44,6 +41,7 @@ defineProps({
 })
 
 const authFormStore = useAuthFormStore()
+const userStore = useUserStore()
 const router = useRouter()
 
 function parseDateToString(date: Date) {
@@ -67,11 +65,11 @@ const onLogout = async () => {
     </VStack>
     <VStack class="user-information" align="start" gap="16">
       <div class="main-info">
-        <AppText size="xl" weight="600">{{ username }}</AppText>
+        <AppText size="xl" weight="600">{{ userStore.getUserFullName }}</AppText>
         <AppText size="xl" variant="secondary">ID: {{ id }}</AppText>
       </div>
       <AppText variant="secondary" class="additional-info"
-        >{{ role }} | Рейтинг: {{ rating }}</AppText
+        >{{ userStore.getTextRole }} | Рейтинг: {{ rating }}</AppText
       >
       <hr class="line" />
 
@@ -88,9 +86,8 @@ const onLogout = async () => {
 
 <style scoped>
 .page-content {
-  margin-left: 6.25%;
-  margin-top: 88px;
-  margin-right: 9.37%;
+  width: 1600px;
+  margin: 0 auto;
 }
 
 .main-info {
