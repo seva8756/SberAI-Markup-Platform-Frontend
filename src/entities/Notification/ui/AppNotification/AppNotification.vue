@@ -36,9 +36,6 @@ onMounted(() => {
         notification.message
       }}</AppText>
     </HStack>
-    <!--    <div class="close" @click="notificationStore.removeNotification(String(notification.id))">-->
-    <!--      &times;-->
-    <!--    </div>-->
   </HStack>
 </template>
 
@@ -47,6 +44,7 @@ onMounted(() => {
   border-radius: 15px;
   min-width: 350px;
   height: 75px;
+  padding-right: 15px;
   overflow: hidden;
 }
 

@@ -15,12 +15,19 @@ const route = useRoute()
 </script>
 
 <template>
-  <template v-if="currentProject">
-    <router-view :current-project="currentProject" />
-  </template>
-  <template v-else>
-    <AppText>Project not found</AppText>
-  </template>
+  <div class="container">
+    <template v-if="currentProject">
+      <router-view :current-project="currentProject" />
+    </template>
+    <template v-else>
+      <AppText align="center" size="xl">Проект не найден</AppText>
+    </template>
+  </div>
 </template>
 
-<style></style>
+<style scoped>
+.container {
+  width: 1680px;
+  margin: 0 auto;
+}
+</style>

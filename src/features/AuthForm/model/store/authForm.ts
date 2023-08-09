@@ -4,6 +4,8 @@ import AuthService from '../services/AuthService/AuthService'
 import { useUserStore } from '@/entities/User'
 import { AxiosError } from 'axios'
 import { ValidateAuthData } from '../services/ValidateAuthData/ValidateAuthData'
+import { NotificationType, useNotificationStore } from '@/entities/Notification'
+import { validationErrorsMapper } from '../../const/const'
 
 export const useAuthFormStore = defineStore('authForm', {
   state: (): AuthState => ({
@@ -24,6 +26,7 @@ export const useAuthFormStore = defineStore('authForm', {
   actions: {
     async login() {
       const userStore = useUserStore()
+      const notificationStore = useNotificationStore()
       this.validationErrors = ValidateAuthData(this.loginForm)
       if (!this.validationErrors.length) {
         try {
@@ -36,16 +39,24 @@ export const useAuthFormStore = defineStore('authForm', {
           if (e instanceof AxiosError) {
             const axiosError = JSON.parse(e.response?.data?.error)
             this.validationErrors.push(axiosError.name)
-          } else {
-            console.log(e)
+            notificationStore.addNotification({
+              message: validationErrorsMapper[this.validationErrors[0]],
+              notificationType: NotificationType.ERROR
+            })
           }
         } finally {
           this.isLoading = false
         }
+      } else {
+        notificationStore.addNotification({
+          message: validationErrorsMapper[this.validationErrors[0]],
+          notificationType: NotificationType.ERROR
+        })
       }
     },
     async register() {
       const userStore = useUserStore()
+      const notificationStore = useNotificationStore()
       this.validationErrors = ValidateAuthData(this.registerForm)
 
       if (!this.validationErrors.length) {
@@ -63,12 +74,19 @@ export const useAuthFormStore = defineStore('authForm', {
           if (e instanceof AxiosError) {
             const axiosError = JSON.parse(e.response?.data?.error)
             this.validationErrors.push(axiosError.name)
-          } else {
-            console.log(e)
+            notificationStore.addNotification({
+              message: validationErrorsMapper[this.validationErrors[0]],
+              notificationType: NotificationType.ERROR
+            })
           }
         } finally {
           this.isLoading = false
         }
+      } else {
+        notificationStore.addNotification({
+          message: validationErrorsMapper[this.validationErrors[0]],
+          notificationType: NotificationType.ERROR
+        })
       }
     },
     async logout() {

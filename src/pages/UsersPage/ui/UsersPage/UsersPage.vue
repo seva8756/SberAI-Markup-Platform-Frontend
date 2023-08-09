@@ -6,16 +6,18 @@ import UsersGallery from '../UsersGallery/UsersGallery.vue'
 </script>
 
 <template>
-  <VStack gap="24" class="container">
-    <AppText size="xl" variant="accent" weight="700">Пользователи</AppText>
-    <UsersListFilter />
+  <VStack gap="50" max align="start" class="container">
+    <VStack align="start" max gap="50">
+      <AppText size="xl" variant="accent" weight="700">Пользователи</AppText>
+      <UsersListFilter />
+    </VStack>
     <UsersGallery />
   </VStack>
 </template>
 
 <style scoped>
 .container {
-  width: 1000px;
+  width: 1200px;
   margin: 0 auto;
 }
 </style>

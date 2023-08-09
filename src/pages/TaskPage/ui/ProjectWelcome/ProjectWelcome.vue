@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="welcome-container">
     <VStack gap="10">
       <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
       <AppText variant="secondary" size="l">Код задания : X223SDF</AppText>
@@ -57,7 +57,7 @@ const startTasks = async () => {
 </script>
 
 <style scoped>
-.container {
+.welcome-container {
   width: 1140px;
   margin: 0 auto;
 }

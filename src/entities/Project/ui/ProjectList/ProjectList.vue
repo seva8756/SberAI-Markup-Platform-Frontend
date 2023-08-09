@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
 import type { Project } from '../../model/types/project'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import ProjectCard from '../ProjectCard/ProjectCard.vue'
 import ProjectCardSkeleton from '../ProjectCard/ProjectCardSkeleton.vue'
-import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import EmptyProjects from '../EmptyProjects.vue'
+import { ProjectsFilterCategory } from '../../const/projectsListConsts'
+import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 
-defineProps({
-  projects: {
-    type: Array as PropType<Project[]>,
-    default: () => []
-  },
-  isLoading: {
-    type: Boolean
-  }
-})
+interface ProjectListProps {
+  projects: Project[]
+  isLoading: boolean
+  category: ProjectsFilterCategory
+}
+
+defineProps<ProjectListProps>()
 </script>
 
 <template>
@@ -27,9 +25,8 @@ defineProps({
       <template v-if="projects.length">
         <ProjectCard v-for="project in projects" :key="project.ID" :project="project" />
       </template>
-      <template v-else>
-        <EmptyProjects />
-      </template>
+      <EmptyProjects v-else-if="category === ProjectsFilterCategory.ALL" />
+      <AppText size="l" v-else> Проекты в архиве отсутствуют</AppText>
     </template>
   </VStack>
 </template>

@@ -16,6 +16,7 @@ defineProps<UsersList>()
 
 <style scoped lang="scss">
 .grid {
+  width: 100%;
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(3, 1fr);

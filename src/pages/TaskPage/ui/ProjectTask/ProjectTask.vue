@@ -2,7 +2,9 @@
   <div class="container">
     <template v-if="currentTaskStore.error">
       <VStack gap="24">
-        <AppText size="xl">{{ taskErrorsMapper[currentTaskStore.error] }}</AppText>
+        <AppText weight="600" variant="accent" size="xl">Спасибо!</AppText>
+        <hr class="line" />
+        <AppText size="l">{{ taskErrorsMapper[currentTaskStore.error] }}</AppText>
         <AppButton button-tag="link" :to="routes.projects()">На главную</AppButton>
       </VStack>
     </template>
@@ -122,11 +124,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.container {
-  width: 1680px;
-  margin: 0 auto;
-}
-
 .form {
   margin-top: 100px;
   width: 720px;
@@ -136,5 +133,13 @@ onUnmounted(() => {
   width: 120px;
   padding: 15px 30px;
   margin-top: 30px;
+}
+
+.line {
+  width: 620px;
+  height: 3px;
+  background: var(--hint-color-muted);
+  border: none;
+  border-radius: 3px;
 }
 </style>

@@ -61,11 +61,11 @@ const onRegister = async () => {
         <AppInput v-model="repeatedPass" type="password" label="Повторите пароль:" />
       </VStack>
     </HStack>
-    <VStack v-if="authFormStore.validationErrors.length">
-      <AppText v-for="error in authFormStore.validationErrors" :key="error" variant="error">{{
-        validationErrorsMapper[error]
-      }}</AppText>
-    </VStack>
+    <!--    <VStack v-if="authFormStore.validationErrors.length">-->
+    <!--      <AppText v-for="error in authFormStore.validationErrors" :key="error" variant="error">{{-->
+    <!--        validationErrorsMapper[error]-->
+    <!--      }}</AppText>-->
+    <!--    </VStack>-->
     <AppButton
       :disabled="authFormStore.isLoading"
       :is-loading="authFormStore.isLoading"

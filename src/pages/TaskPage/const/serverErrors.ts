@@ -3,5 +3,5 @@ export enum TaskServerErrors {
 }
 
 export const taskErrorsMapper: Record<TaskServerErrors, string> = {
-  [TaskServerErrors.NO_TASK_AVAILABLE]: 'Нет доступных задач'
+  [TaskServerErrors.NO_TASK_AVAILABLE]: 'Вы выполнили все задания в этом проекте!'
 }

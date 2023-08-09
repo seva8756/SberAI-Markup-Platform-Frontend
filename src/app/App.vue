@@ -11,7 +11,7 @@ import { NotificationList } from '@/entities/Notification'
 const userStore = useUserStore()
 const projectListStore = useProjectsListStore()
 watchEffect(() => {
-  if (userStore.mounted) {
+  if (userStore.userData) {
     projectListStore.fetchProjects()
   }
 })

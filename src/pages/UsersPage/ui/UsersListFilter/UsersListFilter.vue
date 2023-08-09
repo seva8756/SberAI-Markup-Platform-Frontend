@@ -5,7 +5,15 @@ const usersListStore = useUsersListStore()
 </script>
 
 <template>
-  <AppInput v-model="usersListStore.searchQuery" />
+  <AppInput
+    class="input"
+    placeholder="Введите имя пользователя..."
+    v-model="usersListStore.searchQuery"
+  />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.input {
+  width: 50%;
+}
+</style>

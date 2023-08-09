@@ -58,7 +58,6 @@ const updateInput = (event: Event) => {
   padding: 8px 15px;
   background: var(--gray-primary);
   border-radius: 22.5px;
-  height: 40px;
   cursor: pointer;
   border-style: dashed;
   border-width: 2px;

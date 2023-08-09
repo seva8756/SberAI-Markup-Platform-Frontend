@@ -27,8 +27,4 @@ defineProps<UserCardProps>()
   </AppCard>
 </template>
 
-<style scoped lang="scss">
-.user-card {
-  width: 300px;
-}
-</style>
+<style scoped lang="scss"></style>

@@ -32,22 +32,18 @@ const onLogin = async () => {
   <VStack max gap="30">
     <AppText variant="accent" weight="600">Логин</AppText>
     <hr class="line" />
-    <AppInput
-      dataTestId="LoginForm.input"
-      v-model="authFormStore.loginForm.email"
-      label="Почта или ID:"
-    />
+    <AppInput dataTestId="LoginForm.input" v-model="authFormStore.loginForm.email" label="Почта:" />
     <AppInput
       data-test-id="LoginForm.password"
       v-model="authFormStore.loginForm.password"
       type="password"
       label="Пароль:"
     />
-    <VStack v-if="authFormStore.validationErrors.length">
-      <AppText v-for="error in authFormStore.validationErrors" :key="error" variant="error">{{
-        validationErrorsMapper[error]
-      }}</AppText>
-    </VStack>
+    <!--    <VStack v-if="authFormStore.validationErrors.length">-->
+    <!--      <AppText v-for="error in authFormStore.validationErrors" :key="error" variant="error">{{-->
+    <!--        validationErrorsMapper[error]-->
+    <!--      }}</AppText>-->
+    <!--    </VStack>-->
     <AppButton
       data-test-id="LoginForm.loginBtn"
       :disabled="authFormStore.isLoading"

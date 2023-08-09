@@ -13,7 +13,7 @@ export enum ValidationErrors {
 
 export const validationErrorsMapper: Record<ValidationErrors, string> = {
   [ValidationErrors.NO_DATA]: 'Заполните все поля',
-  [ValidationErrors.MIN_LENGTH_PASS]: 'Пароль должен быть не менее 3 символов',
+  [ValidationErrors.MIN_LENGTH_PASS]: 'Пароль должен быть не менее 6 символов',
   [ValidationErrors.INCORRECT_EMAIL]: 'Неверный email',
   [ValidationErrors.INCORRECT_EMAIL_OR_PASS]: 'Неверное имя пользователя или пароль',
   [ValidationErrors.USER_ALREADY_REGISTERED]: 'Пользователь с такой почтой уже зарегистрирован'

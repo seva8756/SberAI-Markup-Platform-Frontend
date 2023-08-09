@@ -22,7 +22,7 @@ const onApproveAuto = () => {
 <template>
   <AppModal :open="isOpen" :on-close="onClose">
     <VStack gap="24">
-      <AppText>Вы уверены ?</AppText>
+      <AppText>Будьте внимательны, ваш текущий текст будет заменен</AppText>
       <HStack gap="10">
         <AppButton size="xs" @click="onApproveAuto">Да</AppButton>
         <AppButton size="xs" @click="onClose">Нет</AppButton>
