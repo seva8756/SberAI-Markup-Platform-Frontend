@@ -1,5 +1,9 @@
 <template>
-  <ProjectList :is-loading="projectsListStore.isLoading" :projects="filteredProjects" />
+  <ProjectList
+    :is-loading="projectsListStore.isLoading"
+    :projects="filteredProjects"
+    :category="projectsListStore.category"
+  />
 </template>
 
 <script setup lang="ts">

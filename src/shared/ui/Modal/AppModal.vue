@@ -1,13 +1,28 @@
 <script setup lang="ts">
 import AppOverlay from '../Overlay/AppOverlay.vue'
 import CloseIcon from '../../assets/icons/close.svg'
+import { onMounted, onUnmounted } from 'vue'
 
 interface ModalProps {
   open?: boolean
   onClose?: () => void
 }
 
-defineProps<ModalProps>()
+const props = defineProps<ModalProps>()
+
+const onKeyDown = (event: KeyboardEvent) => {
+  if (event.key === 'Escape' && props.open) {
+    props.onClose?.()
+  }
+}
+
+onMounted(() => {
+  document.body.addEventListener('keydown', onKeyDown)
+})
+
+onUnmounted(() => {
+  document.body.removeEventListener('keydown', onKeyDown)
+})
 </script>
 
 <template>

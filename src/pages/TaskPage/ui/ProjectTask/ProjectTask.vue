@@ -36,7 +36,7 @@
           <HStack gap="30" justify="end" max>
             <AppButton
               v-if="currentTaskStore.currentTask?.placeholder"
-              @click="openModal('ApproveAutoFillModal')"
+              @click="onApproveAutoFill"
               class="continue"
               size="custom"
               color="gray"
@@ -55,7 +55,7 @@
       </HStack>
       <ApproveAnswerModal
         :on-close="closeModal"
-        :is-open="isVisible"
+        :is-open="extra === 'ApproveAnswerModal'"
         :on-approve="onApproveAnswer"
       />
       <ApproveAutoFillModal
@@ -70,19 +70,19 @@
 <script setup lang="ts">
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
-import ImageSwiper from '../ImageSwiper/ImageSwiper.vue'
-import ProjectTaskForm from '@/features/AnswerTaskForm'
-import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
+import ProjectTaskForm from '@/features/AnswerTaskForm'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
-import { type Project } from '@/entities/Project'
+import ImageSwiper from '../ImageSwiper/ImageSwiper.vue'
+import ApproveAnswerModal from '../ApproveAnswerModal/ApproveAnswerModal.vue'
+import TaskIndex from '../TaskIndex/TaskIndex.vue'
+import ApproveAutoFillModal from '../ApproveAutoFillModal/ApproveAutoFillModal.vue'
+import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
+import { useModal } from '@/shared/lib/hooks/useModal'
 import { onMounted, onUnmounted } from 'vue'
+import { type Project } from '@/entities/Project'
 import { routes } from '@/shared/const/routes'
 import { taskErrorsMapper } from '../../const/serverErrors'
-import TaskIndex from '../TaskIndex/TaskIndex.vue'
-import { useModal } from '@/shared/lib/hooks/useModal'
-import ApproveAnswerModal from '../ApproveAnswerModal/ApproveAnswerModal.vue'
-import ApproveAutoFillModal from '../ApproveAutoFillModal/ApproveAutoFillModal.vue'
 
 const currentTaskStore = useCurrentTaskStore()
 const [isVisible, { openModal, closeModal, extra }] = useModal()
@@ -102,11 +102,21 @@ const onApproveAnswer = () => {
   closeModal()
 }
 
-const onApproveAutoFill = () => {}
+const onApproveAutoFill = () => {
+  if (currentTaskStore.answer) {
+    openModal('ApproveAutoFillModal')
+  } else {
+    currentTaskStore.fillTextAnswer()
+  }
+}
 
 const onArrowDown = (event: KeyboardEvent) => {
   if (event.key === 'ArrowRight' && !isVisible.value) {
-    openModal()
+    event.preventDefault()
+    openModal('ApproveAnswerModal')
+  } else if (isVisible.value && event.key === 'Enter') {
+    closeModal()
+    currentTaskStore.goToNextTask(props.currentProject.ID)
   }
 }
 

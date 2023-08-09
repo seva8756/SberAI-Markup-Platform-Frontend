@@ -22,13 +22,19 @@ const onApproveAuto = () => {
 <template>
   <AppModal :open="isOpen" :on-close="onClose">
     <VStack gap="24">
-      <AppText>Будьте внимательны, ваш текущий текст будет заменен</AppText>
+      <AppText class="modal-text" align="center"
+        >Будьте внимательны, ваш текущий текст будет заменен</AppText
+      >
       <HStack gap="10">
-        <AppButton size="xs" @click="onApproveAuto">Да</AppButton>
-        <AppButton size="xs" @click="onClose">Нет</AppButton>
+        <AppButton size="xs" @click="onApproveAuto">Хорошо</AppButton>
+        <AppButton size="xs" @click="onClose">Отменить</AppButton>
       </HStack>
     </VStack>
   </AppModal>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.modal-text {
+  width: 310px;
+}
+</style>

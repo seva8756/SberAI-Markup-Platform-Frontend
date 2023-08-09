@@ -26,7 +26,9 @@ defineProps<ProjectListProps>()
         <ProjectCard v-for="project in projects" :key="project.ID" :project="project" />
       </template>
       <EmptyProjects v-else-if="category === ProjectsFilterCategory.ALL" />
-      <AppText size="l" v-else> Проекты в архиве отсутствуют</AppText>
+      <AppText variant="secondary-muted" weight="600" size="xxl" v-else>
+        Проекты в архиве отсутствуют</AppText
+      >
     </template>
   </VStack>
 </template>

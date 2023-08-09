@@ -2,7 +2,6 @@
   <div class="welcome-container">
     <VStack gap="10">
       <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
-      <AppText variant="secondary" size="l">Код задания : X223SDF</AppText>
     </VStack>
     <hr class="line" />
     <VStack gap="24">
