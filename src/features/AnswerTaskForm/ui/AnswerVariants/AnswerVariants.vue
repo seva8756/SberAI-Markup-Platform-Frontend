@@ -1,5 +1,5 @@
 <template>
-  <VStack v-if="!isLoading" gap="24">
+  <VStack max v-if="!isLoading" gap="24">
     <RadioButton
       v-for="([key, value], index) in Object.entries(variants)"
       :class="['answer', { selected: key === modelValue }]"
@@ -30,11 +30,12 @@ defineProps<AnswerVariantsProps>()
 
 <style scoped>
 .answer {
-  width: 720px;
+  width: 100%;
   padding: 30px 45px;
   border-radius: 20px;
   cursor: pointer;
   background: var(--gray-secondary);
+  transition: background var(--transition-duration);
 
   &.selected {
     background: var(--accent-color);

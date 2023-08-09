@@ -5,6 +5,7 @@ import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import ProjectCard from '../ProjectCard/ProjectCard.vue'
 import ProjectCardSkeleton from '../ProjectCard/ProjectCardSkeleton.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
+import EmptyProjects from '../EmptyProjects.vue'
 
 defineProps({
   projects: {
@@ -27,7 +28,7 @@ defineProps({
         <ProjectCard v-for="project in projects" :key="project.ID" :project="project" />
       </template>
       <template v-else>
-        <AppText size="l">Проектов пока нет</AppText>
+        <EmptyProjects />
       </template>
     </template>
   </VStack>

@@ -6,12 +6,14 @@ import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import ConnectToProjectModal from '@/features/ConnectToProject'
 import { watchEffect } from 'vue'
+import { NotificationType, useNotificationStore } from '@/entities/Notification'
 
 const [isVisible, { openModal, closeModal }] = useModal()
+const notificationStore = useNotificationStore()
 </script>
 
 <template>
-  <HStack class="projects" justify="between">
+  <HStack :max="true" justify="between">
     <HStack gap="50">
       <AppText size="xl" weight="700" variant="accent"> Проекты </AppText>
       <ProjectsFilter />
@@ -21,8 +23,4 @@ const [isVisible, { openModal, closeModal }] = useModal()
   <ConnectToProjectModal :on-close="closeModal" :is-open="isVisible" />
 </template>
 
-<style scoped lang="scss">
-.projects {
-  width: 930px;
-}
-</style>
+<style scoped lang="scss"></style>

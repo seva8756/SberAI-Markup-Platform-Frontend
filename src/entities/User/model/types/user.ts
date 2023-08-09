@@ -1,6 +1,6 @@
 export interface User {
   ID: number
-  firsName: string
+  firstName: string
   lastName: string
   isAdmin: boolean
 }

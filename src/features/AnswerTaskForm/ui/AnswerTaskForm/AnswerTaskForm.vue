@@ -1,5 +1,5 @@
 <template>
-  <VStack align="start" gap="30">
+  <VStack max align="start" gap="30">
     <AppText size="xl" weight="500">{{ question }}</AppText>
     <AnswerVariants
       v-if="project.answer_type === AnswerType.CHOICE"
@@ -8,12 +8,13 @@
       :model-value="modelValue"
       :variants="project.answer_choice"
     />
-    <AnswerTextArea
-      v-else
-      :on-change="onChangeChoice"
-      :model-value="modelValue"
-      :placeholder="currentTask?.placeholder"
-    />
+    <template v-else>
+      <AnswerTextArea
+        :on-change="onChangeChoice"
+        :model-value="modelValue"
+        placeholder="Введите ответ"
+      />
+    </template>
   </VStack>
 </template>
 

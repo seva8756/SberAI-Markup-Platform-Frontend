@@ -10,11 +10,11 @@
     >
     <AppButton
       class="filter-button right"
-      :selected="projectsListStore.category === ProjectsFilterCategory.ACTIVE"
-      @click="projectsListStore.changeCategory(ProjectsFilterCategory.ACTIVE)"
+      :selected="projectsListStore.category === ProjectsFilterCategory.ARCHIVE"
+      @click="projectsListStore.changeCategory(ProjectsFilterCategory.ARCHIVE)"
       size="custom"
       color="gray"
-      >Активные</AppButton
+      >Архив</AppButton
     >
   </HStack>
 </template>
@@ -30,11 +30,11 @@ const projectsListStore = useProjectsListStore()
 .filter-button {
   padding: 7px 15px;
   &.left {
-    border-radius: 5px 0px 0px 5px;
+    border-radius: 5px 0 0 5px;
     margin-right: 2px;
   }
   &.right {
-    border-radius: 0px 5px 5px 0px;
+    border-radius: 0 5px 5px 0;
   }
 }
 </style>

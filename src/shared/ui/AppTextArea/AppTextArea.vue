@@ -53,7 +53,7 @@ const updateInput = (event: Event) => {
   color: var(--text-color);
   width: 720px;
   height: 350px;
-  padding: 20px;
+  padding: 25px;
 
   &::placeholder {
     color: var(--hint-color);

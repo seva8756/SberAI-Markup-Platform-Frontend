@@ -112,6 +112,10 @@ const classes = computed(() => [
   &.selected {
     background-color: var(--accent-color);
   }
+
+  &.disabled {
+    opacity: 0.7;
+  }
 }
 
 .xs {
@@ -167,5 +171,6 @@ const classes = computed(() => [
 
 .disabled {
   background-color: var(--accent-color-super-muted);
+  pointer-events: none;
 }
 </style>

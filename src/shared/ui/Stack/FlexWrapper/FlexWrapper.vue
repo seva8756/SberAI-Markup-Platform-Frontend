@@ -40,7 +40,7 @@ defineProps({
       justifyClasses[justify],
       alignClasses[align],
       gap && gapClasses[gap],
-      { max: classes.max }
+      { [classes.max]: max }
     ]"
   >
     <slot />

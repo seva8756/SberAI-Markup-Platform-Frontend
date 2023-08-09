@@ -45,31 +45,14 @@ const onRegister = async () => {
 
 <template>
   <VStack max gap="30">
-    <HStack max>
-      <div class="left inner-wrapper">
-        <AppText
-          class="profile-type"
-          :class="[isRootActive ? 'secondary' : 'underlined']"
-          @click="switchProfiles"
-          >Разметчик</AppText
-        >
-      </div>
-      <div class="vertical-line small"></div>
-      <div class="right inner-wrapper">
-        <AppText
-          class="profile-type"
-          :class="[isRootActive ? 'underlined' : 'secondary']"
-          @click="switchProfiles"
-          >Root</AppText
-        >
-      </div>
+    <HStack justify="center" max>
+      <AppText variant="accent" weight="600">Регистрация</AppText>
     </HStack>
     <hr class="line" />
-    <HStack gap="50" max>
+    <HStack align="start" gap="50" max>
       <VStack gap="30" class="left inner-wrapper">
         <AppInput v-model="authFormStore.registerForm.lastName" label="Фамилия:" />
         <AppInput v-model="authFormStore.registerForm.firstName" label="Имя:" />
-        <BirthdateInput label="Дата рождения:" />
       </VStack>
       <div class="vertical-line"></div>
       <VStack gap="30" class="right inner-wrapper">

@@ -5,6 +5,7 @@ export interface ProjectBase {
   description: string
   title: string
   answer_type: AnswerType
+  question_title: string
 }
 
 export interface ProjectChoice extends ProjectBase {

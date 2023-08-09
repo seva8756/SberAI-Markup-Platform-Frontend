@@ -1,9 +1,21 @@
 <script setup lang="ts">
-import { UsersForm } from '@/features/UsersForm'
+import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
+import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
+import UsersListFilter from '../UsersListFilter/UsersListFilter.vue'
+import UsersGallery from '../UsersGallery/UsersGallery.vue'
 </script>
 
 <template>
-  <UsersForm />
+  <VStack gap="24" class="container">
+    <AppText size="xl" variant="accent" weight="700">Пользователи</AppText>
+    <UsersListFilter />
+    <UsersGallery />
+  </VStack>
 </template>
 
-<style></style>
+<style scoped>
+.container {
+  width: 1000px;
+  margin: 0 auto;
+}
+</style>

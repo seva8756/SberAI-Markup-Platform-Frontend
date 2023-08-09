@@ -12,7 +12,6 @@ const currentProject = computed<Project | undefined>(() =>
   projectListStore.getProjectById(projectId)
 )
 const route = useRoute()
-console.log(route)
 </script>
 
 <template>

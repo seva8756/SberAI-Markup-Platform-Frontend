@@ -77,7 +77,7 @@ describe('feature/LoginForm', () => {
   //   })
   //   const mockedUserData: User = {
   //     ID: 1,
-  //     firsName: 'first',
+  //     firstName: 'first',
   //     lastName: 'last',
   //     isAdmin: false
   //   }

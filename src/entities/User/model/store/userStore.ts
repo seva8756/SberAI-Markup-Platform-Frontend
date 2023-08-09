@@ -10,10 +10,10 @@ export const useUserStore = defineStore('userStore', {
   }),
   getters: {
     getTextRole: (state) => {
-      return state.userData?.isAdmin ? 'Root' : 'Разметчик'
+      return state.userData?.isAdmin ? 'Администратор' : 'Разметчик'
     },
     getUserFullName: (state) => {
-      return `${state.userData?.lastName} ${state.userData?.lastName}`
+      return `${state.userData?.firstName} ${state.userData?.lastName}`
     }
   },
   actions: {

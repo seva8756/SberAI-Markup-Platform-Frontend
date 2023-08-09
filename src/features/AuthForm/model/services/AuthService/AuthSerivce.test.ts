@@ -36,7 +36,7 @@ describe('authService', () => {
   test('login success', async () => {
     const mockedUserData: User = {
       ID: 1,
-      firsName: 'first',
+      firstName: 'first',
       lastName: 'last',
       isAdmin: false
     }

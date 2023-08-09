@@ -6,6 +6,7 @@ import { NavBar } from '@/widgets/NavBar'
 import AppLoaderLayout from '@/widgets/AppLoaderLayout'
 import { watchEffect } from 'vue'
 import { useProjectsListStore } from '@/entities/Project'
+import { NotificationList } from '@/entities/Notification'
 
 const userStore = useUserStore()
 const projectListStore = useProjectsListStore()
@@ -23,6 +24,7 @@ watchEffect(() => {
   <div v-else>
     <AppLoaderLayout />
   </div>
+  <NotificationList />
 </template>
 
 <style scoped></style>

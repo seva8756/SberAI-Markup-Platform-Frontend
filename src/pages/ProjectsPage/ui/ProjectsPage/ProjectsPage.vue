@@ -5,10 +5,15 @@ import ProjectsListHeader from '../ProjectsListHeader/ProjectsListHeader.vue'
 </script>
 
 <template>
-  <VStack gap="50">
+  <VStack class="container" gap="50">
     <ProjectsListHeader />
     <UsersProjects />
   </VStack>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.container {
+  width: 1000px;
+  margin: 0 auto;
+}
+</style>

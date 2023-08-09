@@ -16,7 +16,6 @@ interface ConnectToProjectModalProps {
 const props = defineProps<ConnectToProjectModalProps>()
 
 const connectToProjectStore = useConnectToProjectStore()
-const router = useRouter()
 const connectToProject = async () => {
   await connectToProjectStore.connectToProject()
   props.onClose()

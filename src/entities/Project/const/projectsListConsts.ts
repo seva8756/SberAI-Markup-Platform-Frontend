@@ -1,4 +1,4 @@
 export enum ProjectsFilterCategory {
-    ALL,
-    ACTIVE
+  ALL,
+  ARCHIVE
 }

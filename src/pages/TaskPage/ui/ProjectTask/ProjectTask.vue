@@ -7,34 +7,60 @@
       </VStack>
     </template>
     <template v-else>
-      <HStack justify="between" align="end">
+      <HStack justify="between" align="start">
         <VStack gap="50" align="start">
           <VStack align="start">
             <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
+            <TaskIndex
+              :is-loading="currentTaskStore.isLoading"
+              :index="currentTaskStore.currentTask?.index.toString()"
+            />
           </VStack>
           <ImageSwiper
-            :images="currentTaskStore.currentTask?.images"
+            v-if="currentTaskStore.currentTask?.images"
+            :images="currentTaskStore.currentTask.images"
             :is-loading="currentTaskStore.isLoading"
           />
         </VStack>
-        <VStack>
+        <VStack class="form">
           <ProjectTaskForm
             :current-task="currentTaskStore.currentTask"
             :on-change-choice="onChange"
             :project="currentProject"
             :model-value="currentTaskStore.answer"
-            question="Какие цвета преобладают?"
+            :question="currentProject.question_title"
             :is-loading="currentTaskStore.isLoading"
           />
-          <AppButton
-            @click="currentTaskStore.fetchCurrentTask(currentProject.ID)"
-            class="continue"
-            size="custom"
-            :is-loading="currentTaskStore.isLoading"
-            >Далее</AppButton
-          >
+          <HStack gap="30" justify="end" max>
+            <AppButton
+              v-if="currentTaskStore.currentTask?.placeholder"
+              @click="openModal('ApproveAutoFillModal')"
+              class="continue"
+              size="custom"
+              color="gray"
+              :disabled="!currentTaskStore.currentTask.placeholder"
+              >Автоответ</AppButton
+            >
+            <AppButton
+              @click="currentTaskStore.goToNextTask(currentProject.ID)"
+              class="continue"
+              size="custom"
+              :is-loading="currentTaskStore.isLoading"
+              >Далее</AppButton
+            >
+          </HStack>
         </VStack>
       </HStack>
+      <ApproveAnswerModal
+        :on-close="closeModal"
+        :is-open="isVisible"
+        :on-approve="onApproveAnswer"
+      />
+      <ApproveAutoFillModal
+        :on-close="closeModal"
+        :is-open="extra === 'ApproveAutoFillModal'"
+        :on-approve="currentTaskStore.fillTextAnswer"
+      />
     </template>
   </div>
 </template>
@@ -47,20 +73,17 @@ import ProjectTaskForm from '@/features/AnswerTaskForm'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
-import { type Project, useProjectsListStore } from '@/entities/Project'
-import { useRoute } from 'vue-router'
-import { computed, onMounted } from 'vue'
+import { type Project } from '@/entities/Project'
+import { onMounted, onUnmounted } from 'vue'
 import { routes } from '@/shared/const/routes'
 import { taskErrorsMapper } from '../../const/serverErrors'
-const { params } = useRoute()
-// const projectId = params.id as string
-const projectListStore = useProjectsListStore()
-// const currentProject = computed<Project | undefined>(() =>
-//   projectListStore.getProjectById(projectId)
-// )
+import TaskIndex from '../TaskIndex/TaskIndex.vue'
+import { useModal } from '@/shared/lib/hooks/useModal'
+import ApproveAnswerModal from '../ApproveAnswerModal/ApproveAnswerModal.vue'
+import ApproveAutoFillModal from '../ApproveAutoFillModal/ApproveAutoFillModal.vue'
 
 const currentTaskStore = useCurrentTaskStore()
-const projectsListStore = useProjectsListStore()
+const [isVisible, { openModal, closeModal, extra }] = useModal()
 
 interface ProjectTaskProps {
   currentProject: Project
@@ -72,10 +95,29 @@ const onChange = (value: string) => {
   currentTaskStore.setAnswer(value)
 }
 
+const onApproveAnswer = () => {
+  currentTaskStore.goToNextTask(props.currentProject.ID)
+  closeModal()
+}
+
+const onApproveAutoFill = () => {}
+
+const onArrowDown = (event: KeyboardEvent) => {
+  if (event.key === 'ArrowRight' && !isVisible.value) {
+    openModal()
+  }
+}
+
 onMounted(() => {
   if (props.currentProject) {
     currentTaskStore.fetchCurrentTask(props.currentProject.ID)
   }
+  document.body.addEventListener('keydown', onArrowDown)
+})
+
+onUnmounted(() => {
+  currentTaskStore.resetAnswer()
+  document.body.removeEventListener('keydown', onArrowDown)
 })
 </script>
 
@@ -85,15 +127,14 @@ onMounted(() => {
   margin: 0 auto;
 }
 
-.header {
-  margin-bottom: 30px;
-  padding-left: 60px;
+.form {
+  margin-top: 100px;
+  width: 720px;
 }
 
 .continue {
-  width: 150px;
-  height: 70px;
+  width: 120px;
+  padding: 15px 30px;
   margin-top: 30px;
-  margin-left: auto;
 }
 </style>
