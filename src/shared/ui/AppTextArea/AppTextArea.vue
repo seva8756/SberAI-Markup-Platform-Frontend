@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue'
+import { type PropType } from 'vue'
 
-const message = ref('')
 type BackgroundType = 'transparent' | 'filled'
 
 defineProps({
@@ -25,7 +24,7 @@ const updateInput = (event: Event) => {
   <div>
     <textarea
       :value="modelValue"
-      @change="updateInput"
+      @input="updateInput"
       :class="['textarea', backgroundType]"
       :placeholder="placeholder"
     ></textarea>

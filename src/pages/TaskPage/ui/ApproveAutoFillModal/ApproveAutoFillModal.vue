@@ -2,7 +2,7 @@
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
-import AppModal from '@/shared/ui/Modal/AppModal.vue'
+import AppModal from '@/shared/ui/Modals/AppModal.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 
 interface ApproveAutoFillModalProps {

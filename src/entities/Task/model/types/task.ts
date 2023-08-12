@@ -2,6 +2,7 @@ export interface Task {
   images: string[]
   index: number
   placeholder?: string
+  answer?: string
 }
 
 // export interface ChoiceTask extends Task {

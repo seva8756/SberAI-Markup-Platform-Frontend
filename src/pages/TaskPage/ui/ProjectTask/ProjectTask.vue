@@ -18,39 +18,61 @@
               :index="currentTaskStore.currentTask?.index.toString()"
             />
           </VStack>
-          <ImageSwiper
+          <ImageShowcase
             v-if="currentTaskStore.currentTask?.images"
             :images="currentTaskStore.currentTask.images"
             :is-loading="currentTaskStore.isLoading"
           />
         </VStack>
-        <VStack class="form">
-          <ProjectTaskForm
-            :current-task="currentTaskStore.currentTask"
-            :on-change-choice="onChange"
-            :project="currentProject"
-            :model-value="currentTaskStore.answer"
-            :question="currentProject.question_title"
+        <VStack align="end" gap="70" class="form">
+          <TasksPagination
             :is-loading="currentTaskStore.isLoading"
+            :tasks-ids="currentTaskStore.paginationIds"
+            :current-index="currentTaskStore.currentPaginationIndex"
+            @on-change-current-task="onChangeCurrentTask"
           />
-          <HStack gap="30" justify="end" max>
-            <AppButton
-              v-if="currentTaskStore.currentTask?.placeholder"
-              @click="onApproveAutoFill"
-              class="continue"
-              size="custom"
-              color="gray"
-              :disabled="!currentTaskStore.currentTask.placeholder"
-              >Автоответ</AppButton
-            >
-            <AppButton
-              @click="currentTaskStore.goToNextTask(currentProject.ID)"
-              class="continue"
-              size="custom"
+          <VStack gap="30">
+            <ProjectTaskForm
+              :current-task="currentTaskStore.currentTask"
+              :on-change-choice="onChange"
+              :project="currentProject"
+              :model-value="currentTaskStore.answer"
+              :question="currentProject.question_title"
               :is-loading="currentTaskStore.isLoading"
-              >Далее</AppButton
-            >
-          </HStack>
+            />
+            <HStack justify="between" max>
+              <AutoFillButton
+                v-if="currentTaskStore.currentTask?.placeholder"
+                :on-change="onChangeAutoFill"
+                :model-value="currentTaskStore.isAutoFill"
+              />
+              <HStack gap="30" justify="end">
+                <AppButton
+                  @click="currentTaskStore.goToPreviousTask(currentProject.ID)"
+                  color="gray"
+                  class="continue"
+                  size="custom"
+                >
+                  Назад
+                </AppButton>
+                <AppButton
+                  @click="currentTaskStore.goToNextTask(currentProject.ID)"
+                  class="continue"
+                  size="custom"
+                  :is-loading="currentTaskStore.isLoading"
+                  >Далее</AppButton
+                >
+                <AppButton
+                  v-if="!currentTaskStore.isLastTask"
+                  class="continue"
+                  size="custom"
+                  :disabled="currentTaskStore.answer === currentTaskStore.currentTask?.answer"
+                  @click="currentTaskStore.sendUserAnswer(currentProject.ID)"
+                  >Сохранить</AppButton
+                >
+              </HStack>
+            </HStack>
+          </VStack>
         </VStack>
       </HStack>
       <ApproveAnswerModal
@@ -73,27 +95,32 @@ import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import ProjectTaskForm from '@/features/AnswerTaskForm'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
-import ImageSwiper from '../ImageSwiper/ImageSwiper.vue'
 import ApproveAnswerModal from '../ApproveAnswerModal/ApproveAnswerModal.vue'
 import TaskIndex from '../TaskIndex/TaskIndex.vue'
 import ApproveAutoFillModal from '../ApproveAutoFillModal/ApproveAutoFillModal.vue'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
 import { useModal } from '@/shared/lib/hooks/useModal'
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, watchEffect } from 'vue'
 import { type Project } from '@/entities/Project'
 import { routes } from '@/shared/const/routes'
 import { taskErrorsMapper } from '../../const/serverErrors'
-
-const currentTaskStore = useCurrentTaskStore()
-const [isVisible, { openModal, closeModal, extra }] = useModal()
-
+import ImageShowcase from '@/features/ImagesShowcase'
+import AutoFillButton from '../AutoFillButton/AutoFillButton.vue'
+import TasksPagination from '@/features/TasksPagination'
+import { storeToRefs } from 'pinia'
 interface ProjectTaskProps {
   currentProject: Project
 }
 
 const props = defineProps<ProjectTaskProps>()
+const currentTaskStore = useCurrentTaskStore()
+// const { currentTask, solvedTasksIds, answer, cachedTasks, isLoading, isAutoFill } =
+//   storeToRefs(currentTaskStore)
+// const { fillTextAnswer, fetchCurrentTask, goToNextTask, setAnswer } = currentTaskStore
+const [isVisible, { openModal, closeModal, extra }] = useModal()
 
 const onChange = (value: string) => {
+  console.log(value)
   currentTaskStore.setAnswer(value)
 }
 
@@ -102,12 +129,21 @@ const onApproveAnswer = () => {
   closeModal()
 }
 
-const onApproveAutoFill = () => {
-  if (currentTaskStore.answer) {
+const onChangeCurrentTask = ({ id, index }: { id: number; index: number }) => {
+  currentTaskStore.setPaginationIndex(index)
+  currentTaskStore.setCurrentTask({
+    projectId: props.currentProject.ID.toString(),
+    taskIndex: id
+  })
+}
+
+const onChangeAutoFill = (isChecked: boolean) => {
+  if (currentTaskStore.answer && !currentTaskStore.isAutoFill) {
     openModal('ApproveAutoFillModal')
   } else {
     currentTaskStore.fillTextAnswer()
   }
+  currentTaskStore.isAutoFill = isChecked
 }
 
 const onArrowDown = (event: KeyboardEvent) => {
@@ -122,27 +158,27 @@ const onArrowDown = (event: KeyboardEvent) => {
 
 onMounted(() => {
   if (props.currentProject) {
+    currentTaskStore.initPaginationIds(props.currentProject.ID)
     currentTaskStore.fetchCurrentTask(props.currentProject.ID)
   }
   document.body.addEventListener('keydown', onArrowDown)
 })
 
 onUnmounted(() => {
-  currentTaskStore.resetAnswer()
+  currentTaskStore.clearCurrentTask()
+  // currentTaskStore.resetAnswer()
   document.body.removeEventListener('keydown', onArrowDown)
 })
 </script>
 
 <style scoped>
 .form {
-  margin-top: 100px;
   width: 720px;
 }
 
 .continue {
   width: 120px;
   padding: 15px 30px;
-  margin-top: 30px;
 }
 
 .line {

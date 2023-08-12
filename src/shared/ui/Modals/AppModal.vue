@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppOverlay from '../Overlay/AppOverlay.vue'
 import CloseIcon from '../../assets/icons/close.svg'
 import { onMounted, onUnmounted } from 'vue'
+import ModalWrapper from './ModalWrapper.vue'
 
 interface ModalProps {
   open?: boolean
@@ -26,32 +26,15 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <teleport to="body">
-    <div :class="['Modal', { opened: open }]">
-      <AppOverlay :on-click="onClose" />
-      <div class="content">
-        <slot />
-        <CloseIcon @click="onClose" class="close" />
-      </div>
+  <ModalWrapper :open="open" :on-close="onClose">
+    <div class="content">
+      <slot />
+      <CloseIcon @click="onClose" class="close" />
     </div>
-  </teleport>
+  </ModalWrapper>
 </template>
 
 <style scoped lang="scss">
-.Modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  left: 0;
-  top: 0;
-  right: 0;
-  opacity: 0;
-  pointer-events: none;
-  bottom: 0;
-  position: fixed;
-  z-index: var(--modal-z-index);
-}
-
 .content {
   position: relative;
   max-width: 60%;
@@ -67,10 +50,5 @@ onUnmounted(() => {
   right: 20px;
   top: 25px;
   cursor: pointer;
-}
-
-.opened {
-  pointer-events: auto;
-  opacity: 1;
 }
 </style>

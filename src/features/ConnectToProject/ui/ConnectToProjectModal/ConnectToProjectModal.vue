@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppModal from '@/shared/ui/Modal/AppModal.vue'
+import AppModal from '@/shared/ui/Modals/AppModal.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'

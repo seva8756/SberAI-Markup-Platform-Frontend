@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { type Project, useProjectsListStore } from '@/entities/Project'
-import { computed } from 'vue'
+import { computed, onMounted, watchEffect } from 'vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 
 const { params } = useRoute()
@@ -12,6 +12,12 @@ const currentProject = computed<Project | undefined>(() =>
   projectListStore.getProjectById(projectId)
 )
 const route = useRoute()
+watchEffect(() => {
+  console.log(currentProject.value)
+})
+// onMounted(() => {
+//   console.log(currentProject.value)
+// })
 </script>
 
 <template>

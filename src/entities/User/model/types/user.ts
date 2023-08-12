@@ -1,8 +1,8 @@
 export interface User {
   ID: number
-  firstName: string
-  lastName: string
-  isAdmin: boolean
+  first_name: string
+  last_name: string
+  is_admin: boolean
 }
 
 export interface UserState {
