@@ -68,7 +68,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .swiper-container {
   position: relative;
-  max-width: 60%;
+  width: 60%;
 }
 
 .pagination {

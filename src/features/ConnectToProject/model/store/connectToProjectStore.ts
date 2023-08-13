@@ -3,6 +3,9 @@ import type { ConnectToProjectState } from '../types/connectToProjectState'
 import $api from '@/shared/api/api'
 import type { Project } from '@/entities/Project'
 import { useProjectsListStore } from '@/entities/Project'
+import { NotificationType, useNotificationStore } from '@/entities/Notification'
+import { connectionErrMapper, type ConnectionToProjectErrors } from '../const/errors'
+import { AxiosError } from 'axios'
 
 export const useConnectToProjectStore = defineStore('connectToProject', {
   state: (): ConnectToProjectState => ({
@@ -13,6 +16,7 @@ export const useConnectToProjectStore = defineStore('connectToProject', {
   }),
   actions: {
     async connectToProject() {
+      const { addNotification } = useNotificationStore()
       try {
         const projectsListStore = useProjectsListStore()
         this.isLoading = true
@@ -23,6 +27,14 @@ export const useConnectToProjectStore = defineStore('connectToProject', {
 
         projectsListStore.addNewProject(response.data)
       } catch (e) {
+        if (e instanceof AxiosError) {
+          const axiosError = JSON.parse(e.response?.data?.error)
+          this.error = axiosError.name
+          addNotification({
+            message: connectionErrMapper[this.error as ConnectionToProjectErrors],
+            notificationType: NotificationType.ERROR
+          })
+        }
         console.log(e)
       } finally {
         this.isLoading = false

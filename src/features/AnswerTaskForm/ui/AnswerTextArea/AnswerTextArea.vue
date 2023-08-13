@@ -4,18 +4,22 @@ import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 
 interface AnswerTextAreaProps {
   modelValue?: string
-  onChange: (value: string) => void
   isLoading?: boolean
   placeholder?: string
 }
 defineProps<AnswerTextAreaProps>()
+const emit = defineEmits(['update:modelValue'])
+
+const updateInput = (value: string) => {
+  emit('update:modelValue', value)
+}
 </script>
 
 <template>
   <AppTextArea
     v-if="!isLoading"
     background-type="filled"
-    @update:model-value="onChange"
+    @update:model-value="updateInput"
     :model-value="modelValue"
     :placeholder="placeholder"
   />

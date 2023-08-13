@@ -1,12 +1,12 @@
 import type { Task } from '@/entities/Task'
+import type { Project } from '@/entities/Project'
 
 export interface CurrentTaskState {
   currentTask: Task | null
   cachedTasks: Task[]
+  currentProject?: Project
   paginationIds: number[]
   currentPaginationIndex: number
-  answer?: string
   isLoading: boolean
-  isAutoFill: boolean
   error: null
 }

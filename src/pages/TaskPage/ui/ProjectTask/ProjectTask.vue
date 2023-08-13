@@ -1,91 +1,42 @@
 <template>
   <div class="container">
-    <template v-if="currentTaskStore.error">
-      <VStack gap="24">
-        <AppText weight="600" variant="accent" size="xl">Спасибо!</AppText>
-        <hr class="line" />
-        <AppText size="l">{{ taskErrorsMapper[currentTaskStore.error] }}</AppText>
-        <AppButton button-tag="link" :to="routes.projects()">На главную</AppButton>
-      </VStack>
-    </template>
-    <template v-else>
-      <HStack justify="between" align="start">
-        <VStack gap="50" align="start">
-          <VStack align="start">
-            <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
-            <TaskIndex
-              :is-loading="currentTaskStore.isLoading"
-              :index="currentTaskStore.currentTask?.index.toString()"
-            />
-          </VStack>
-          <ImageShowcase
-            v-if="currentTaskStore.currentTask?.images"
-            :images="currentTaskStore.currentTask.images"
+    <VStack v-if="currentTaskStore.error" gap="24">
+      <AppText weight="600" variant="accent" size="xl">Спасибо!</AppText>
+      <hr class="line" />
+      <AppText size="l">{{ taskErrorsMapper[currentTaskStore.error] }}</AppText>
+      <AppButton button-tag="link" :to="routes.projects()">На главную</AppButton>
+    </VStack>
+    <VStack v-else gap="70" align="start">
+      <HStack style="position: relative" max justify="between">
+        <VStack align="start">
+          <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
+          <TaskIndex
             :is-loading="currentTaskStore.isLoading"
+            :index="currentTaskStore.currentTask?.index.toString()"
           />
         </VStack>
-        <VStack align="end" gap="70" class="form">
-          <TasksPagination
-            :is-loading="currentTaskStore.isLoading"
-            :tasks-ids="currentTaskStore.paginationIds"
-            :current-index="currentTaskStore.currentPaginationIndex"
-            @on-change-current-task="onChangeCurrentTask"
-          />
-          <VStack gap="30">
-            <ProjectTaskForm
-              :current-task="currentTaskStore.currentTask"
-              :on-change-choice="onChange"
-              :project="currentProject"
-              :model-value="currentTaskStore.answer"
-              :question="currentProject.question_title"
-              :is-loading="currentTaskStore.isLoading"
-            />
-            <HStack justify="between" max>
-              <AutoFillButton
-                v-if="currentTaskStore.currentTask?.placeholder"
-                :on-change="onChangeAutoFill"
-                :model-value="currentTaskStore.isAutoFill"
-              />
-              <HStack gap="30" justify="end">
-                <AppButton
-                  @click="currentTaskStore.goToPreviousTask(currentProject.ID)"
-                  color="gray"
-                  class="continue"
-                  size="custom"
-                >
-                  Назад
-                </AppButton>
-                <AppButton
-                  @click="currentTaskStore.goToNextTask(currentProject.ID)"
-                  class="continue"
-                  size="custom"
-                  :is-loading="currentTaskStore.isLoading"
-                  >Далее</AppButton
-                >
-                <AppButton
-                  v-if="!currentTaskStore.isLastTask"
-                  class="continue"
-                  size="custom"
-                  :disabled="currentTaskStore.answer === currentTaskStore.currentTask?.answer"
-                  @click="currentTaskStore.sendUserAnswer(currentProject.ID)"
-                  >Сохранить</AppButton
-                >
-              </HStack>
-            </HStack>
-          </VStack>
-        </VStack>
+        <TasksPagination
+          :is-loading="currentTaskStore.isLoading"
+          :tasks-ids="currentTaskStore.paginationIds"
+          :current-index="currentTaskStore.currentPaginationIndex"
+          @on-change-current-task="onChangeCurrentTask"
+        />
       </HStack>
-      <ApproveAnswerModal
-        :on-close="closeModal"
-        :is-open="extra === 'ApproveAnswerModal'"
-        :on-approve="onApproveAnswer"
+      <TextTask
+        v-if="currentTaskStore.currentProject?.answer_type === AnswerType.TEXT"
+        :project="currentProject"
       />
-      <ApproveAutoFillModal
-        :on-close="closeModal"
-        :is-open="extra === 'ApproveAutoFillModal'"
-        :on-approve="currentTaskStore.fillTextAnswer"
+      <ChoiceTask
+        :project="currentProject"
+        v-else-if="currentTaskStore.currentProject?.answer_type === AnswerType.CHOICE"
       />
-    </template>
+      <ImageTask :project="currentProject" v-else />
+    </VStack>
+    <ApproveAnswerModal
+      :on-close="closeModal"
+      :is-open="extra === 'ApproveAnswerModal'"
+      :on-approve="onApproveAnswer"
+    />
   </div>
 </template>
 
@@ -93,21 +44,21 @@
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
-import ProjectTaskForm from '@/features/AnswerTaskForm'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import ApproveAnswerModal from '../ApproveAnswerModal/ApproveAnswerModal.vue'
 import TaskIndex from '../TaskIndex/TaskIndex.vue'
-import ApproveAutoFillModal from '../ApproveAutoFillModal/ApproveAutoFillModal.vue'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
 import { useModal } from '@/shared/lib/hooks/useModal'
-import { onMounted, onUnmounted, watchEffect } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { type Project } from '@/entities/Project'
 import { routes } from '@/shared/const/routes'
 import { taskErrorsMapper } from '../../const/serverErrors'
-import ImageShowcase from '@/features/ImagesShowcase'
-import AutoFillButton from '../AutoFillButton/AutoFillButton.vue'
 import TasksPagination from '@/features/TasksPagination'
-import { storeToRefs } from 'pinia'
+import TextTask from '../Tasks/TextTask.vue'
+import { AnswerType } from '@/entities/Task'
+import ChoiceTask from '../Tasks/ChoiceTask.vue'
+import ImageTask from '../Tasks/ImageTask.vue'
+
 interface ProjectTaskProps {
   currentProject: Project
 }
@@ -118,11 +69,6 @@ const currentTaskStore = useCurrentTaskStore()
 //   storeToRefs(currentTaskStore)
 // const { fillTextAnswer, fetchCurrentTask, goToNextTask, setAnswer } = currentTaskStore
 const [isVisible, { openModal, closeModal, extra }] = useModal()
-
-const onChange = (value: string) => {
-  console.log(value)
-  currentTaskStore.setAnswer(value)
-}
 
 const onApproveAnswer = () => {
   currentTaskStore.goToNextTask(props.currentProject.ID)
@@ -135,15 +81,6 @@ const onChangeCurrentTask = ({ id, index }: { id: number; index: number }) => {
     projectId: props.currentProject.ID.toString(),
     taskIndex: id
   })
-}
-
-const onChangeAutoFill = (isChecked: boolean) => {
-  if (currentTaskStore.answer && !currentTaskStore.isAutoFill) {
-    openModal('ApproveAutoFillModal')
-  } else {
-    currentTaskStore.fillTextAnswer()
-  }
-  currentTaskStore.isAutoFill = isChecked
 }
 
 const onArrowDown = (event: KeyboardEvent) => {
@@ -174,11 +111,6 @@ onUnmounted(() => {
 <style scoped>
 .form {
   width: 720px;
-}
-
-.continue {
-  width: 120px;
-  padding: 15px 30px;
 }
 
 .line {

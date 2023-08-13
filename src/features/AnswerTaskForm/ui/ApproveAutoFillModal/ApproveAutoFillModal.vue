@@ -9,13 +9,13 @@ interface ApproveAutoFillModalProps {
   isLoading?: boolean
   isOpen: boolean
   onClose: () => void
-  onApprove: () => void
 }
 const props = defineProps<ApproveAutoFillModalProps>()
+const emits = defineEmits(['onApprove'])
 
 const onApproveAuto = () => {
   props.onClose()
-  props.onApprove()
+  emits('onApprove')
 }
 </script>
 

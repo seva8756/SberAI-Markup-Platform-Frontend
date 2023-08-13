@@ -2,7 +2,7 @@
 import AppCheckbox from '@/shared/ui/AppCheckbox/AppCheckbox.vue'
 interface AnswerVariantsProps {
   modelValue?: boolean
-  onChange: (isChecked: boolean) => void
+  onChange: (value: boolean) => void
 }
 defineProps<AnswerVariantsProps>()
 </script>

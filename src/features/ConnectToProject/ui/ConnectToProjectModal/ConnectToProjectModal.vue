@@ -7,6 +7,7 @@ import AppInput from '@/shared/ui/AppInput/AppInput.vue'
 import { useConnectToProjectStore } from '../../model/store/connectToProjectStore'
 import { useRouter } from 'vue-router'
 import { routes } from '@/shared/const/routes'
+import { NotificationType, useNotificationStore } from '@/entities/Notification'
 interface ConnectToProjectModalProps {
   isLoading?: boolean
   isOpen: boolean
@@ -16,9 +17,17 @@ interface ConnectToProjectModalProps {
 const props = defineProps<ConnectToProjectModalProps>()
 
 const connectToProjectStore = useConnectToProjectStore()
+const { addNotification } = useNotificationStore()
 const connectToProject = async () => {
-  await connectToProjectStore.connectToProject()
-  props.onClose()
+  if (connectToProjectStore.code && connectToProjectStore.password) {
+    await connectToProjectStore.connectToProject()
+    props.onClose()
+  } else {
+    addNotification({
+      message: 'Заполните поля',
+      notificationType: NotificationType.ERROR
+    })
+  }
 }
 </script>
 

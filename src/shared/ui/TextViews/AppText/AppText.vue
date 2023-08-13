@@ -32,12 +32,23 @@ defineProps({
   remark: {
     type: String,
     default: ''
+  },
+  cutText: {
+    type: Boolean
   }
 })
 </script>
 
 <template>
-  <p :class="[classes[variant], classes[align], classes[size], mapWeightToClass[weight]]">
+  <p
+    :class="[
+      classes[variant],
+      classes[align],
+      classes[size],
+      mapWeightToClass[weight],
+      { [classes.cut]: cutText }
+    ]"
+  >
     <slot />
   </p>
 </template>

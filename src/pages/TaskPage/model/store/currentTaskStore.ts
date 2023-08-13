@@ -3,18 +3,17 @@ import type { CurrentTaskState } from '../types/currentTaskState'
 import $api from '@/shared/api/api'
 import type { Task } from '@/entities/Task'
 import { AxiosError } from 'axios'
-import { NotificationType, useNotificationStore } from '@/entities/Notification'
-import { useProjectsListStore } from '@/entities/Project'
+import { Project, useProjectsListStore } from '@/entities/Project'
+import { useAnswerTaskStore } from '@/features/AnswerTaskForm'
 
 export const useCurrentTaskStore = defineStore('currentTaskStore', {
   state: (): CurrentTaskState => ({
     currentTask: null,
+    currentProject: undefined,
     cachedTasks: [],
     paginationIds: [],
     currentPaginationIndex: 0,
-    answer: '',
     isLoading: false,
-    isAutoFill: true,
     error: null
   }),
   getters: {
@@ -22,22 +21,25 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     taskIndexById: (state) => (taskId: number) =>
       state.cachedTasks.findIndex((task) => task.index === taskId),
     isLastTask: (state) => state.currentPaginationIndex === state.paginationIds.length - 1,
-    getTaskIdByIndex: (state) => state.paginationIds[state.currentPaginationIndex]
+    getTaskIdByIndex: (state) => state.paginationIds[state.currentPaginationIndex],
+    projectId: (state) => state.currentProject?.ID.toString() ?? ''
   },
   actions: {
-    async fetchCurrentTask(projectId: number) {
+    async fetchCurrentTask(projectId?: number) {
+      const answerTaskStore = useAnswerTaskStore()
+
       try {
         this.isLoading = true
-        await this.sendUserAnswer(projectId)
-        const res = await $api.get<Task>(`/projects/task-selection/${projectId}`)
-        this.answer = ''
+        await this.sendUserAnswer()
+        const res = await $api.get<Task>(`/projects/task-selection/${this.projectId}`)
+        answerTaskStore.setAnswer('')
 
         this.currentTask = res.data
         this.cachedTasks.push(this.currentTask)
         this.paginationIds.push(this.currentTask.index)
         this.setPaginationIndex(this.lastPaginationIndex)
-        if (this.isAutoFill && this.currentTask.placeholder) {
-          this.answer = this.currentTask.placeholder
+        if (answerTaskStore.isAutoFill && this.currentTask.placeholder) {
+          answerTaskStore.setAnswer(this.currentTask.placeholder)
         }
         this.error = null
       } catch (e) {
@@ -50,21 +52,27 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         this.isLoading = false
       }
     },
+    setCurrentProject(project: Project) {
+      this.currentProject = project
+    },
     async fetchTaskById({ projectId, taskIndex }: { projectId: string; taskIndex: number }) {
       const res = await $api.get<Task>(`/projects/${projectId}/task/${taskIndex}`)
       return res.data
     },
-    async sendUserAnswer(projectId: number) {
-      if (this.currentTask && this.answer) {
+    async sendUserAnswer(projectId?: number) {
+      const answerTaskStore = useAnswerTaskStore()
+
+      if (this.currentTask) {
         try {
           await $api.post('/projects/task-answer', {
-            project_id: projectId,
+            project_id: this.projectId,
             task_id: this.currentTask.index,
-            answer: this.answer
+            answer: answerTaskStore.answer,
+            answer_extended: answerTaskStore.extendedAnswer
           })
           const task = this.cachedTasks.find((task) => task.index === this.currentTask?.index)
           if (task) {
-            task.answer = this.answer
+            task.answer = answerTaskStore.answer
           }
         } catch (e) {
           this.paginationIds.pop()
@@ -72,40 +80,25 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         }
       }
     },
-    async goToNextTask(projectId: number) {
-      const notificationStore = useNotificationStore()
-
+    async goToNextTask(projectId?: number) {
       if (!this.isLastTask) {
         this.increasePaginationIndex()
         await this.setCurrentTask({
-          projectId: projectId.toString(),
+          projectId: this.currentProject?.ID.toString() ?? '',
           taskIndex: this.getTaskIdByIndex
         })
       } else {
-        if (!this.answer) {
-          notificationStore.addNotification({
-            message: 'Заполните ответ',
-            notificationType: NotificationType.ERROR
-          })
-        } else {
-          await this.fetchCurrentTask(projectId)
-        }
+        await this.fetchCurrentTask()
       }
     },
-    async goToPreviousTask(projectId: number) {
-      this.decreasePaginationIndex()
-      await this.setCurrentTask({
-        projectId: projectId.toString(),
-        taskIndex: this.getTaskIdByIndex
-      })
-    },
-    fillTextAnswer() {
-      if (this.currentTask && this.currentTask.placeholder) {
-        this.answer = this.currentTask.placeholder
+    async goToPreviousTask(projectId?: number) {
+      if (this.currentPaginationIndex > 0) {
+        this.currentPaginationIndex--
+        await this.setCurrentTask({
+          projectId: this.currentProject?.ID.toString() ?? '',
+          taskIndex: this.getTaskIdByIndex
+        })
       }
-    },
-    setAnswer(value: string) {
-      if (this.currentTask) this.answer = value
     },
     initPaginationIds(projectId: number) {
       const projectListStore = useProjectsListStore()
@@ -127,6 +120,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       if (this.currentPaginationIndex > 0) this.currentPaginationIndex--
     },
     async setCurrentTask(payload: { projectId: string; taskIndex: number }) {
+      const { setAnswer } = useAnswerTaskStore()
       const currentTask = this.cachedTasks.find((task) => task.index === payload.taskIndex)
       if (currentTask) {
         this.currentTask = currentTask
@@ -134,7 +128,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         this.currentTask = await this.fetchTaskById(payload)
         this.cachedTasks.unshift(this.currentTask)
       }
-      this.answer = this.currentTask?.answer
+      setAnswer(this.currentTask?.answer)
     }
   }
 })

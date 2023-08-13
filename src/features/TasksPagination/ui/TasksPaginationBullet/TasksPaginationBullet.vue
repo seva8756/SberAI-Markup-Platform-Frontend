@@ -6,23 +6,35 @@ interface TasksPaginationBullet {
   id: number
   active: boolean
   solved: boolean
+  increased: boolean
 }
 defineProps<TasksPaginationBullet>()
 </script>
 
 <template>
-  <VStack align="center" justify="center" :class="['bullet', { active }, { solved }]">
-    <AppText>{{ id }}</AppText>
+  <VStack
+    align="center"
+    justify="center"
+    :class="['bullet', { active }, { solved }, { increased }]"
+  >
+    <AppText class="text" align="center" :cut-text="true">{{ id }}</AppText>
   </VStack>
 </template>
 
 <style scoped lang="scss">
+.text {
+  width: 100%;
+}
+
 .bullet {
   width: 35px;
   height: 35px;
   border-radius: 5px;
+  padding: 5px;
   cursor: pointer;
   background: var(--accent-color-super-muted);
+  transition: width var(--transition-duration), height var(--transition-duration),
+    padding var(--transition-duration);
 }
 
 .active {
@@ -31,5 +43,11 @@ defineProps<TasksPaginationBullet>()
 
 .solved {
   background: var(--accent-color);
+}
+
+.increased {
+  width: 47px;
+  height: 49px;
+  padding: 15px;
 }
 </style>

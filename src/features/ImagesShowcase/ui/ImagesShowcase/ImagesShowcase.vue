@@ -2,6 +2,7 @@
 import { computed, type PropType, ref } from 'vue'
 import testImage from '@/shared/assets/testSlider.png'
 import FullScreenImageSwiper from '../FullScreenImageSwiper/FullScreenImageSwiper.vue'
+import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 
 const props = defineProps({
   images: {
@@ -31,7 +32,8 @@ const close = () => {
 </script>
 
 <template>
-  <div class="grid">
+  <AppSkeleton class="skeleton" v-if="isLoading" />
+  <div v-else class="grid">
     <div class="img-wrapper" v-for="(image, index) in images" :key="index">
       <img @click="open(index)" class="img" :src="base64Image(image)" alt="grid" />
       <img class="img-blur" :src="base64Image(image)" alt="grid" />
@@ -41,12 +43,17 @@ const close = () => {
 </template>
 
 <style scoped lang="scss">
+.skeleton {
+  width: 850px;
+  height: 485px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(415px, 1fr));
   grid-template-rows: repeat(auto-fit, minmax(232px, 1fr));
-  width: 850px;
-  height: 485px;
+  width: 849px;
+  height: 483px;
   gap: 20px;
 }
 

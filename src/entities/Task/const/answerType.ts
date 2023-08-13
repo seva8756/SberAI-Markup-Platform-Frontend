@@ -1,4 +1,5 @@
 export enum AnswerType {
   CHOICE = 'choice',
-  TEXT = 'text'
+  TEXT = 'text',
+  IMAGE = 'image'
 }

@@ -6,10 +6,10 @@ import type { Project } from '../../model/types/project'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import { getHStack } from '@/shared/lib/helpers/getHStack'
-import ProjectIcon from '@/shared/assets/icons/project.svg'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { routes } from '@/shared/const/routes'
 import classes from './ProjectCard.module.scss'
+import { projectCardIconMapper } from '../../const/projectsListConsts'
 
 defineProps({
   project: {
@@ -26,7 +26,7 @@ defineProps({
     :class="[classes.task, getHStack({ justify: 'between', align: 'center' })]"
   >
     <HStack gap="30" align="start">
-      <ProjectIcon />
+      <component :is="projectCardIconMapper[project.answer_type]" :class="classes.icon" />
       <VStack gap="10" align="start" :class="classes.textInfo">
         <AppText weight="700">{{ project.title }}</AppText>
         <AppText size="s" class="task-description">
@@ -34,11 +34,16 @@ defineProps({
         </AppText>
       </VStack>
     </HStack>
-    <AppButton
-      class="begin-btn"
-      button-tag="link"
-      :to="routes.project_welcome(project.ID.toString())"
-      >Приступить</AppButton
-    >
+    <VStack gap="16">
+      <AppButton
+        class="begin-btn"
+        button-tag="link"
+        :to="routes.project_welcome(project.ID.toString())"
+        >Приступить</AppButton
+      >
+      <AppText size="s" variant="secondary"
+        >Выполнено задач: {{ project.completed_tasks.length }}</AppText
+      >
+    </VStack>
   </AppCard>
 </template>

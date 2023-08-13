@@ -82,3 +82,9 @@
 .underlined {
   text-decoration: underline;
 }
+
+.cut {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

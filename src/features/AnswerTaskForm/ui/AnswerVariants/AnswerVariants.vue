@@ -7,7 +7,7 @@
       :value="key"
       :model-value="modelValue"
       :label="value"
-      @update:model-value="onChange"
+      @update:model-value="handleClick"
     />
   </VStack>
   <VStack gap="24" v-else>
@@ -22,10 +22,14 @@ import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 interface AnswerVariantsProps {
   variants: Record<string, string>
   modelValue?: string
-  onChange: (value: string) => void
   isLoading?: boolean
 }
 defineProps<AnswerVariantsProps>()
+
+const emits = defineEmits(['update:modelValue'])
+const handleClick = (value: string) => {
+  emits('update:modelValue', value)
+}
 </script>
 
 <style scoped>

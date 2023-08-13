@@ -14,7 +14,7 @@ interface getVtackParams {
   align?: FlexAlign
 }
 
-export const getVStack = (params: getVtackParams) => {
+export const getVStack = (params: getVtackParams = {}) => {
   const { justify = 'start', gap, max, align = 'start' } = params
 
   return [

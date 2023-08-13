@@ -1,21 +1,53 @@
 <template>
-  <VStack max align="start" gap="30">
+  <VStack class="form" align="start" gap="30">
     <AppText size="xl" weight="500">{{ question }}</AppText>
     <AnswerVariants
       v-if="project.answer_type === AnswerType.CHOICE"
       :is-loading="isLoading"
-      :on-change="onChangeChoice"
-      :model-value="modelValue"
+      v-model="answer"
       :variants="project.answer_choice"
     />
-    <template v-else>
-      <AnswerTextArea
-        :on-change="onChangeChoice"
-        :model-value="modelValue"
-        placeholder="Введите ответ"
+    <AnswerTextArea
+      v-else-if="project.answer_type === AnswerType.TEXT"
+      :is-loading="isLoading"
+      v-model="answer"
+      placeholder="Введите ответ"
+    />
+    <AnswerTextArea
+      v-else
+      v-model="extendedAnswer"
+      :is-loading="isLoading"
+      placeholder="Опишите изображение"
+    />
+    <HStack justify="between" max>
+      <AutoFillButton
+        v-if="project.answer_type === AnswerType.TEXT"
+        :model-value="isAutoFill"
+        :on-change="onChangeAutoFill"
       />
-    </template>
+      <HStack gap="30" max justify="end">
+        <AppButton @click="$emit('onPrev')" color="gray" class="continue" size="custom">
+          Назад
+        </AppButton>
+        <AppButton @click="onNext" class="continue" size="custom" :is-loading="isLoading"
+          >Далее</AppButton
+        >
+        <AppButton
+          v-if="!isLastTask"
+          class="continue"
+          size="custom"
+          :disabled="answer === currentTask?.answer"
+          @click="onSave"
+          >Сохранить</AppButton
+        >
+      </HStack>
+    </HStack>
   </VStack>
+  <ApproveAutoFillModal
+    :on-close="closeModal"
+    :is-open="extra === 'ApproveAutoFillModal'"
+    @on-approve="fillTextAnswer(currentTask)"
+  />
 </template>
 
 <script setup lang="ts">
@@ -25,17 +57,86 @@ import { AnswerType, type Task } from '@/entities/Task'
 import type { Project } from '@/entities/Project'
 import AnswerVariants from '../AnswerVariants/AnswerVariants.vue'
 import AnswerTextArea from '../AnswerTextArea/AnswerTextArea.vue'
+import { useAnswerTaskStore } from '../../model/store/answerTaskStore'
+import { storeToRefs } from 'pinia'
+import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
+import AutoFillButton from '../AutoFillButton/AutoFillButton.vue'
+import AppButton from '@/shared/ui/Buttons/AppButton.vue'
+import ApproveAutoFillModal from '../ApproveAutoFillModal/ApproveAutoFillModal.vue'
+import { useModal } from '@/shared/lib/hooks/useModal'
+import { NotificationType, useNotificationStore } from '@/entities/Notification'
+
+const emits = defineEmits(['onNext', 'onPrev', 'onSave'])
 
 interface AnswerTaskFormProps {
   question: string
-  onChangeChoice: (value: string) => void
-  modelValue?: string
   currentTask: Task | null
   project: Project
   isLoading: boolean
+  isLastTask: boolean
 }
 
-defineProps<AnswerTaskFormProps>()
+const props = defineProps<AnswerTaskFormProps>()
+
+const answerTaskStore = useAnswerTaskStore()
+const { addNotification } = useNotificationStore()
+const { answer, isAutoFill, extendedAnswer } = storeToRefs(answerTaskStore)
+const { fillTextAnswer, setIsAutoFill, setFileName } = answerTaskStore
+const [isVisible, { openModal, closeModal, extra }] = useModal()
+
+const onChangeAutoFill = (value: boolean) => {
+  setIsAutoFill(value)
+  if (props.currentTask) {
+    if (answer.value && isAutoFill.value) {
+      openModal('ApproveAutoFillModal')
+    } else if (!answer.value && isAutoFill.value) {
+      fillTextAnswer(props.currentTask)
+    }
+  }
+}
+
+const onNext = () => {
+  if (answer.value) {
+    emits('onNext')
+  } else {
+    addNotification({
+      message: 'Заполните ответ',
+      notificationType: NotificationType.ERROR
+    })
+  }
+}
+
+const onSave = () => {
+  if (answer.value) {
+    emits('onSave')
+  } else {
+    addNotification({
+      message: 'Заполните ответ',
+      notificationType: NotificationType.ERROR
+    })
+  }
+}
+
+const onApprove = () => {
+  fillTextAnswer(props.currentTask)
+}
+// const onChangeAutoFill = (isChecked: boolean) => {
+//   if (currentTaskStore.answer && !currentTaskStore.isAutoFill) {
+//     openModal('ApproveAutoFillModal')
+//   } else {
+//     currentTaskStore.fillTextAnswer()
+//   }
+//   currentTaskStore.isAutoFill = isChecked
+// }
 </script>
 
-<style scoped></style>
+<style scoped>
+.form {
+  width: 720px;
+}
+
+.continue {
+  width: 120px;
+  padding: 15px 30px;
+}
+</style>
