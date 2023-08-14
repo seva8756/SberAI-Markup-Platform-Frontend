@@ -29,14 +29,19 @@
         <AppButton @click="$emit('onPrev')" color="gray" class="continue" size="custom">
           Назад
         </AppButton>
-        <AppButton @click="onNext" class="continue" size="custom" :is-loading="isLoading"
+        <AppButton
+          v-if="noTasksAvailable ? !isLastTask : true"
+          @click="onNext"
+          class="continue"
+          size="custom"
+          :is-loading="isLoading"
           >Далее</AppButton
         >
         <AppButton
-          v-if="!isLastTask"
+          v-if="noTasksAvailable ? true : !isLastTask"
           class="continue"
           size="custom"
-          :disabled="answer === currentTask?.answer"
+          :disabled="isSaveDisabled"
           @click="onSave"
           >Сохранить</AppButton
         >
@@ -65,6 +70,7 @@ import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import ApproveAutoFillModal from '../ApproveAutoFillModal/ApproveAutoFillModal.vue'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import { NotificationType, useNotificationStore } from '@/entities/Notification'
+import { computed } from 'vue'
 
 const emits = defineEmits(['onNext', 'onPrev', 'onSave'])
 
@@ -74,6 +80,7 @@ interface AnswerTaskFormProps {
   project: Project
   isLoading: boolean
   isLastTask: boolean
+  noTasksAvailable: boolean
 }
 
 const props = defineProps<AnswerTaskFormProps>()
@@ -84,19 +91,26 @@ const { answer, isAutoFill, extendedAnswer } = storeToRefs(answerTaskStore)
 const { fillTextAnswer, setIsAutoFill, setFileName } = answerTaskStore
 const [isVisible, { openModal, closeModal, extra }] = useModal()
 
+const isSaveDisabled = computed(() => {
+  return (
+    answer?.value === props.currentTask?.answer &&
+    extendedAnswer?.value === props.currentTask?.answer_extended
+  )
+})
+
 const onChangeAutoFill = (value: boolean) => {
   setIsAutoFill(value)
   if (props.currentTask) {
-    if (answer.value && isAutoFill.value) {
+    if (answer?.value && isAutoFill.value) {
       openModal('ApproveAutoFillModal')
-    } else if (!answer.value && isAutoFill.value) {
+    } else if (!answer?.value && isAutoFill.value) {
       fillTextAnswer(props.currentTask)
     }
   }
 }
 
 const onNext = () => {
-  if (answer.value) {
+  if (answer?.value) {
     emits('onNext')
   } else {
     addNotification({
@@ -107,7 +121,7 @@ const onNext = () => {
 }
 
 const onSave = () => {
-  if (answer.value) {
+  if (answer?.value) {
     emits('onSave')
   } else {
     addNotification({

@@ -3,6 +3,7 @@ export interface Task {
   index: number
   placeholder?: string
   answer?: string
+  answer_extended?: string
 }
 
 // export interface ChoiceTask extends Task {

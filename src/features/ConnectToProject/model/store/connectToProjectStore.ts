@@ -17,6 +17,7 @@ export const useConnectToProjectStore = defineStore('connectToProject', {
   actions: {
     async connectToProject() {
       const { addNotification } = useNotificationStore()
+      this.error = ''
       try {
         const projectsListStore = useProjectsListStore()
         this.isLoading = true
@@ -29,13 +30,20 @@ export const useConnectToProjectStore = defineStore('connectToProject', {
       } catch (e) {
         if (e instanceof AxiosError) {
           const axiosError = JSON.parse(e.response?.data?.error)
+          console.log(e)
           this.error = axiosError.name
           addNotification({
             message: connectionErrMapper[this.error as ConnectionToProjectErrors],
             notificationType: NotificationType.ERROR
           })
+        } else {
+          this.error = e as string
+          addNotification({
+            message: 'Произошла ошибка. Попробуйте снова',
+            notificationType: NotificationType.ERROR
+          })
         }
-        console.log(e)
+        return false
       } finally {
         this.isLoading = false
       }

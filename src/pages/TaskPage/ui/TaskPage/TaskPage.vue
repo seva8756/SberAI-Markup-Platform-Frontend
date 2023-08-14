@@ -4,6 +4,7 @@ import { type Project, useProjectsListStore } from '@/entities/Project'
 import { computed, onMounted, watchEffect } from 'vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
+import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 
 const { params } = useRoute()
 const projectListStore = useProjectsListStore()
@@ -25,7 +26,10 @@ watchEffect(() => {
 
 <template>
   <div class="container">
-    <template v-if="currentProject">
+    <template v-if="projectListStore.isLoading">
+      <AppSkeleton />
+    </template>
+    <template v-else-if="currentProject">
       <router-view :current-project="currentProject" />
     </template>
     <template v-else>

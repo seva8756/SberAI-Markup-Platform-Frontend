@@ -23,6 +23,15 @@ const currentImageIndex = ref(0)
 const onChangeImage = (index: number) => {
   currentImageIndex.value = index
 }
+
+const nextSlide = () => {
+  swiperRef.value?.swiper.slideNext()
+}
+
+const prevSlide = () => {
+  swiperRef.value?.swiper.slidePrev()
+}
+
 const base64Image = computed(() => {
   return (code?: string) => (code ? `data:image/jpeg;base64,${code}` : testImage)
 })
@@ -47,10 +56,10 @@ onMounted(() => {
         </swiper-slide>
       </swiper-container>
       <template v-if="isNavigationAvailable">
-        <button id="my-next-button">
+        <button @click="nextSlide" id="my-next-button">
           <ArrowRight width="22" class="arrow" />
         </button>
-        <button id="my-prev-button">
+        <button @click="prevSlide" id="my-prev-button">
           <ArrowLeft class="arrow" width="22" />
         </button>
       </template>
@@ -97,9 +106,10 @@ onMounted(() => {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 50px;
+  width: 70px;
   height: 85px;
   background: rgba(37, 37, 37, 0.7);
+  border-radius: 23px;
   z-index: 10;
   cursor: pointer;
   transition: var(--transition-opacity);
@@ -109,11 +119,9 @@ onMounted(() => {
 }
 #my-prev-button {
   left: 0;
-  border-radius: 0 23px 23px 0;
 }
 
 #my-next-button {
   right: 0;
-  border-radius: 23px 0 0 23px;
 }
 </style>

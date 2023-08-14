@@ -17,7 +17,7 @@ const [isVisible, { closeModal, openModal }] = useModal()
 const { answer } = storeToRefs(answerTaskStore)
 const { setAnswer } = answerTaskStore
 const fileName = ref('')
-const inputRef = ref(null)
+const inputRef = ref<HTMLInputElement | null>(null)
 const onChangeImage = (e: Event) => {
   e.preventDefault()
   const target = e.target as HTMLInputElement
@@ -38,11 +38,11 @@ const onChangeImage = (e: Event) => {
 const clearImage = () => {
   setAnswer('')
   fileName.value = ''
-  if (inputRef.value) inputRef.value.value = null
+  if (inputRef.value) inputRef.value.value = ''
 }
 
 watchEffect(() => {
-  if (!answer.value) {
+  if (!answer?.value) {
     fileName.value = ''
   }
 })

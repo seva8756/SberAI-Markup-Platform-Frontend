@@ -8,7 +8,7 @@ const usersListStore = useUsersListStore()
 const filteredUsers = computed(() => {
   const regex = new RegExp(usersListStore.searchQuery, 'i')
   return usersListStore.users.filter(
-    (user) => regex.test(user.firstName) || regex.test(user.lastName)
+    (user) => regex.test(user.first_name) || regex.test(user.last_name)
   )
 })
 </script>

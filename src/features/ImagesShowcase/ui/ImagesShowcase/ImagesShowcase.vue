@@ -34,12 +34,12 @@ const close = () => {
 <template>
   <AppSkeleton class="skeleton" v-if="isLoading" />
   <div v-else class="grid">
-    <div class="img-wrapper" v-for="(image, index) in images" :key="index">
+    <div class="img-wrapper" v-for="(image, index) in [...images, ...images]" :key="index">
       <img @click="open(index)" class="img" :src="base64Image(image)" alt="grid" />
       <img class="img-blur" :src="base64Image(image)" alt="grid" />
     </div>
   </div>
-  <FullScreenImageSwiper :images="images" :open="isOpen" :on-close="close" />
+  <FullScreenImageSwiper :images="[...images, ...images]" :open="isOpen" :on-close="close" />
 </template>
 
 <style scoped lang="scss">
@@ -54,7 +54,7 @@ const close = () => {
   grid-template-rows: repeat(auto-fit, minmax(232px, 1fr));
   width: 849px;
   height: 483px;
-  gap: 20px;
+  gap: 18px;
 }
 
 .img-wrapper {

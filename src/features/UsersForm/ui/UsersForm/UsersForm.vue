@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import AppInput from '@/shared/ui/AppInput/AppInput.vue'
-import UserInfo from '@/shared/ui/UserInfo/UserInfo.vue'
 import { ref } from 'vue'
 
 const users = ref([
@@ -20,15 +19,7 @@ const users = ref([
   <div class="content-area">
     <AppText variant="accent" size="xl" weight="600">Пользователи</AppText>
     <AppInput placeholder="Введите имя пользователя..." class="user-search-input" />
-    <div class="user-list">
-      <UserInfo
-        v-for="(user, index) in users"
-        :username="user.username"
-        :key="index"
-        :role="user.role"
-        class="user-card"
-      />
-    </div>
+    <div class="user-list"></div>
   </div>
 </template>
 

@@ -25,6 +25,7 @@ defineProps<TaskUIProps>()
       @on-prev="currentTaskStore.goToPreviousTask()"
       @on-next="currentTaskStore.goToNextTask()"
       @on-save="currentTaskStore.sendUserAnswer()"
+      :no-tasks-available="currentTaskStore.noTasksAvailable"
     />
   </HStack>
 </template>

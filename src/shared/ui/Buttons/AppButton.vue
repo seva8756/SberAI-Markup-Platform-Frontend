@@ -106,7 +106,7 @@ const classes = computed(() => [
   color: var(--text-color);
 
   &:hover {
-    background: var(--accent-color);
+    background: var(--hint-color-super-muted);
   }
 
   &.selected {
@@ -170,7 +170,7 @@ const classes = computed(() => [
 }
 
 .disabled {
-  background-color: var(--accent-color-super-muted);
+  opacity: 0.6;
   pointer-events: none;
 }
 </style>

@@ -3,13 +3,15 @@ import type { CurrentTaskState } from '../types/currentTaskState'
 import $api from '@/shared/api/api'
 import type { Task } from '@/entities/Task'
 import { AxiosError } from 'axios'
-import { Project, useProjectsListStore } from '@/entities/Project'
+import { type Project, useProjectsListStore } from '@/entities/Project'
 import { useAnswerTaskStore } from '@/features/AnswerTaskForm'
+import { TaskServerErrors } from '../../const/serverErrors'
 
 export const useCurrentTaskStore = defineStore('currentTaskStore', {
   state: (): CurrentTaskState => ({
     currentTask: null,
     currentProject: undefined,
+    noTasksAvailable: false,
     cachedTasks: [],
     paginationIds: [],
     currentPaginationIndex: 0,
@@ -20,8 +22,10 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     lastPaginationIndex: (state) => state.paginationIds.length - 1,
     taskIndexById: (state) => (taskId: number) =>
       state.cachedTasks.findIndex((task) => task.index === taskId),
-    isLastTask: (state) => state.currentPaginationIndex === state.paginationIds.length - 1,
-    getTaskIdByIndex: (state) => state.paginationIds[state.currentPaginationIndex],
+    isLastTask: (state) => state.currentPaginationIndex === 0,
+    getTaskIdByIndex: (state) => [...state.paginationIds].reverse()[state.currentPaginationIndex],
+
+    reversedPaginationIds: (state) => [...state.paginationIds].reverse(),
     projectId: (state) => state.currentProject?.ID.toString() ?? ''
   },
   actions: {
@@ -31,13 +35,13 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       try {
         this.isLoading = true
         await this.sendUserAnswer()
-        const res = await $api.get<Task>(`/projects/task-selection/${this.projectId}`)
         answerTaskStore.setAnswer('')
-
+        answerTaskStore.setExtendedAnswer('')
+        const res = await $api.get<Task>(`/projects/task-selection/${this.projectId}`)
         this.currentTask = res.data
         this.cachedTasks.push(this.currentTask)
         this.paginationIds.push(this.currentTask.index)
-        this.setPaginationIndex(this.lastPaginationIndex)
+        this.setPaginationIndex(0)
         if (answerTaskStore.isAutoFill && this.currentTask.placeholder) {
           answerTaskStore.setAnswer(this.currentTask.placeholder)
         }
@@ -47,6 +51,16 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
           this.currentTask = null
           const axiosError = JSON.parse(e.response?.data?.error)
           this.error = axiosError.name
+          if (this.error === TaskServerErrors.NO_TASK_AVAILABLE) {
+            this.noTasksAvailable = true
+            await this.setCurrentTask({
+              projectId: this.projectId,
+              taskIndex:
+                this.currentProject?.completed_tasks[
+                  this.currentProject?.completed_tasks.length - 1
+                ] ?? 1
+            })
+          }
         }
       } finally {
         this.isLoading = false
@@ -73,6 +87,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
           const task = this.cachedTasks.find((task) => task.index === this.currentTask?.index)
           if (task) {
             task.answer = answerTaskStore.answer
+            task.answer_extended = answerTaskStore.extendedAnswer
           }
         } catch (e) {
           this.paginationIds.pop()
@@ -82,7 +97,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     },
     async goToNextTask(projectId?: number) {
       if (!this.isLastTask) {
-        this.increasePaginationIndex()
+        this.currentPaginationIndex--
         await this.setCurrentTask({
           projectId: this.currentProject?.ID.toString() ?? '',
           taskIndex: this.getTaskIdByIndex
@@ -92,8 +107,8 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       }
     },
     async goToPreviousTask(projectId?: number) {
-      if (this.currentPaginationIndex > 0) {
-        this.currentPaginationIndex--
+      if (this.currentPaginationIndex + 1 < this.paginationIds.length) {
+        this.currentPaginationIndex++
         await this.setCurrentTask({
           projectId: this.currentProject?.ID.toString() ?? '',
           taskIndex: this.getTaskIdByIndex
@@ -109,6 +124,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     },
     clearCurrentTask() {
       this.currentTask = null
+      this.error = null
     },
     setPaginationIndex(index: number) {
       this.currentPaginationIndex = index
@@ -120,7 +136,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       if (this.currentPaginationIndex > 0) this.currentPaginationIndex--
     },
     async setCurrentTask(payload: { projectId: string; taskIndex: number }) {
-      const { setAnswer } = useAnswerTaskStore()
+      const { setAnswer, setExtendedAnswer } = useAnswerTaskStore()
       const currentTask = this.cachedTasks.find((task) => task.index === payload.taskIndex)
       if (currentTask) {
         this.currentTask = currentTask
@@ -129,6 +145,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         this.cachedTasks.unshift(this.currentTask)
       }
       setAnswer(this.currentTask?.answer)
+      setExtendedAnswer(this.currentTask?.answer_extended)
     }
   }
 })

@@ -6,27 +6,27 @@ export const useUsersListStore = defineStore('usersList', {
     users: [
       {
         ID: 3,
-        firstName: 'test',
-        lastName: 'lasr',
-        isAdmin: false
+        first_name: 'test',
+        last_name: 'lasr',
+        is_admin: false
       },
       {
         ID: 5,
-        firstName: 'test2',
-        lastName: 'lasr',
-        isAdmin: false
+        first_name: 'test2',
+        last_name: 'lasr',
+        is_admin: false
       },
       {
         ID: 6,
-        firstName: 'test3',
-        lastName: 'lasr',
-        isAdmin: false
+        first_name: 'test3',
+        last_name: 'lasr',
+        is_admin: false
       },
       {
         ID: 7,
-        firstName: 'test44',
-        lastName: 'lasr',
-        isAdmin: false
+        first_name: 'test44',
+        last_name: 'lasr',
+        is_admin: false
       }
     ],
     searchQuery: ''

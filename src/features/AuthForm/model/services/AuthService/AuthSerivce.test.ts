@@ -36,9 +36,9 @@ describe('authService', () => {
   test('login success', async () => {
     const mockedUserData: User = {
       ID: 1,
-      firstName: 'first',
-      lastName: 'last',
-      isAdmin: false
+      first_name: 'first',
+      last_name: 'last',
+      is_admin: false
     }
     mocks.post.mockResolvedValue({
       data: mockedUserData

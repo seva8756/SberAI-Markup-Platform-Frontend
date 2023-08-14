@@ -21,7 +21,9 @@ const { addNotification } = useNotificationStore()
 const connectToProject = async () => {
   if (connectToProjectStore.code && connectToProjectStore.password) {
     await connectToProjectStore.connectToProject()
-    props.onClose()
+    if (!connectToProjectStore.error) {
+      props.onClose()
+    }
   } else {
     addNotification({
       message: 'Заполните поля',

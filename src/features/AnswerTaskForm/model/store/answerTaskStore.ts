@@ -17,6 +17,9 @@ export const useAnswerTaskStore = defineStore('answerTaskStore', {
     setAnswer(value?: string) {
       this.answer = value
     },
+    setExtendedAnswer(value?: string) {
+      this.extendedAnswer = value
+    },
     setIsAutoFill(value: boolean) {
       this.isAutoFill = value
     },

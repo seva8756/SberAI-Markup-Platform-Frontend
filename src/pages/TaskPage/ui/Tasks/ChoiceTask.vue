@@ -21,6 +21,7 @@ defineProps<TaskUIProps>()
       :question="project.question_title"
       :is-loading="currentTaskStore.isLoading"
       :is-last-task="currentTaskStore.isLastTask"
+      :no-tasks-available="currentTaskStore.noTasksAvailable"
       @on-prev="currentTaskStore.goToPreviousTask()"
       @on-next="currentTaskStore.goToNextTask()"
       @on-save="currentTaskStore.sendUserAnswer()"

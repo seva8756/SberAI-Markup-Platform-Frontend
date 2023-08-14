@@ -19,8 +19,8 @@ defineProps<UserCardProps>()
     <HStack gap="24">
       <AppAvatar :src="testImg" :size="70" />
       <VStack align="start">
-        <AppText weight="700">{{ user.firstName }} {{ user.lastName }}</AppText>
-        <AppText size="s" variant="secondary">{{ user.isAdmin ? 'Админ' : 'Разметчик' }}</AppText>
+        <AppText weight="700">{{ user.first_name }} {{ user.last_name }}</AppText>
+        <AppText size="s" variant="secondary">{{ user.is_admin ? 'Админ' : 'Разметчик' }}</AppText>
         <AppText size="s" variant="secondary">ID: {{ user.ID }}</AppText>
       </VStack>
     </HStack>

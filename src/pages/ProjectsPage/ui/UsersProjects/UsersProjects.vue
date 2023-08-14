@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import ProjectList, { ProjectsFilterCategory, useProjectsListStore } from '@/entities/Project'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 const projectsListStore = useProjectsListStore()
 const filteredProjects = computed(() => {
   switch (projectsListStore.category) {
@@ -19,6 +19,10 @@ const filteredProjects = computed(() => {
     default:
       return []
   }
+})
+
+onMounted(() => {
+  projectsListStore.fetchProjects()
 })
 </script>
 

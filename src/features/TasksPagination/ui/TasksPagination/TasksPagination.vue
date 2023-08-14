@@ -2,7 +2,6 @@
 import TasksPaginationBullet from '../TasksPaginationBullet/TasksPaginationBullet.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import ArrowIcon from '@/shared/assets/icons/arrow_down.svg'
-import ArrowLeft from '@/shared/assets/icons/arrow_left.svg'
 import TasksPaginationBulletSkeleton from '../TasksPaginationBullet/TasksPaginationBulletSkeleton.vue'
 import { computed, ref } from 'vue'
 import { getHStack } from '@/shared/lib/helpers/getHStack'
@@ -11,6 +10,7 @@ interface TasksPaginationProps {
   tasksIds: number[]
   isLoading: boolean
   currentIndex: number
+  noTasksAvailable: boolean
 }
 
 const props = defineProps<TasksPaginationProps>()
@@ -20,10 +20,12 @@ const emits = defineEmits(['onChangeCurrentTask'])
 const isOpen = ref(false)
 const currentPage = ref(0)
 
-const blocksNumber = 50
-
 const quantityGridBlocks = computed(() => {
   return Math.ceil(props.tasksIds.length / 28)
+})
+
+const currentPageIds = computed(() => {
+  return (index: number) => props.tasksIds.slice(index * 28, (index + 1) * 28)
 })
 
 const onClick = (id: number, index: number) => {
@@ -46,11 +48,12 @@ const goPrevPage = () => {
       </button>
       <div class="grid-wrapper">
         <HStack
+          align="start"
           class="grid-container"
           :style="{ transform: `translateX(-${currentPage * 420}px)` }"
         >
           <HStack
-            v-for="n in quantityGridBlocks"
+            v-for="(n, index) in quantityGridBlocks"
             :key="n"
             class="pagination-grid"
             max
@@ -61,13 +64,13 @@ const goPrevPage = () => {
             </template>
             <template v-else>
               <TasksPaginationBullet
-                v-for="(ID, index) in tasksIds"
-                @click="onClick(ID, index)"
-                :key="index"
+                v-for="(ID, bulletIndex) in currentPageIds(index)"
+                @click="onClick(ID, bulletIndex + 28 * index)"
+                :key="bulletIndex"
                 :increased="isOpen"
                 :id="ID"
-                :active="index === currentIndex"
-                :solved="index + 1 < tasksIds.length"
+                :active="bulletIndex + 28 * index === currentIndex"
+                :solved="noTasksAvailable ? true : bulletIndex + 28 * index > 0"
               />
             </template>
           </HStack>
@@ -110,7 +113,7 @@ const goPrevPage = () => {
 .tasks-pagination {
   position: relative;
   padding: 16px 52px;
-  width: 594px;
+  width: 596px;
   height: 68px;
   overflow: hidden;
   border-radius: 30px;
@@ -155,7 +158,7 @@ const goPrevPage = () => {
 }
 
 .grid-wrapper {
-  width: 422px;
+  width: 420px;
   max-height: 35px;
   overflow: hidden;
 }
@@ -173,6 +176,7 @@ const goPrevPage = () => {
   min-width: 420px;
   max-height: 238px;
   flex-wrap: wrap;
+  flex-direction: row-reverse;
   gap: 10px;
   transition: gap var(--transition-duration);
 }

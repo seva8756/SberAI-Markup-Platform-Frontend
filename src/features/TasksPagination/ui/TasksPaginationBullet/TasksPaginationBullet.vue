@@ -17,7 +17,13 @@ defineProps<TasksPaginationBullet>()
     justify="center"
     :class="['bullet', { active }, { solved }, { increased }]"
   >
-    <AppText class="text" align="center" :cut-text="true">{{ id }}</AppText>
+    <AppText
+      class="text"
+      align="center"
+      :variant="solved ? 'primary' : 'secondary'"
+      :cut-text="!increased"
+      >{{ id }}</AppText
+    >
   </VStack>
 </template>
 
@@ -48,6 +54,5 @@ defineProps<TasksPaginationBullet>()
 .increased {
   width: 47px;
   height: 49px;
-  padding: 15px;
 }
 </style>
