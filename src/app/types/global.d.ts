@@ -1,3 +1,4 @@
 type HTMLElementEvent<T extends HTMLElement> = Event & {
-  target: T;
+  target: T
 }
+declare const __API__: string
