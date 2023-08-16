@@ -5,6 +5,10 @@ import { getHStack } from '@/shared/lib/helpers/getHStack'
 import { links } from '../const/links'
 import AppLink from '@/shared/ui/TextViews/AppLink/AppLink.vue'
 import { NavbarProfile } from '@/features/CurrentProfile'
+import { useUserStore } from '@/entities/User'
+import { computed } from 'vue'
+
+const userStore = useUserStore()
 
 defineProps({
   username: {
@@ -20,6 +24,17 @@ defineProps({
     default: '/src/shared/assets/icons/defaultPfp.png'
   }
 })
+
+const navLinks = computed(() => {
+  if (userStore.userData) {
+    if (userStore.userData.is_admin) {
+      return links
+    } else {
+      return links.filter((link) => !link.isAdmin)
+    }
+  }
+  return []
+})
 </script>
 
 <template>
@@ -28,7 +43,7 @@ defineProps({
       <Logo width="170" height="35" />
     </router-link>
     <ul :class="getHStack({ gap: '50' })">
-      <li v-for="(link, index) in links" :key="index" class="link">
+      <li v-for="(link, index) in navLinks" :key="index" class="link">
         <AppLink weight="500" :to="link.to">{{ link.title }}</AppLink>
       </li>
     </ul>

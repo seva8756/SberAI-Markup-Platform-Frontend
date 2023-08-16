@@ -7,10 +7,12 @@ export const links = [
   },
   {
     title: 'Создать',
-    to: routes.createTaskAuto()
+    to: routes.createTaskAuto(),
+    isAdmin: true
   },
   {
     title: 'Пользователи',
-    to: routes.users()
+    to: routes.users(),
+    isAdmin: true
   }
 ]
