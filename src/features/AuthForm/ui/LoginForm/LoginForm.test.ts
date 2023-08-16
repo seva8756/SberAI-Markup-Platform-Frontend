@@ -77,8 +77,8 @@ describe('feature/LoginForm', () => {
   //   })
   //   const mockedUserData: User = {
   //     ID: 1,
-  //     firstName: 'first',
-  //     lastName: 'last',
+  //     first_name: 'first',
+  //     last_name: 'last',
   //     isAdmin: false
   //   }
   //   // mocks.post.mockResolvedValue({

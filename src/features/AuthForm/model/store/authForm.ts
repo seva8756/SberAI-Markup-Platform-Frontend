@@ -16,8 +16,8 @@ export const useAuthFormStore = defineStore('authForm', {
     registerForm: {
       email: '',
       password: '',
-      firstName: '',
-      lastName: ''
+      first_name: '',
+      last_name: ''
     },
     isLoading: false,
     error: null,
@@ -65,8 +65,8 @@ export const useAuthFormStore = defineStore('authForm', {
           const response = await AuthService.registration(
             this.registerForm.email,
             this.registerForm.password,
-            this.registerForm.firstName,
-            this.registerForm.lastName
+            this.registerForm.first_name,
+            this.registerForm.last_name
           )
           userStore.userData = response.data
           this.$reset()

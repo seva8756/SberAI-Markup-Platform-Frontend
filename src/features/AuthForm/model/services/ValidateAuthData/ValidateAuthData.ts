@@ -2,7 +2,7 @@ import type { LoginForm, RegisterForm } from '../../types/authState'
 import { ValidationErrors } from '../../../const/const'
 
 export const ValidateAuthData = (formData: RegisterForm | LoginForm) => {
-  // const { firstName, lastName, password, email } = formData
+  // const { first_name, last_name, password, email } = formData
   if (!Object.values(formData).every((el) => el)) {
     return [ValidationErrors.NO_DATA]
   }

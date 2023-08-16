@@ -50,8 +50,8 @@ const onRegister = async () => {
     <hr class="line" />
     <HStack align="start" gap="50" max>
       <VStack gap="30" class="left inner-wrapper">
-        <AppInput v-model="authFormStore.registerForm.lastName" label="Фамилия:" />
-        <AppInput v-model="authFormStore.registerForm.firstName" label="Имя:" />
+        <AppInput v-model="authFormStore.registerForm.last_name" label="Фамилия:" />
+        <AppInput v-model="authFormStore.registerForm.first_name" label="Имя:" />
       </VStack>
       <div class="vertical-line"></div>
       <VStack gap="30" class="right inner-wrapper">
