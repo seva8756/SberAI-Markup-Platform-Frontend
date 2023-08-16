@@ -5,7 +5,9 @@ import type { Task } from '@/entities/Task'
 import { AxiosError } from 'axios'
 import { type Project, useProjectsListStore } from '@/entities/Project'
 import { useAnswerTaskStore } from '@/features/AnswerTaskForm'
-import { TaskServerErrors } from '../../const/serverErrors'
+import { taskErrorsMapper, TaskServerErrors } from '../../const/serverErrors'
+import TaskService from '../services/TaskService'
+import { NotificationType, useNotificationStore } from '@/entities/Notification'
 
 export const useCurrentTaskStore = defineStore('currentTaskStore', {
   state: (): CurrentTaskState => ({
@@ -29,15 +31,21 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     projectId: (state) => state.currentProject?.ID.toString() ?? ''
   },
   actions: {
-    async fetchCurrentTask(projectId?: number) {
+    async fetchCurrentTask(projectId: number) {
       const answerTaskStore = useAnswerTaskStore()
-
+      const { addNotification } = useNotificationStore()
       try {
         this.isLoading = true
-        await this.sendUserAnswer()
+        if (answerTaskStore.answer) {
+          await this.sendUserAnswer({
+            projectId,
+            answer: answerTaskStore.answer,
+            answer_extended: answerTaskStore.extendedAnswer
+          })
+        }
         answerTaskStore.setAnswer('')
         answerTaskStore.setExtendedAnswer('')
-        const res = await $api.get<Task>(`/projects/task-selection/${this.projectId}`)
+        const res = await TaskService.fetchNewTask(projectId)
         this.currentTask = res.data
         this.cachedTasks.push(this.currentTask)
         this.paginationIds.push(this.currentTask.index)
@@ -51,16 +59,25 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
           this.currentTask = null
           const axiosError = JSON.parse(e.response?.data?.error)
           this.error = axiosError.name
-          if (this.error === TaskServerErrors.NO_TASK_AVAILABLE) {
-            this.noTasksAvailable = true
-            await this.setCurrentTask({
-              projectId: this.projectId,
-              taskIndex:
-                this.currentProject?.completed_tasks[
-                  this.currentProject?.completed_tasks.length - 1
-                ] ?? 1
-            })
+          switch (this.error) {
+            case TaskServerErrors.NO_TASK_AVAILABLE:
+              this.noTasksAvailable = true
+              await this.setCurrentTask({
+                projectId: projectId,
+                taskIndex: this.paginationIds[this.lastPaginationIndex]
+              })
+              break
+            default:
+              addNotification({
+                message: taskErrorsMapper[this.error as TaskServerErrors],
+                notificationType: NotificationType.ERROR
+              })
           }
+        } else {
+          addNotification({
+            message: 'Произошла ошибка',
+            notificationType: NotificationType.ERROR
+          })
         }
       } finally {
         this.isLoading = false
@@ -73,44 +90,62 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       const res = await $api.get<Task>(`/projects/${projectId}/task/${taskIndex}`)
       return res.data
     },
-    async sendUserAnswer(projectId?: number) {
-      const answerTaskStore = useAnswerTaskStore()
-
+    async sendUserAnswer({
+      projectId,
+      answer,
+      answer_extended
+    }: {
+      projectId: number
+      answer: string
+      answer_extended?: string
+    }) {
+      const { addNotification } = useNotificationStore()
       if (this.currentTask) {
         try {
-          await $api.post('/projects/task-answer', {
-            project_id: this.projectId,
-            task_id: this.currentTask.index,
-            answer: answerTaskStore.answer,
-            answer_extended: answerTaskStore.extendedAnswer
-          })
+          await TaskService.sendAnswer(projectId, this.currentTask.index, answer, answer_extended)
+
           const task = this.cachedTasks.find((task) => task.index === this.currentTask?.index)
           if (task) {
-            task.answer = answerTaskStore.answer
-            task.answer_extended = answerTaskStore.extendedAnswer
+            task.answer = answer
+            task.answer_extended = answer_extended
           }
         } catch (e) {
           this.paginationIds.pop()
+          if (e instanceof AxiosError) {
+            const axiosError = JSON.parse(e.response?.data?.error)
+            this.error = axiosError.name
+            if (this.error === TaskServerErrors.ANSWER_OPTION_DOES_NOT_EXISTS) {
+              addNotification({
+                message: taskErrorsMapper[this.error],
+                notificationType: NotificationType.ERROR
+              })
+            }
+          } else {
+            addNotification({
+              message: 'Произошла ошибка',
+              notificationType: NotificationType.ERROR
+            })
+          }
           console.log(e)
         }
       }
     },
-    async goToNextTask(projectId?: number) {
+    async goToNextTask(projectId: number) {
       if (!this.isLastTask) {
         this.currentPaginationIndex--
         await this.setCurrentTask({
-          projectId: this.currentProject?.ID.toString() ?? '',
+          projectId: projectId,
           taskIndex: this.getTaskIdByIndex
         })
       } else {
-        await this.fetchCurrentTask()
+        await this.fetchCurrentTask(projectId)
       }
     },
-    async goToPreviousTask(projectId?: number) {
+    async goToPreviousTask(projectId: number) {
       if (this.currentPaginationIndex + 1 < this.paginationIds.length) {
         this.currentPaginationIndex++
         await this.setCurrentTask({
-          projectId: this.currentProject?.ID.toString() ?? '',
+          projectId: projectId,
           taskIndex: this.getTaskIdByIndex
         })
       }
@@ -120,6 +155,11 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       const currentProject = projectListStore.getProjectById(projectId.toString())
       if (currentProject) {
         this.paginationIds = [...currentProject.completed_tasks]
+      }
+    },
+    saveCurrentTask(projectId: number) {
+      return async (value: any) => {
+        await this.sendUserAnswer({ projectId, ...value })
       }
     },
     clearCurrentTask() {
@@ -135,14 +175,15 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     decreasePaginationIndex() {
       if (this.currentPaginationIndex > 0) this.currentPaginationIndex--
     },
-    async setCurrentTask(payload: { projectId: string; taskIndex: number }) {
+    async setCurrentTask({ projectId, taskIndex }: { projectId: number; taskIndex: number }) {
       const { setAnswer, setExtendedAnswer } = useAnswerTaskStore()
-      const currentTask = this.cachedTasks.find((task) => task.index === payload.taskIndex)
+      const currentTask = this.cachedTasks.find((task) => task.index === taskIndex)
       if (currentTask) {
         this.currentTask = currentTask
       } else {
-        this.currentTask = await this.fetchTaskById(payload)
-        this.cachedTasks.unshift(this.currentTask)
+        const res = await TaskService.fetchTaskById(projectId, taskIndex)
+        this.currentTask = res.data
+        this.cachedTasks.unshift(res.data)
       }
       setAnswer(this.currentTask?.answer)
       setExtendedAnswer(this.currentTask?.answer_extended)

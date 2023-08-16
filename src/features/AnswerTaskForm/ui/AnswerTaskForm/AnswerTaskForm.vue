@@ -26,6 +26,14 @@
         :on-change="onChangeAutoFill"
       />
       <HStack gap="30" max justify="end">
+        <AppButton
+          v-if="noTasksAvailable ? true : !isLastTask"
+          class="continue"
+          size="custom"
+          :disabled="isSaveDisabled"
+          @click="onSave"
+          >Сохранить</AppButton
+        >
         <AppButton @click="$emit('onPrev')" color="gray" class="continue" size="custom">
           Назад
         </AppButton>
@@ -36,14 +44,6 @@
           size="custom"
           :is-loading="isLoading"
           >Далее</AppButton
-        >
-        <AppButton
-          v-if="noTasksAvailable ? true : !isLastTask"
-          class="continue"
-          size="custom"
-          :disabled="isSaveDisabled"
-          @click="onSave"
-          >Сохранить</AppButton
         >
       </HStack>
     </HStack>
@@ -70,7 +70,7 @@ import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import ApproveAutoFillModal from '../ApproveAutoFillModal/ApproveAutoFillModal.vue'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import { NotificationType, useNotificationStore } from '@/entities/Notification'
-import { computed } from 'vue'
+import { computed, onUnmounted } from 'vue'
 
 const emits = defineEmits(['onNext', 'onPrev', 'onSave'])
 
@@ -111,7 +111,7 @@ const onChangeAutoFill = (value: boolean) => {
 
 const onNext = () => {
   if (answer?.value) {
-    emits('onNext')
+    emits('onNext', { answer: answer.value, answer_extended: extendedAnswer?.value })
   } else {
     addNotification({
       message: 'Заполните ответ',
@@ -122,7 +122,7 @@ const onNext = () => {
 
 const onSave = () => {
   if (answer?.value) {
-    emits('onSave')
+    emits('onSave', { answer: answer.value, answer_extended: extendedAnswer?.value })
   } else {
     addNotification({
       message: 'Заполните ответ',
@@ -130,18 +130,6 @@ const onSave = () => {
     })
   }
 }
-
-const onApprove = () => {
-  fillTextAnswer(props.currentTask)
-}
-// const onChangeAutoFill = (isChecked: boolean) => {
-//   if (currentTaskStore.answer && !currentTaskStore.isAutoFill) {
-//     openModal('ApproveAutoFillModal')
-//   } else {
-//     currentTaskStore.fillTextAnswer()
-//   }
-//   currentTaskStore.isAutoFill = isChecked
-// }
 </script>
 
 <style scoped>

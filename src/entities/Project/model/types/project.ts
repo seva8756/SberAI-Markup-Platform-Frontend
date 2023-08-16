@@ -4,6 +4,7 @@ export interface ProjectBase {
   ID: number
   description: string
   title: string
+  code: string
   completed_tasks: number[]
   answer_type: AnswerType
   question_title: string

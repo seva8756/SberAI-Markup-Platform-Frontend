@@ -23,6 +23,7 @@ const connectToProject = async () => {
     await connectToProjectStore.connectToProject()
     if (!connectToProjectStore.error) {
       props.onClose()
+      connectToProjectStore.$reset()
     }
   } else {
     addNotification({

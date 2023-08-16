@@ -62,16 +62,11 @@ const notificationStore = useNotificationStore()
 // const { fillTextAnswer, fetchCurrentTask, goToNextTask, setAnswer } = currentTaskStore
 const [isVisible, { openModal, closeModal, extra }] = useModal()
 
-const onApproveAnswer = () => {
-  currentTaskStore.goToNextTask(props.currentProject.ID)
-  closeModal()
-}
-
 const onChangeCurrentTask = ({ id, index }: { id: number; index: number }) => {
   if (index !== currentTaskStore.currentPaginationIndex) {
     currentTaskStore.setPaginationIndex(index)
     currentTaskStore.setCurrentTask({
-      projectId: props.currentProject.ID.toString(),
+      projectId: props.currentProject.ID,
       taskIndex: id
     })
   }
@@ -81,7 +76,7 @@ const onArrowDown = (event: KeyboardEvent) => {
   if (event.key === 'ArrowRight') {
     event.preventDefault()
     if (answerTaskStore.answer) {
-      currentTaskStore.goToNextTask()
+      currentTaskStore.goToNextTask(props.currentProject.ID)
     } else {
       notificationStore.addNotification({
         message: 'Заполните ответ',
@@ -89,7 +84,7 @@ const onArrowDown = (event: KeyboardEvent) => {
       })
     }
   } else if (event.key === 'ArrowLeft') {
-    currentTaskStore.goToPreviousTask()
+    currentTaskStore.goToPreviousTask(props.currentProject.ID)
   }
 }
 

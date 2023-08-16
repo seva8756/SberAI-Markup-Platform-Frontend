@@ -22,9 +22,9 @@ defineProps<TaskUIProps>()
       :is-loading="currentTaskStore.isLoading"
       :is-last-task="currentTaskStore.isLastTask"
       :no-tasks-available="currentTaskStore.noTasksAvailable"
-      @on-prev="currentTaskStore.goToPreviousTask()"
-      @on-next="currentTaskStore.goToNextTask()"
-      @on-save="currentTaskStore.sendUserAnswer()"
+      @on-prev="currentTaskStore.goToPreviousTask(project.ID)"
+      @on-next="currentTaskStore.goToNextTask(project.ID)"
+      @on-save="currentTaskStore.saveCurrentTask(project.ID)"
     />
   </HStack>
 </template>

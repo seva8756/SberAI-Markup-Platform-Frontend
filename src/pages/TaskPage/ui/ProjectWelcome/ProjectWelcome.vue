@@ -2,18 +2,21 @@
   <div class="welcome-container">
     <VStack gap="10">
       <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
+      <AppText size="l" variant="secondary" weight="400"
+        >Код проекта: {{ currentProject.code }}</AppText
+      >
     </VStack>
     <hr class="line" />
     <VStack gap="24">
       <AppText size="xl" weight="600"
         >В ходе выполнения размертки вам будет попадаться задания разных типов</AppText
       >
-      <ol :class="[getVStack({ gap: '24' })]">
-        <li v-for="(rule, index) in welcomeRules" :class="[getVStack({ gap: '24' })]" :key="index">
-          <AppText size="xl" weight="600">{{ `${index + 1}. ${rule.title}` }}</AppText>
-          <AppText size="l">{{ rule.desc }}</AppText>
-        </li>
-      </ol>
+      <VStack align="start" max gap="24">
+        <AppText size="xl" weight="600">{{
+          welcomeRules[currentProject.answer_type].title
+        }}</AppText>
+        <AppText size="l">{{ welcomeRules[currentProject.answer_type].desc }}</AppText>
+      </VStack>
       <AppButton button-tag="link" :to="routes.project_task(currentProject.ID.toString())" size="l">
         Приступить к выполнению
       </AppButton>

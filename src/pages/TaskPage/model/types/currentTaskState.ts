@@ -9,5 +9,5 @@ export interface CurrentTaskState {
   paginationIds: number[]
   currentPaginationIndex: number
   isLoading: boolean
-  error: null
+  error: null | string
 }

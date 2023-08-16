@@ -3,7 +3,6 @@ import { $api } from '@/shared/api/api'
 import { defineStore } from 'pinia'
 import type { ProjectsListState } from '../types/projectListTypes'
 import { ProjectsFilterCategory } from '../../const/projectsListConsts'
-import { AnswerType } from '@/entities/Task'
 
 export const useProjectsListStore = defineStore('projectsListStore', {
   state: (): ProjectsListState => ({
