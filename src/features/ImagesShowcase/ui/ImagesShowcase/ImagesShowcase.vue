@@ -34,12 +34,12 @@ const close = () => {
 <template>
   <AppSkeleton class="skeleton" v-if="isLoading" />
   <div v-else class="grid">
-    <div class="img-wrapper" v-for="(image, index) in [...images, ...images]" :key="index">
+    <div class="img-wrapper" v-for="(image, index) in images" :key="index">
       <img @click="open(index)" class="img" :src="base64Image(image)" alt="grid" />
       <img class="img-blur" :src="base64Image(image)" alt="grid" />
     </div>
   </div>
-  <FullScreenImageSwiper :images="[...images, ...images]" :open="isOpen" :on-close="close" />
+  <FullScreenImageSwiper :images="images" :open="isOpen" :on-close="close" />
 </template>
 
 <style scoped lang="scss">
