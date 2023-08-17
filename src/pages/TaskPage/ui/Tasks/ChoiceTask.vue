@@ -7,6 +7,9 @@ import type { TaskUIProps } from '../../model/types/TaskUIProps'
 
 const currentTaskStore = useCurrentTaskStore()
 defineProps<TaskUIProps>()
+const onSave = (value: any) => {
+  console.log(value)
+}
 </script>
 
 <template>
@@ -24,7 +27,7 @@ defineProps<TaskUIProps>()
       :no-tasks-available="currentTaskStore.noTasksAvailable"
       @on-prev="currentTaskStore.goToPreviousTask(project.ID)"
       @on-next="currentTaskStore.goToNextTask(project.ID)"
-      @on-save="currentTaskStore.saveCurrentTask(project.ID)"
+      @on-save="currentTaskStore.saveCurrentTask"
     />
   </HStack>
 </template>

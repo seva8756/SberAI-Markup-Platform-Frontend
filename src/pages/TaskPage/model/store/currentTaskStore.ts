@@ -26,9 +26,8 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       state.cachedTasks.findIndex((task) => task.index === taskId),
     isLastTask: (state) => state.currentPaginationIndex === 0,
     getTaskIdByIndex: (state) => [...state.paginationIds].reverse()[state.currentPaginationIndex],
-
     reversedPaginationIds: (state) => [...state.paginationIds].reverse(),
-    projectId: (state) => state.currentProject?.ID.toString() ?? ''
+    projectId: (state) => state.currentProject?.ID
   },
   actions: {
     async fetchCurrentTask(projectId: number) {
@@ -38,7 +37,6 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         this.isLoading = true
         if (answerTaskStore.answer) {
           await this.sendUserAnswer({
-            projectId,
             answer: answerTaskStore.answer,
             answer_extended: answerTaskStore.extendedAnswer
           })
@@ -91,18 +89,21 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       return res.data
     },
     async sendUserAnswer({
-      projectId,
       answer,
       answer_extended
     }: {
-      projectId: number
       answer: string
       answer_extended?: string
     }) {
       const { addNotification } = useNotificationStore()
       if (this.currentTask) {
         try {
-          await TaskService.sendAnswer(projectId, this.currentTask.index, answer, answer_extended)
+          await TaskService.sendAnswer(
+            this.projectId!,
+            this.currentTask.index,
+            answer,
+            answer_extended
+          )
 
           const task = this.cachedTasks.find((task) => task.index === this.currentTask?.index)
           if (task) {
@@ -157,10 +158,8 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         this.paginationIds = [...currentProject.completed_tasks]
       }
     },
-    saveCurrentTask(projectId: number) {
-      return async (value: any) => {
-        await this.sendUserAnswer({ projectId, ...value })
-      }
+    async saveCurrentTask(value: { answer: string; answer_extended?: string }) {
+      await this.sendUserAnswer({ ...value })
     },
     clearCurrentTask() {
       this.currentTask = null
