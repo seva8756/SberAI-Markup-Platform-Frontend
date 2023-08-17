@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, URL } from 'node:url'
 import { mergeConfig } from 'vite'
 import { configDefaults, defineConfig } from 'vitest/config'
 import viteConfig from './vite.config'
@@ -12,6 +12,14 @@ export default mergeConfig(
       root: fileURLToPath(new URL('./', import.meta.url)),
       transformMode: {
         web: [/\.[jt]sx$/]
+      }
+    },
+    define: {
+      __API__: JSON.stringify('http://localhost:3000')
+    },
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     }
   })
