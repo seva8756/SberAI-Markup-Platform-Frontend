@@ -3,7 +3,7 @@ import { AnswerType } from '@/entities/Task'
 export const welcomeRules: Record<AnswerType, { title: string; desc: string }> = {
   [AnswerType.TEXT]: {
     title: 'Опишите изображение',
-    desc: 'Вам необходимо описать в текстовом формате, что вы видите на изображении, перечислить объекты, их расположение и цвета'
+    desc: 'В данной задаче Вам  будут предложены одно (или несколько) изображений и вопрос на который предстоит ответить в текстовом формате'
   },
   [AnswerType.CHOICE]: {
     title: 'Выберите верные пункты',

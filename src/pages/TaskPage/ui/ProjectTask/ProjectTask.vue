@@ -12,7 +12,7 @@
         <TasksPagination
           :no-tasks-available="currentTaskStore.noTasksAvailable"
           :is-loading="currentTaskStore.isLoading"
-          :tasks-ids="currentTaskStore.reversedPaginationIds"
+          :tasks-ids="currentProject.completed_tasks"
           :current-index="currentTaskStore.currentPaginationIndex"
           @on-change-current-task="onChangeCurrentTask"
         />
@@ -39,7 +39,7 @@ import TaskIndex from '../TaskIndex/TaskIndex.vue'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import { onMounted, onUnmounted, watchEffect } from 'vue'
-import { type Project } from '@/entities/Project'
+import { type Project, useProjectsListStore } from '@/entities/Project'
 import TasksPagination from '@/features/TasksPagination'
 import TextTask from '../Tasks/TextTask.vue'
 import { AnswerType } from '@/entities/Task'
@@ -57,6 +57,7 @@ const props = defineProps<ProjectTaskProps>()
 const currentTaskStore = useCurrentTaskStore()
 const answerTaskStore = useAnswerTaskStore()
 const notificationStore = useNotificationStore()
+const { removeUncompletedTask } = useProjectsListStore()
 // const { currentTask, solvedTasksIds, answer, cachedTasks, isLoading, isAutoFill } =
 //   storeToRefs(currentTaskStore)
 // const { fillTextAnswer, fetchCurrentTask, goToNextTask, setAnswer } = currentTaskStore
@@ -96,7 +97,8 @@ watchEffect(() => {
 
 onMounted(() => {
   if (props.currentProject) {
-    currentTaskStore.initPaginationIds(props.currentProject.ID)
+    currentTaskStore.setCurrentProject(props.currentProject)
+    // currentTaskStore.initPaginationIds(props.currentProject.ID)
     currentTaskStore.fetchCurrentTask(props.currentProject.ID)
   }
   document.body.addEventListener('keydown', onArrowDown)
@@ -104,8 +106,9 @@ onMounted(() => {
 
 onUnmounted(() => {
   // currentTaskStore.clearCurrentTask()
-  currentTaskStore.$reset()
+  // currentTaskStore.$reset()
   // currentTaskStore.resetAnswer()
+  removeUncompletedTask(props.currentProject.ID)
   document.body.removeEventListener('keydown', onArrowDown)
 })
 </script>

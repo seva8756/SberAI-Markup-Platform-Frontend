@@ -25,13 +25,18 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     taskIndexById: (state) => (taskId: number) =>
       state.cachedTasks.findIndex((task) => task.index === taskId),
     isLastTask: (state) => state.currentPaginationIndex === 0,
-    getTaskIdByIndex: (state) => [...state.paginationIds].reverse()[state.currentPaginationIndex],
+    completedTasks: (state) => state.currentProject?.completed_tasks ?? [],
+
     reversedPaginationIds: (state) => [...state.paginationIds].reverse(),
-    projectId: (state) => state.currentProject?.ID
+    projectId: (state) => state.currentProject?.ID,
+    getTaskIdByIndex() {
+      return () => this.completedTasks[this.currentPaginationIndex]
+    }
   },
   actions: {
     async fetchCurrentTask(projectId: number) {
       const answerTaskStore = useAnswerTaskStore()
+      const { addCompletedTask } = useProjectsListStore()
       const { addNotification } = useNotificationStore()
       try {
         this.isLoading = true
@@ -46,7 +51,8 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         const res = await TaskService.fetchNewTask(projectId)
         this.currentTask = res.data
         this.cachedTasks.push(this.currentTask)
-        this.paginationIds.push(this.currentTask.index)
+        addCompletedTask({ projectId, taskId: this.currentTask.index })
+        // this.paginationIds.push(this.currentTask.index)
         this.setPaginationIndex(0)
         if (answerTaskStore.isAutoFill && this.currentTask.placeholder) {
           answerTaskStore.setAnswer(this.currentTask.placeholder)
@@ -136,18 +142,18 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         this.currentPaginationIndex--
         await this.setCurrentTask({
           projectId: projectId,
-          taskIndex: this.getTaskIdByIndex
+          taskIndex: this.getTaskIdByIndex()
         })
       } else {
         await this.fetchCurrentTask(projectId)
       }
     },
     async goToPreviousTask(projectId: number) {
-      if (this.currentPaginationIndex + 1 < this.paginationIds.length) {
+      if (this.currentPaginationIndex + 1 < this.completedTasks.length) {
         this.currentPaginationIndex++
         await this.setCurrentTask({
           projectId: projectId,
-          taskIndex: this.getTaskIdByIndex
+          taskIndex: this.getTaskIdByIndex()
         })
       }
     },
@@ -176,13 +182,34 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     },
     async setCurrentTask({ projectId, taskIndex }: { projectId: number; taskIndex: number }) {
       const { setAnswer, setExtendedAnswer } = useAnswerTaskStore()
+      const { addNotification } = useNotificationStore()
       const currentTask = this.cachedTasks.find((task) => task.index === taskIndex)
       if (currentTask) {
         this.currentTask = currentTask
       } else {
-        const res = await TaskService.fetchTaskById(projectId, taskIndex)
-        this.currentTask = res.data
-        this.cachedTasks.unshift(res.data)
+        try {
+          this.isLoading = true
+          const res = await TaskService.fetchTaskById(projectId, taskIndex)
+          this.currentTask = res.data
+          this.cachedTasks.unshift(res.data)
+        } catch (e) {
+          if (e instanceof AxiosError) {
+            const axiosError = JSON.parse(e.response?.data?.error)
+            this.error = axiosError.name
+          } else {
+            this.error = e as string
+          }
+          addNotification({
+            message:
+              e instanceof AxiosError
+                ? taskErrorsMapper[this.error as TaskServerErrors]
+                : 'Произошла ошибка',
+            notificationType: NotificationType.ERROR
+          })
+          console.log(e)
+        } finally {
+          this.isLoading = false
+        }
       }
       setAnswer(this.currentTask?.answer)
       setExtendedAnswer(this.currentTask?.answer_extended)

@@ -9,7 +9,6 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  console.log(env.API_URL)
   return {
     define: {
       __API__: JSON.stringify(env.API_URL)

@@ -27,6 +27,26 @@ export const useProjectsListStore = defineStore('projectsListStore', {
         this.isLoading = false
       }
     },
+    addCompletedTask(payload: { projectId: number; taskId: number }) {
+      const currentProject = this.projects.find((project) => project.ID === payload.projectId)
+      if (currentProject) {
+        currentProject.completed_tasks.unshift(payload.taskId)
+      }
+    },
+    removeUncompletedTask(projectId: number) {
+      const currentProject = this.projects.find((project) => project.ID === projectId)
+      if (currentProject) {
+        currentProject.completed_tasks.shift()
+      }
+    },
+    removeCompletedTask(payload: { projectId: number; taskId: number }) {
+      const currentProject = this.projects.find((project) => project.ID === payload.projectId)
+      if (currentProject) {
+        currentProject.completed_tasks = currentProject.completed_tasks.filter(
+          (id) => id !== payload.taskId
+        )
+      }
+    },
     addNewProject(project: Project) {
       this.projects.push(project)
     },

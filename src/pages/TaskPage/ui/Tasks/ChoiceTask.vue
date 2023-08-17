@@ -7,9 +7,6 @@ import type { TaskUIProps } from '../../model/types/TaskUIProps'
 
 const currentTaskStore = useCurrentTaskStore()
 defineProps<TaskUIProps>()
-const onSave = (value: any) => {
-  console.log(value)
-}
 </script>
 
 <template>
@@ -21,7 +18,11 @@ const onSave = (value: any) => {
     <ProjectTaskForm
       :current-task="currentTaskStore.currentTask"
       :project="project"
-      :question="project.question_title"
+      :question="
+        currentTaskStore.currentTask?.question
+          ? currentTaskStore.currentTask?.question
+          : project.question_title
+      "
       :is-loading="currentTaskStore.isLoading"
       :is-last-task="currentTaskStore.isLastTask"
       :no-tasks-available="currentTaskStore.noTasksAvailable"

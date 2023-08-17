@@ -1,11 +1,6 @@
 import { describe, expect, test, vi, beforeEach } from 'vitest'
 import type { User } from '@/entities/User'
 import AuthService from './AuthService'
-import { TestAsync } from '@/shared/lib/tests/MockedAxios'
-
-// vi.mock('axios', axiosFactory)
-//
-// const mockedAxios = vi.mocked(axios, true)
 
 const mocks = vi.hoisted(() => ({
   get: vi.fn(),

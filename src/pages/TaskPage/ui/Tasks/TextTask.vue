@@ -19,7 +19,11 @@ defineProps<TaskUIProps>()
     <ProjectTaskForm
       :current-task="currentTaskStore.currentTask"
       :project="project"
-      :question="project.question_title"
+      :question="
+        currentTaskStore.currentTask?.question
+          ? currentTaskStore.currentTask?.question
+          : project.question_title
+      "
       :is-loading="currentTaskStore.isLoading"
       :is-last-task="currentTaskStore.isLastTask"
       @on-prev="currentTaskStore.goToPreviousTask(project.ID)"

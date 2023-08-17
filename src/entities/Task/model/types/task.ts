@@ -4,6 +4,7 @@ export interface Task {
   placeholder?: string
   answer?: string
   answer_extended?: string
+  question?: string
 }
 
 // export interface ChoiceTask extends Task {

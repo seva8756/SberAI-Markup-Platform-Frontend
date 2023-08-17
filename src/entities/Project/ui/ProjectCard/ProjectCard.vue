@@ -27,8 +27,11 @@ defineProps({
   >
     <HStack gap="30" align="start">
       <component :is="projectCardIconMapper[project.answer_type]" :class="classes.icon" />
-      <VStack gap="10" align="start" :class="classes.textInfo">
-        <AppText weight="700">{{ project.title }}</AppText>
+      <VStack gap="10" align="start" :class="classes.text_info">
+        <HStack gap="10">
+          <AppText weight="700">{{ project.title }}</AppText>
+          <AppText variant="secondary" weight="700">#{{ project.code }}</AppText>
+        </HStack>
         <AppText size="s" class="task-description">
           {{ project.description }}
         </AppText>

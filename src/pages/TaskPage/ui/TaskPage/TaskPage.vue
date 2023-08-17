@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { type Project, useProjectsListStore } from '@/entities/Project'
-import { computed, onMounted, watchEffect } from 'vue'
+import { computed, onMounted, onUnmounted, watchEffect } from 'vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
 import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
@@ -14,14 +14,13 @@ const projectId = params.id as string
 const currentProject = computed<Project | undefined>(() =>
   projectListStore.getProjectById(projectId)
 )
-watchEffect(() => {
-  if (currentProject.value) {
-    currentTaskStore.setCurrentProject(currentProject.value)
-  }
-})
+
 // onMounted(() => {
 //   console.log(currentProject.value)
 // })
+onUnmounted(() => {
+  currentTaskStore.$reset()
+})
 </script>
 
 <template>
@@ -37,10 +36,3 @@ watchEffect(() => {
     </template>
   </div>
 </template>
-
-<style scoped>
-.container {
-  width: 1680px;
-  margin: 0 auto;
-}
-</style>

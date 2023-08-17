@@ -5,6 +5,7 @@ export type TextVariant =
   | 'warning'
   | 'secondary'
   | 'secondary-muted'
+  | 'gray'
   | 'underlined'
 export type TextSize = 's' | 'm' | 'l' | 'xl' | 'xxl'
 export type TextAlign = 'right' | 'left' | 'center'

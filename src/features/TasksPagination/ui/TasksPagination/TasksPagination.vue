@@ -19,6 +19,7 @@ const emits = defineEmits(['onChangeCurrentTask'])
 
 const isOpen = ref(false)
 const currentPage = ref(0)
+const gridBlock = ref<HTMLDivElement | null>(null)
 
 const quantityGridBlocks = computed(() => {
   return Math.ceil(props.tasksIds.length / 28)
@@ -26,6 +27,14 @@ const quantityGridBlocks = computed(() => {
 
 const currentPageIds = computed(() => {
   return (index: number) => props.tasksIds.slice(index * 28, (index + 1) * 28)
+})
+
+const gridBlockWidth = computed(() => {
+  if (gridBlock.value) {
+    console.log(gridBlock.value)
+    return gridBlock.value.getBoundingClientRect().width
+  }
+  return 420
 })
 
 const onClick = (id: number, index: number) => {
@@ -46,19 +55,13 @@ const goPrevPage = () => {
       <button class="arrow" @click="isOpen = !isOpen">
         <ArrowIcon />
       </button>
-      <div class="grid-wrapper">
+      <div ref="gridBlock" class="grid-wrapper">
         <HStack
           align="start"
           class="grid-container"
-          :style="{ transform: `translateX(-${currentPage * 420}px)` }"
+          :style="{ transform: `translateX(-${currentPage * gridBlockWidth}px)` }"
         >
-          <HStack
-            v-for="(n, index) in quantityGridBlocks"
-            :key="n"
-            class="pagination-grid"
-            max
-            justify="end"
-          >
+          <HStack v-for="(n, index) in quantityGridBlocks" :key="n" class="pagination-grid" max>
             <template v-if="isLoading">
               <TasksPaginationBulletSkeleton v-for="n in 3" :key="n" />
             </template>
@@ -104,6 +107,7 @@ const goPrevPage = () => {
 </template>
 
 <style scoped lang="scss">
+@import '@/app/styles/mixins';
 .tasks-pagination-wrapper {
   position: absolute;
   right: 0;
@@ -120,6 +124,12 @@ const goPrevPage = () => {
   transition: height var(--transition-duration);
   background: var(--gray-secondary);
   box-shadow: 0px 10px 26px 2px rgba(0, 0, 0, 0.4);
+
+  @include laptop {
+    width: 508px;
+    height: 63px;
+    padding: 16px 70px 16px 52px;
+  }
 }
 
 .grid-container {
@@ -145,11 +155,15 @@ const goPrevPage = () => {
     transform: rotate(90deg);
     height: 8px;
   }
+
+  @include laptop {
+    top: 90px;
+  }
 }
 
 .reversed {
   left: auto;
-  right: 20px;
+  right: 18px;
 
   svg {
     transform: rotate(-90deg);
@@ -170,10 +184,14 @@ const goPrevPage = () => {
   cursor: pointer;
   background: none;
   transition: transform var(--transition-duration);
+
+  @include laptop {
+    margin-top: 7px;
+  }
 }
 
 .pagination-grid {
-  min-width: 420px;
+  min-width: 100%;
   max-height: 238px;
   flex-wrap: wrap;
   flex-direction: row-reverse;
@@ -183,6 +201,7 @@ const goPrevPage = () => {
 
 .opened {
   height: 277px;
+
   .pagination-grid {
     gap: 14px;
   }
@@ -191,6 +210,14 @@ const goPrevPage = () => {
   }
   .arrow {
     transform: rotate(180deg);
+  }
+
+  @include laptop {
+    height: 222px;
+
+    .pagination-grid {
+      gap: 10px;
+    }
   }
 }
 </style>

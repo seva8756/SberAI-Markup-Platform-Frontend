@@ -14,7 +14,14 @@ defineProps<TaskUIProps>()
 <template>
   <HStack max align="start" justify="between">
     <VStack align="start" gap="30">
-      <AppText weight="500" size="xl">1. {{ project.question_title }}</AppText>
+      <AppText weight="500" size="xl"
+        >1.
+        {{
+          currentTaskStore.currentTask?.question
+            ? currentTaskStore.currentTask?.question
+            : project.question_title
+        }}</AppText
+      >
       <AnswerUploadImage />
     </VStack>
     <ProjectTaskForm

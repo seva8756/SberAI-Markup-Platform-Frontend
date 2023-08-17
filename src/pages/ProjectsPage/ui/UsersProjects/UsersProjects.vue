@@ -1,5 +1,6 @@
 <template>
   <ProjectList
+    class="list"
     :is-loading="projectsListStore.isLoading"
     :projects="filteredProjects"
     :category="projectsListStore.category"
@@ -26,4 +27,8 @@ onMounted(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.list {
+  padding-bottom: 60px;
+}
+</style>

@@ -2,6 +2,7 @@
 @import 'variables/global';
 @import 'themes/dark';
 @import '@/shared/assets/fonts/Montserrat/font';
+@import "mixins";
 
 body {
   background: var(--bg-primary);
@@ -14,4 +15,13 @@ body {
 #app {
   position: relative;
   overflow: hidden;
+}
+
+.container {
+  width: 1680px;
+  margin: 0 auto;
+
+  @include laptop {
+    width: 1400px;
+  }
 }

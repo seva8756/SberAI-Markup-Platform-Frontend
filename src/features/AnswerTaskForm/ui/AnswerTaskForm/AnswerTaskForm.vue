@@ -132,9 +132,13 @@ const onSave = () => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/app/styles/mixins';
 .form {
   width: 720px;
+  @include laptop {
+    width: 595px;
+  }
 }
 
 .continue {

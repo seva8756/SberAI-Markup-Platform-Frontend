@@ -21,14 +21,12 @@ const updateInput = (event: Event) => {
 </script>
 
 <template>
-  <div>
-    <textarea
-      :value="modelValue"
-      @input="updateInput"
-      :class="['textarea', backgroundType]"
-      :placeholder="placeholder"
-    ></textarea>
-  </div>
+  <textarea
+    :value="modelValue"
+    @input="updateInput"
+    :class="['textarea', backgroundType]"
+    :placeholder="placeholder"
+  ></textarea>
 </template>
 
 <style scoped lang="scss">
@@ -50,7 +48,7 @@ const updateInput = (event: Event) => {
   border: 1px solid var(--hint-color-muted);
   background-color: var(--gray-secondary);
   color: var(--text-color);
-  width: 720px;
+  width: 100%;
   height: 350px;
   padding: 25px;
 

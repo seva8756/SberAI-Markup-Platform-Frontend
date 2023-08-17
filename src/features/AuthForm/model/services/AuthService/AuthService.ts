@@ -1,5 +1,5 @@
 import type { User } from '@/entities/User'
-import $api from '@/shared/api/api'
+import { $api } from '@/shared/api/api'
 
 export default class AuthService {
   static async login(email: string, password: string) {
