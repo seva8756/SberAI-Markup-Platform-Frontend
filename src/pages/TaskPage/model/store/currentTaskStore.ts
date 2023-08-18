@@ -21,7 +21,9 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     error: null
   }),
   getters: {
-    lastPaginationIndex: (state) => state.paginationIds.length - 1,
+    lastCompletedTaskIndex() {
+      return () => this.completedTasks[this.completedTasks.length - 1]
+    },
     taskIndexById: (state) => (taskId: number) =>
       state.cachedTasks.findIndex((task) => task.index === taskId),
     isLastTask: (state) => state.currentPaginationIndex === 0,
@@ -68,7 +70,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
               this.noTasksAvailable = true
               await this.setCurrentTask({
                 projectId: projectId,
-                taskIndex: this.paginationIds[this.lastPaginationIndex]
+                taskIndex: this.lastCompletedTaskIndex()
               })
               break
             default:
