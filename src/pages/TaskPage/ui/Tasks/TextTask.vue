@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import ProjectTaskForm from '@/features/AnswerTaskForm'
-import ImageShowcase from '@/features/ImagesShowcase'
+import ImageShowcase, { ImageSwiper } from '@/features/ImagesShowcase'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
 import type { TaskUIProps } from '../../model/types/TaskUIProps'
+import FlexWrapper from '@/shared/ui/Stack/FlexWrapper/FlexWrapper.vue'
+import { isMobile } from 'mobile-device-detect'
 
 const currentTaskStore = useCurrentTaskStore()
 
@@ -11,8 +13,15 @@ defineProps<TaskUIProps>()
 </script>
 
 <template>
-  <HStack max justify="between">
+  <FlexWrapper
+    :direction="isMobile ? 'column' : 'row'"
+    :gap="isMobile ? '20' : undefined"
+    max
+    justify="between"
+  >
+    <ImageSwiper v-if="isMobile" :images="currentTaskStore.currentTask?.images ?? []" />
     <ImageShowcase
+      v-else
       :images="currentTaskStore.currentTask?.images ?? []"
       :is-loading="currentTaskStore.isLoading"
     />
@@ -31,7 +40,7 @@ defineProps<TaskUIProps>()
       @on-save="currentTaskStore.saveCurrentTask"
       :no-tasks-available="currentTaskStore.noTasksAvailable"
     />
-  </HStack>
+  </FlexWrapper>
 </template>
 
 <style scoped lang="scss"></style>

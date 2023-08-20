@@ -1,5 +1,10 @@
 <template>
-  <div class="container">
+  <ProjectTaskMobile
+    v-if="isMobile"
+    :on-change-current-task="onChangeCurrentTask"
+    :current-project="currentProject"
+  />
+  <div v-else class="container">
     <VStack gap="70" align="start">
       <HStack style="position: relative" max justify="between">
         <VStack align="start">
@@ -48,6 +53,8 @@ import ImageTask from '../Tasks/ImageTask.vue'
 import NoAvailableTasksModal from '../NoAvailableTasksModal/NoAvailableTasksModal.vue'
 import { useAnswerTaskStore } from '@/features/AnswerTaskForm'
 import { NotificationType, useNotificationStore } from '@/entities/Notification'
+import ProjectTaskMobile from '../ProjectTaskMobile/ProjectTaskMobile.vue'
+import { isMobile } from 'mobile-device-detect'
 
 interface ProjectTaskProps {
   currentProject: Project

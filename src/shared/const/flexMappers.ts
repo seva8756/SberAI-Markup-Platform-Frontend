@@ -22,6 +22,7 @@ export const gapClasses: Record<FlexGap, string> = {
   8: classes.gap8,
   10: classes.gap10,
   16: classes.gap16,
+  20: classes.gap20,
   24: classes.gap24,
   30: classes.gap30,
   50: classes.gap50,

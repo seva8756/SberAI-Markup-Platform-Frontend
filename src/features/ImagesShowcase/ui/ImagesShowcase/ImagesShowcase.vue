@@ -50,7 +50,7 @@ const close = () => {
 </template>
 
 <style scoped lang="scss">
-@import '@/app/styles/mixins.scss';
+@import '@/shared/styles/mixins';
 .wrapper {
   width: 849px;
   height: 483px;

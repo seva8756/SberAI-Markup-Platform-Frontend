@@ -7,19 +7,30 @@ import { useModal } from '@/shared/lib/hooks/useModal'
 import ConnectToProjectModal from '@/features/ConnectToProject'
 import { watchEffect } from 'vue'
 import { NotificationType, useNotificationStore } from '@/entities/Notification'
+import FlexWrapper from '@/shared/ui/Stack/FlexWrapper/FlexWrapper.vue'
+import { isMobile } from 'mobile-device-detect'
 
 const [isVisible, { openModal, closeModal }] = useModal()
 const notificationStore = useNotificationStore()
 </script>
 
 <template>
-  <HStack :max="true" justify="between">
-    <HStack gap="50">
+  <FlexWrapper
+    :gap="isMobile ? '20' : undefined"
+    :direction="isMobile ? 'column' : 'row'"
+    :max="true"
+    justify="between"
+  >
+    <FlexWrapper
+      :direction="isMobile ? 'column' : 'row'"
+      :max="isMobile"
+      :gap="isMobile ? '20' : '50'"
+    >
       <AppText size="xl" weight="700" variant="accent"> Проекты </AppText>
       <ProjectsFilter />
-    </HStack>
-    <AppButton size="l" @click="openModal">Присоединиться к проекту</AppButton>
-  </HStack>
+    </FlexWrapper>
+    <AppButton :max="isMobile" size="l" @click="openModal">Присоединиться к проекту</AppButton>
+  </FlexWrapper>
   <ConnectToProjectModal :on-close="closeModal" :is-open="isVisible" />
 </template>
 

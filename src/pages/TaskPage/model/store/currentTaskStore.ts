@@ -15,7 +15,6 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     currentProject: undefined,
     noTasksAvailable: false,
     cachedTasks: [],
-    paginationIds: [],
     currentPaginationIndex: 0,
     isLoading: false,
     error: null
@@ -28,8 +27,6 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       state.cachedTasks.findIndex((task) => task.index === taskId),
     isLastTask: (state) => state.currentPaginationIndex === 0,
     completedTasks: (state) => state.currentProject?.completed_tasks ?? [],
-
-    reversedPaginationIds: (state) => [...state.paginationIds].reverse(),
     projectId: (state) => state.currentProject?.ID,
     getTaskIdByIndex() {
       return () => this.completedTasks[this.currentPaginationIndex]
@@ -54,7 +51,6 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         this.currentTask = res.data
         this.cachedTasks.push(this.currentTask)
         addCompletedTask({ projectId, taskId: this.currentTask.index })
-        // this.paginationIds.push(this.currentTask.index)
         this.setPaginationIndex(0)
         if (answerTaskStore.isAutoFill && this.currentTask.placeholder) {
           answerTaskStore.setAnswer(this.currentTask.placeholder)
@@ -104,6 +100,8 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       answer_extended?: string
     }) {
       const { addNotification } = useNotificationStore()
+      const { removeUncompletedTask } = useProjectsListStore()
+
       if (this.currentTask) {
         try {
           await TaskService.sendAnswer(
@@ -119,7 +117,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
             task.answer_extended = answer_extended
           }
         } catch (e) {
-          this.paginationIds.pop()
+          removeUncompletedTask(this.projectId)
           if (e instanceof AxiosError) {
             const axiosError = JSON.parse(e.response?.data?.error)
             this.error = axiosError.name
@@ -159,13 +157,6 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         })
       }
     },
-    initPaginationIds(projectId: number) {
-      const projectListStore = useProjectsListStore()
-      const currentProject = projectListStore.getProjectById(projectId.toString())
-      if (currentProject) {
-        this.paginationIds = [...currentProject.completed_tasks]
-      }
-    },
     async saveCurrentTask(value: { answer: string; answer_extended?: string }) {
       await this.sendUserAnswer({ ...value })
     },
@@ -175,12 +166,6 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     },
     setPaginationIndex(index: number) {
       this.currentPaginationIndex = index
-    },
-    increasePaginationIndex() {
-      if (this.currentPaginationIndex < this.paginationIds.length) this.currentPaginationIndex++
-    },
-    decreasePaginationIndex() {
-      if (this.currentPaginationIndex > 0) this.currentPaginationIndex--
     },
     async setCurrentTask({ projectId, taskIndex }: { projectId: number; taskIndex: number }) {
       const { setAnswer, setExtendedAnswer } = useAnswerTaskStore()

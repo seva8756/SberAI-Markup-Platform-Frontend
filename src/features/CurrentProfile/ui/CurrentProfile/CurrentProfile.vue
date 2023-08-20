@@ -8,6 +8,8 @@ import { useAuthFormStore } from '@/features/AuthForm'
 import { useRouter } from 'vue-router'
 import { routes } from '@/shared/const/routes'
 import { useUserStore } from '@/entities/User'
+import FlexWrapper from '@/shared/ui/Stack/FlexWrapper/FlexWrapper.vue'
+import { isMobile } from 'mobile-device-detect'
 
 defineProps({
   username: {
@@ -57,17 +59,22 @@ const onLogout = async () => {
 </script>
 
 <template>
-  <HStack class="page-content" align="start" gap="85">
+  <FlexWrapper
+    :direction="isMobile ? 'column' : 'row'"
+    class="container"
+    :align="isMobile ? 'center' : 'start'"
+    :gap="isMobile ? '30' : '85'"
+  >
     <VStack justify="center" gap="24">
-      <img src="@/shared/assets/icons/defaultPfp.png" alt="" />
+      <img src="@/shared/assets/icons/defaultPfp.png" class="profile-img" alt="" />
       <AppButton size="xs" border="dashed">Обновить фото</AppButton>
       <AppButton @click="onLogout" size="xs">Выйти</AppButton>
     </VStack>
     <VStack class="user-information" align="start" gap="16">
-      <div class="main-info">
+      <HStack max justify="between">
         <AppText size="xl" weight="600">{{ userStore.getUserFullName }}</AppText>
-        <AppText size="xl" variant="secondary">ID: {{ id }}</AppText>
-      </div>
+        <AppText size="l" variant="secondary">ID: {{ userStore.userData?.ID }}</AppText>
+      </HStack>
       <AppText variant="secondary" class="additional-info"
         >{{ userStore.getTextRole }} | Рейтинг: {{ rating }}</AppText
       >
@@ -76,20 +83,19 @@ const onLogout = async () => {
       <AppText size="l" weight="600" variant="underlined" style="margin-top: 20px"
         >Статистика</AppText
       >
-      <AppText>Количество выполненных заданий: {{ taskCount }}</AppText>
+      <AppText>Количество выполненных заданий: {{ userStore.userData?.completed_tasks }}</AppText>
       <AppText>Количество размеченных изображений: {{ imgCount }}</AppText>
-      <AppText>Дата регистрации: {{ parseDateToString(regDate) }}</AppText>
+      <AppText
+        >Дата регистрации:
+        {{ parseDateToString(new Date(userStore.userData?.reg_date ?? '')) }}</AppText
+      >
       <AppText>Почта: {{ mail }}</AppText>
     </VStack>
-  </HStack>
+  </FlexWrapper>
 </template>
 
-<style scoped>
-.page-content {
-  width: 1600px;
-  margin: 0 auto;
-}
-
+<style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .main-info {
   display: flex;
   flex-direction: row;
@@ -105,6 +111,12 @@ const onLogout = async () => {
   flex-grow: 1;
 }
 
+.profile-img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
 .line {
   width: 100%;
   height: 5px;
@@ -113,5 +125,15 @@ const onLogout = async () => {
   margin-top: 55px;
   border-radius: 5px;
 }
+
+@include mobile {
+  .line {
+    margin-top: 0;
+  }
+
+  .profile-img {
+    width: 150px;
+    height: 150px;
+  }
+}
 </style>
-@/features/AuthForm/model/store/authForm

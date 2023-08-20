@@ -27,8 +27,12 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .list {
   padding-bottom: 60px;
+  @include mobile {
+    padding-bottom: 0;
+  }
 }
 </style>

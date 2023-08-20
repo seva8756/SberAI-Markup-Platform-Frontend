@@ -35,6 +35,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .content {
   position: relative;
   max-width: 60%;
@@ -43,6 +44,10 @@ onUnmounted(() => {
   color: var(--text-color);
   padding: 30px 45px;
   border-radius: 20px;
+  @include mobile {
+    max-width: 85%;
+    padding: 30px 30px;
+  }
 }
 
 .close {

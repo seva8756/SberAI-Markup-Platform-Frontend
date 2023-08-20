@@ -41,7 +41,10 @@ export const configurableRoutes: RouteRecordRaw[] = [
       {
         path: routes.project_task(':id'),
         name: AppRoutes.PROJECT_TASK,
-        component: ProjectTask
+        component: ProjectTask,
+        meta: {
+          customMobileNavbar: true
+        }
       }
     ]
   },

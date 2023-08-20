@@ -7,6 +7,7 @@ type ButtonSize = 'xs' | 's' | 'm' | 'l' | 'custom'
 type ButtonColor = 'primary' | 'muted' | 'gray'
 type ButtonBorder = 'normal' | 'dashed'
 type ButtonType = 'button' | 'link'
+type ButtonBorderRadius = 'normal-radius' | 'custom-radius'
 
 interface BaseAppButtonProps {
   disabled?: boolean
@@ -15,8 +16,10 @@ interface BaseAppButtonProps {
   color?: ButtonColor
   size?: ButtonSize
   border?: ButtonBorder
+  borderRadius?: ButtonBorderRadius
   buttonTag?: ButtonType
   selected?: boolean
+  max?: boolean
   to?: string
   dataTestId?: string
 }
@@ -35,8 +38,10 @@ const props = withDefaults(defineProps<LinkProps | ButtonProps>(), {
   isLoading: false,
   fullRound: false,
   selected: false,
+  borderRadius: 'normal-radius',
   color: 'primary',
   size: 'm',
+  max: false,
   buttonTag: 'button',
   border: 'normal'
 })
@@ -45,9 +50,11 @@ const classes = computed(() => [
   'Button',
   props.color,
   props.size,
+  props.borderRadius,
   { 'full-round': props.fullRound },
   { disabled: props.disabled },
   { selected: props.selected },
+  { max: props.max },
   props.border
 ])
 </script>
@@ -68,6 +75,7 @@ const classes = computed(() => [
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .Button {
   cursor: pointer;
   display: flex;
@@ -77,10 +85,13 @@ const classes = computed(() => [
   font-size: var(--font-size-m);
   font-weight: 400;
   padding: 10px 15px;
-  border-radius: 22.5px;
   border: none;
   outline: none;
   transition: background 0.3s;
+}
+
+.normal-radius {
+  border-radius: 22.5px;
 }
 
 .full-round {
@@ -102,7 +113,7 @@ const classes = computed(() => [
 }
 
 .gray {
-  background: var(--hint-color-muted);
+  background: var(--gray-primary);
   color: var(--text-color);
 
   &:hover {
@@ -172,5 +183,23 @@ const classes = computed(() => [
 .disabled {
   opacity: 0.6;
   pointer-events: none;
+}
+
+.max {
+  width: 100%;
+}
+
+@include mobile {
+  .Button {
+    font-size: var(--font-size-s);
+  }
+
+  .l {
+    height: 35px;
+  }
+
+  .xs {
+    width: 120px;
+  }
 }
 </style>

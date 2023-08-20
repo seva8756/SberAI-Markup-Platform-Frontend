@@ -1,6 +1,6 @@
 <template>
-  <VStack class="form" align="start" gap="30">
-    <AppText size="xl" weight="500">{{ question }}</AppText>
+  <VStack :class="isMobile ? 'container' : 'form'" align="start" gap="30">
+    <AppText :size="isMobile ? 'l' : 'xl'" weight="500">{{ question }}</AppText>
     <AnswerVariants
       v-if="project.answer_type === AnswerType.CHOICE"
       :is-loading="isLoading"
@@ -25,7 +25,29 @@
         :model-value="isAutoFill"
         :on-change="onChangeAutoFill"
       />
-      <HStack gap="30" max justify="end">
+      <HStack v-if="isMobile" max gap="4" class="mobile_buttons">
+        <AppButton @click="$emit('onPrev')" class="nav-button" size="custom">
+          <ArrowLeftIcon width="30" height="30" />
+        </AppButton>
+        <AppButton
+          v-if="noTasksAvailable ? true : !isLastTask"
+          @click="onSave"
+          color="gray"
+          class="save-btn"
+          size="custom"
+          :disabled="isSaveDisabled"
+          >Save</AppButton
+        >
+        <AppButton
+          v-if="noTasksAvailable ? !isLastTask : true"
+          @click="onNext"
+          class="nav-button right"
+          size="custom"
+        >
+          <ArrowRightIcon width="30" height="30" />
+        </AppButton>
+      </HStack>
+      <HStack v-else gap="30" max justify="end">
         <AppButton
           v-if="noTasksAvailable ? true : !isLastTask"
           class="continue"
@@ -56,6 +78,8 @@
 </template>
 
 <script setup lang="ts">
+import ArrowLeftIcon from '@/shared/assets/icons/arrow_left.svg'
+import ArrowRightIcon from '@/shared/assets/icons/arrow_right.svg'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import { AnswerType, type Task } from '@/entities/Task'
@@ -71,6 +95,7 @@ import ApproveAutoFillModal from '../ApproveAutoFillModal/ApproveAutoFillModal.v
 import { useModal } from '@/shared/lib/hooks/useModal'
 import { NotificationType, useNotificationStore } from '@/entities/Notification'
 import { computed, onUnmounted } from 'vue'
+import { isMobile } from 'mobile-device-detect'
 
 const emits = defineEmits(['onNext', 'onPrev', 'onSave'])
 
@@ -133,16 +158,42 @@ const onSave = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/app/styles/mixins';
+@import '@/shared/styles/mixins';
 .form {
   width: 720px;
   @include laptop {
     width: 595px;
+  }
+  @include mobile {
+    width: 100%;
   }
 }
 
 .continue {
   width: 120px;
   padding: 15px 30px;
+}
+
+.mobile_buttons {
+  position: fixed;
+  height: 50px;
+  bottom: 0;
+  left: 0;
+}
+
+.nav-button {
+  width: 150px;
+  height: 100%;
+  border-radius: 0 10px 0 0;
+
+  &.right {
+    border-radius: 10px 0 0 0;
+  }
+}
+
+.save-btn {
+  width: 85px;
+  height: 100%;
+  border-radius: 10px 10px 0 0;
 }
 </style>

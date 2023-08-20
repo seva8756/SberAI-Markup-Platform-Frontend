@@ -14,6 +14,7 @@ import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .content {
   position: relative;
 }
@@ -24,5 +25,15 @@ import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 
 .text {
   width: 655px;
+}
+
+@include mobile {
+  .icon {
+    display: none;
+  }
+
+  .text {
+    width: 100%;
+  }
 }
 </style>

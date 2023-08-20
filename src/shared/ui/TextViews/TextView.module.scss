@@ -1,3 +1,4 @@
+@import "@/shared/styles/mixins";
 .content {
   display: flex;
 }
@@ -91,4 +92,22 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+@include mobile {
+  .m {
+    font-size: var(--font-size-s);
+  }
+
+  .l {
+    font-size: var(--font-size-m);
+  }
+
+  .xl {
+    font-size: var(--font-size-l);
+  }
+
+  .xxl {
+    font-size: var(--font-size-xl);
+  }
 }

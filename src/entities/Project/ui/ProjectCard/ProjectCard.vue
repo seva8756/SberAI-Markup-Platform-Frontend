@@ -10,6 +10,8 @@ import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import { routes } from '@/shared/const/routes'
 import classes from './ProjectCard.module.scss'
 import { projectCardIconMapper } from '../../const/projectsListConsts'
+import { isMobile } from 'mobile-device-detect'
+import ArrowIcon from '@/shared/assets/icons/arrow_right.svg'
 
 defineProps({
   project: {
@@ -21,11 +23,11 @@ defineProps({
 
 <template>
   <AppCard
-    padding-horizontal="30"
-    padding-vertical="25"
+    :padding-horizontal="isMobile ? '15' : '25'"
+    :padding-vertical="isMobile ? '15' : '25'"
     :class="[classes.task, getHStack({ justify: 'between', align: 'center' })]"
   >
-    <HStack gap="30" align="start">
+    <HStack :gap="isMobile ? '8' : '30'" align="start">
       <component :is="projectCardIconMapper[project.answer_type]" :class="classes.icon" />
       <VStack gap="10" align="start" :class="classes.text_info">
         <HStack gap="10">
@@ -37,7 +39,7 @@ defineProps({
         </AppText>
       </VStack>
     </HStack>
-    <VStack gap="16">
+    <VStack v-if="!isMobile" gap="16">
       <AppButton
         class="begin-btn"
         button-tag="link"
@@ -48,5 +50,15 @@ defineProps({
         >Выполнено задач: {{ project.completed_tasks.length }}</AppText
       >
     </VStack>
+    <AppButton
+      v-else
+      button-tag="link"
+      size="custom"
+      border-radius="custom-radius"
+      :class="classes.mobile_btn"
+      :to="routes.project_welcome(project.ID.toString())"
+    >
+      <ArrowIcon width="12" height="15" />
+    </AppButton>
   </AppCard>
 </template>

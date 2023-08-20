@@ -30,6 +30,7 @@ const updateInput = (event: Event) => {
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .textarea {
   resize: none;
   outline: none;
@@ -54,6 +55,11 @@ const updateInput = (event: Event) => {
 
   &::placeholder {
     color: var(--hint-color);
+  }
+
+  @include mobile {
+    height: 200px;
+    font-size: var(--font-size-s);
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <HStack>
+  <HStack max>
     <AppButton
       class="filter-button left"
       :selected="projectsListStore.category === ProjectsFilterCategory.ALL"
@@ -27,6 +27,7 @@ const projectsListStore = useProjectsListStore()
 </script>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .filter-button {
   padding: 7px 15px;
   &.left {
@@ -35,6 +36,10 @@ const projectsListStore = useProjectsListStore()
   }
   &.right {
     border-radius: 0 5px 5px 0;
+  }
+
+  @include mobile {
+    width: 50%;
   }
 }
 </style>

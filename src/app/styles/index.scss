@@ -2,7 +2,7 @@
 @import 'variables/global';
 @import 'themes/dark';
 @import '@/shared/assets/fonts/Montserrat/font';
-@import "mixins";
+@import "../../shared/styles/mixins";
 
 body {
   background: var(--bg-primary);
@@ -23,5 +23,10 @@ body {
 
   @include laptop {
     width: 1400px;
+  }
+
+  @include mobile {
+    width: 100%;
+    padding: 0 20px;
   }
 }

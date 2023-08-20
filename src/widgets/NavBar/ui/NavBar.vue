@@ -7,6 +7,7 @@ import AppLink from '@/shared/ui/TextViews/AppLink/AppLink.vue'
 import { NavbarProfile } from '@/features/CurrentProfile'
 import { useUserStore } from '@/entities/User'
 import { computed } from 'vue'
+import { isMobile } from 'mobile-device-detect'
 
 const userStore = useUserStore()
 
@@ -38,20 +39,24 @@ const navLinks = computed(() => {
 </script>
 
 <template>
-  <nav :class="[getHStack({ gap: '30', justify: 'between' }), 'navbar']">
+  <nav :class="[getHStack({ gap: '30', justify: isMobile ? 'center' : 'between' }), 'navbar']">
     <router-link :to="routes.projects()">
       <Logo width="170" height="35" />
     </router-link>
-    <ul :class="getHStack({ gap: '50' })">
-      <li v-for="(link, index) in navLinks" :key="index" class="link">
-        <AppLink weight="500" :to="link.to">{{ link.title }}</AppLink>
-      </li>
-    </ul>
-    <NavbarProfile :username="username" :role="role" :profilePic="profilePic" />
+    <template v-if="!isMobile">
+      <ul :class="getHStack({ gap: '50' })">
+        <li v-for="(link, index) in navLinks" :key="index" class="link">
+          <AppLink weight="500" :to="link.to">{{ link.title }}</AppLink>
+        </li>
+      </ul>
+      <NavbarProfile :username="username" :role="role" :profilePic="profilePic" />
+    </template>
   </nav>
 </template>
 
 <style lang="scss" scoped>
+@import '@/shared/styles/mixins';
+
 .logo {
   width: 170px;
   height: 35px;
@@ -86,6 +91,6 @@ const navLinks = computed(() => {
   width: 100%;
   height: var(--navbar-height);
   padding: 0 80px;
-  z-index: 100;
+  z-index: var(--navbar-z-index);
 }
 </style>

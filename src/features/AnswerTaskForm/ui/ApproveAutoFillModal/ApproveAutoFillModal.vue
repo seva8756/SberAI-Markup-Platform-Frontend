@@ -34,7 +34,11 @@ const onApproveAuto = () => {
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .modal-text {
   width: 310px;
+  @include mobile {
+    width: auto;
+  }
 }
 </style>

@@ -1,3 +1,4 @@
+@import "@/shared/styles/mixins";
 .task {
   width: 100%;
   height: 160px;
@@ -6,9 +7,34 @@
 
 .text_info {
   width: 455px;
+
 }
 
 .icon {
   width: 58px;
   height: 50px;
+
+
+}
+
+.mobile_btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 42px;
+  border-radius: 0 15px 15px 0;
+}
+
+@include mobile {
+  .task {
+    height: auto;
+  }
+  .text_info {
+    width: 245px;
+  }
+  .icon {
+    width: 30px;
+    height: 30px;
+  }
 }

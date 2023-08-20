@@ -11,6 +11,7 @@ import { computed, ref, watchEffect } from 'vue'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import { base64Src } from '@/shared/lib/helpers/base64Src'
 import FullScreenImage from '@/shared/ui/Modals/FullScreenImage.vue'
+import { isMobile } from 'mobile-device-detect'
 
 const answerTaskStore = useAnswerTaskStore()
 const [isVisible, { closeModal, openModal }] = useModal()
@@ -49,8 +50,8 @@ watchEffect(() => {
 </script>
 
 <template>
-  <VStack align="start" gap="16">
-    <VStack align="center" justify="center" class="image-container">
+  <VStack max align="start" gap="16">
+    <VStack max align="center" justify="center" class="image-container">
       <button
         v-if="answer"
         @click="clearImage"
@@ -63,8 +64,8 @@ watchEffect(() => {
         :class="['image-label', getVStack({ align: 'center', justify: 'center' })]"
       >
         <VStack v-if="!answer" gap="10">
-          <UploadIcon />
-          <AppText variant="accent" size="xl">Загрузить изображение</AppText>
+          <UploadIcon class="upload-icon" />
+          <AppText variant="accent" :size="isMobile ? 'l' : 'xl'">Загрузить изображение</AppText>
         </VStack>
       </label>
       <input
@@ -77,7 +78,7 @@ watchEffect(() => {
       />
       <img v-if="answer" class="upload-image" :src="base64Src(answer)" />
       <button
-        v-if="answer"
+        v-if="answer && !isMobile"
         @click="openModal"
         :class="['fullscreen-btn', getVStack({ max: true, align: 'center', justify: 'center' })]"
       >
@@ -90,13 +91,19 @@ watchEffect(() => {
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .image-container {
   position: relative;
   width: 715px;
-  height: 404px;
+  aspect-ratio: 16 /9;
 }
 
 .form_image-input {
+}
+
+.upload-icon {
+  width: 226px;
+  height: 226px;
 }
 
 .image-label {
@@ -146,5 +153,15 @@ watchEffect(() => {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+@include mobile {
+  .image-container {
+    width: 100%;
+  }
+  .upload-icon {
+    width: 85px;
+    height: 85px;
+  }
 }
 </style>

@@ -33,6 +33,7 @@ const handleClick = (event: Event) => {
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .custom-radio-btn {
   position: relative;
   display: inline-block;
@@ -41,20 +42,20 @@ const handleClick = (event: Event) => {
   border: 3px solid var(--text-color);
   border-radius: 10px;
   vertical-align: text-top;
-}
 
-.custom-radio-btn::before {
-  content: '';
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  background-color: var(--text-color);
-  border-radius: 5px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: 0.2s ease-in;
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-color: var(--text-color);
+    border-radius: 5px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 0.2s ease-in;
+  }
 }
 
 .real-radio-btn {
@@ -73,5 +74,23 @@ const handleClick = (event: Event) => {
   color: var(--text-color);
   font-size: 18px;
   font-weight: 500;
+}
+
+@include mobile {
+  .custom-radio-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 7px;
+    border: 2px solid var(--text-color);
+
+    &:before {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+  }
+  .input_text {
+    font-size: 14px;
+  }
 }
 </style>

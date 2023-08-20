@@ -47,8 +47,13 @@ const connectToProject = async () => {
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .modal {
   width: 360px;
+
+  @include mobile {
+    width: auto;
+  }
 }
 
 .line {

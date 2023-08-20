@@ -1,21 +1,25 @@
 <template>
   <div class="welcome-container">
     <VStack gap="10">
-      <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
+      <AppText :align="isMobile ? 'center' : 'left'" size="xl" weight="700">{{
+        currentProject.title
+      }}</AppText>
       <AppText size="l" variant="secondary" weight="400"
         >Код проекта: {{ currentProject.code }}</AppText
       >
     </VStack>
     <hr class="line" />
     <VStack gap="24">
-      <AppText size="xl" weight="600"
+      <AppText :align="isMobile ? 'center' : 'left'" size="xl" weight="600"
         >В ходе выполнения размертки вам будет попадаться задания разных типов</AppText
       >
-      <VStack align="start" max gap="24">
+      <VStack :align="isMobile ? 'center' : 'start'" max gap="24">
         <AppText size="xl" weight="600">{{
           welcomeRules[currentProject.answer_type].title
         }}</AppText>
-        <AppText size="l">{{ welcomeRules[currentProject.answer_type].desc }}</AppText>
+        <AppText :align="isMobile ? 'center' : 'left'" size="l">{{
+          welcomeRules[currentProject.answer_type].desc
+        }}</AppText>
       </VStack>
       <AppButton button-tag="link" :to="routes.project_task(currentProject.ID.toString())" size="l">
         Приступить к выполнению
@@ -35,6 +39,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useProjectsListStore, type Project } from '@/entities/Project'
 import { computed } from 'vue'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
+import { isMobile } from 'mobile-device-detect'
 
 const { params } = useRoute()
 const router = useRouter()
@@ -58,10 +63,18 @@ const startTasks = async () => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .welcome-container {
   width: 1140px;
   margin: 0 auto;
+}
+
+@include mobile {
+  .welcome-container {
+    width: 100%;
+    padding: 0 15px;
+  }
 }
 
 .line {

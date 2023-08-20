@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+import { isMobile } from 'mobile-device-detect'
 const route = useRoute()
 
 defineProps({
@@ -8,18 +10,27 @@ defineProps({
     required: true
   }
 })
+const contentCondition = computed(() => {
+  return !(route.meta.customLayout || (route.meta.customMobileNavbar && isMobile))
+})
 </script>
 
 <template>
   <component :is="navbar" v-if="!route.meta.customLayout" />
-  <div :class="{ content: !route.meta.customLayout }">
+  <div :class="{ content: contentCondition }">
     <slot />
   </div>
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .content {
   margin-top: var(--navbar-height);
   padding-top: 80px;
+
+  @include mobile {
+    padding-top: 40px;
+    padding-bottom: calc(var(--mobile-navbar-height) + 20px);
+  }
 }
 </style>

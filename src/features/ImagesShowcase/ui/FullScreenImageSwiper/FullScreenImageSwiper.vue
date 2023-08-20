@@ -8,6 +8,7 @@ import testImage from '@/shared/assets/testSlider.png'
 import ModalWrapper from '@/shared/ui/Modals/ModalWrapper.vue'
 import './ImageSwiper.css'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
+import { base64Src } from '@/shared/lib/helpers/base64Src'
 
 interface FullScreenImageSwiperProps {
   open?: boolean
@@ -32,9 +33,9 @@ const prevSlide = () => {
   swiperRef.value?.swiper.slidePrev()
 }
 
-const base64Image = computed(() => {
-  return (code?: string) => (code ? `data:image/jpeg;base64,${code}` : testImage)
-})
+// const base64Image = computed(() => {
+//   return (code?: string) => (code ? `data:image/jpeg;base64,${code}` : testImage)
+// })
 const isNavigationAvailable = computed(() => {
   return props.images && props.images?.length > 1
 })
@@ -52,7 +53,7 @@ onMounted(() => {
         :navigation-prev-el="isNavigationAvailable ? '#my-prev-button' : false"
       >
         <swiper-slide v-for="(image, index) in images" :key="index">
-          <img class="img" :src="base64Image(image)" alt="slider" />
+          <img class="img" :src="base64Src(image)" alt="slider" />
         </swiper-slide>
       </swiper-container>
       <template v-if="isNavigationAvailable">

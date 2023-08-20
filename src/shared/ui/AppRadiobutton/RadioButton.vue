@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getHStack } from '@/shared/lib/helpers/getHStack'
 import { computed } from 'vue'
+import { isMobile } from 'mobile-device-detect'
 
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -25,7 +26,7 @@ const isChecked = computed(() => props.modelValue === props.value)
 </script>
 
 <template>
-  <label :class="[getHStack({ gap: '24' })]">
+  <label :class="[getHStack({ gap: isMobile ? '16' : '24' })]">
     <input
       type="radio"
       :checked="isChecked"
@@ -39,6 +40,7 @@ const isChecked = computed(() => props.modelValue === props.value)
 </template>
 
 <style lang="scss" scoped>
+@import '@/shared/styles/mixins';
 .custom-radio-btn {
   position: relative;
   display: inline-block;
@@ -81,5 +83,24 @@ const isChecked = computed(() => props.modelValue === props.value)
   color: var(--text-color);
   font-size: 24px;
   font-weight: 500;
+}
+
+@include mobile {
+  .input_text {
+    font-size: 14px;
+  }
+
+  .custom-radio-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--text-color);
+
+    &::before {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+  }
 }
 </style>

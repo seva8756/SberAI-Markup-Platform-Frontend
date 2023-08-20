@@ -10,6 +10,8 @@ import { AuthForm } from '../../const/const'
 import { useAuthFormStore } from '../../model/store/authForm'
 import { useRouter } from 'vue-router'
 import { routes } from '@/shared/const/routes'
+import { isMobile } from 'mobile-device-detect'
+import FlexWrapper from '@/shared/ui/Stack/FlexWrapper/FlexWrapper.vue'
 
 interface RegisterFormProps {
   formType: AuthForm
@@ -48,18 +50,24 @@ const onRegister = async () => {
       <AppText variant="accent" weight="600">Регистрация</AppText>
     </HStack>
     <hr class="line" />
-    <HStack align="start" gap="50" max>
-      <VStack gap="30" class="left inner-wrapper">
+    <FlexWrapper
+      :direction="isMobile ? 'column' : 'row'"
+      align="start"
+      justify="between"
+      :gap="isMobile ? '16' : '50'"
+      max
+    >
+      <VStack max :gap="isMobile ? '16' : '30'">
         <AppInput v-model="authFormStore.registerForm.last_name" label="Фамилия:" />
         <AppInput v-model="authFormStore.registerForm.first_name" label="Имя:" />
       </VStack>
       <div class="vertical-line"></div>
-      <VStack gap="30" class="right inner-wrapper">
+      <VStack max :gap="isMobile ? '16' : '30'">
         <AppInput v-model="authFormStore.registerForm.email" label="Почта:" />
         <AppInput v-model="authFormStore.registerForm.password" type="password" label="Пароль:" />
         <AppInput v-model="repeatedPass" type="password" label="Повторите пароль:" />
       </VStack>
-    </HStack>
+    </FlexWrapper>
     <!--    <VStack v-if="authFormStore.validationErrors.length">-->
     <!--      <AppText v-for="error in authFormStore.validationErrors" :key="error" variant="error">{{-->
     <!--        validationErrorsMapper[error]-->
@@ -77,6 +85,7 @@ const onRegister = async () => {
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .line {
   width: 100%;
   height: 2px;
@@ -90,27 +99,6 @@ const onRegister = async () => {
   width: 100%;
 }
 
-.left.inner-wrapper,
-.right.inner-wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.left.inner-wrapper {
-  justify-content: flex-end;
-  margin-right: 10px;
-}
-
-.right.inner-wrapper {
-  justify-content: flex-start;
-  margin-left: 10px;
-}
-
-.profile-type {
-  cursor: pointer;
-}
-
 .vertical-line {
   width: 2px;
   border-radius: 2px;
@@ -118,6 +106,11 @@ const onRegister = async () => {
   height: 275px;
   &.small {
     height: 32px;
+  }
+}
+@include mobile {
+  .vertical-line {
+    display: none;
   }
 }
 </style>

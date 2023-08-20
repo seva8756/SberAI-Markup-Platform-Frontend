@@ -28,7 +28,7 @@ defineProps<TasksPaginationBullet>()
 </template>
 
 <style scoped lang="scss">
-@import '@/app/styles/mixins';
+@import '@/shared/styles/mixins';
 .text {
   width: 100%;
 }
@@ -47,6 +47,12 @@ defineProps<TasksPaginationBullet>()
     width: 31px;
     height: 31px;
   }
+
+  @include mobile {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+  }
 }
 
 .active {
@@ -64,6 +70,11 @@ defineProps<TasksPaginationBullet>()
   @include laptop {
     width: 39px;
     height: 40px;
+  }
+
+  @include mobile {
+    width: 30px;
+    height: 30px;
   }
 }
 </style>

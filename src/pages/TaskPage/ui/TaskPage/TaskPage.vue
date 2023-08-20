@@ -24,15 +24,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="container">
-    <template v-if="projectListStore.isLoading">
-      <AppSkeleton />
-    </template>
-    <template v-else-if="currentProject">
-      <router-view :current-project="currentProject" />
-    </template>
-    <template v-else>
-      <AppText align="center" size="xl">Проект не найден</AppText>
-    </template>
-  </div>
+  <template v-if="projectListStore.isLoading">
+    <AppSkeleton />
+  </template>
+  <template v-else-if="currentProject">
+    <router-view :current-project="currentProject" />
+  </template>
+  <template v-else>
+    <AppText align="center" size="xl">Проект не найден</AppText>
+  </template>
 </template>

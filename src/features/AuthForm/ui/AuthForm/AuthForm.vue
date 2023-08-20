@@ -21,11 +21,19 @@ const currentScreen = ref(AuthForm.LOGIN)
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .auth {
   width: 450px;
 }
 
 .register {
   width: 930px;
+}
+
+@include mobile {
+  .auth,
+  .register {
+    width: 100%;
+  }
 }
 </style>

@@ -51,8 +51,11 @@ const goPrevPage = () => {
 
 <template>
   <div class="tasks-pagination-wrapper">
-    <HStack gap="30" align="start" :class="['tasks-pagination', { opened: isOpen }]">
-      <button class="arrow" @click="isOpen = !isOpen">
+    <HStack align="start" :class="['tasks-pagination', { opened: isOpen }]">
+      <button
+        :class="['arrow', getHStack({ align: 'center', justify: 'center' })]"
+        @click="isOpen = !isOpen"
+      >
         <ArrowIcon />
       </button>
       <div ref="gridBlock" class="grid-wrapper">
@@ -107,28 +110,38 @@ const goPrevPage = () => {
 </template>
 
 <style scoped lang="scss">
-@import '@/app/styles/mixins';
+@import '@/shared/styles/mixins';
 .tasks-pagination-wrapper {
   position: absolute;
   right: 0;
   top: 0;
+  z-index: 3;
+  @include mobile {
+    width: 100%;
+  }
 }
 
 .tasks-pagination {
   position: relative;
-  padding: 16px 52px;
+  padding: 16px 80px;
   width: 596px;
   height: 68px;
   overflow: hidden;
   border-radius: 30px;
   transition: height var(--transition-duration);
   background: var(--gray-secondary);
-  box-shadow: 0px 10px 26px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 26px 2px rgba(0, 0, 0, 0.4);
 
   @include laptop {
     width: 508px;
     height: 63px;
-    padding: 16px 70px 16px 52px;
+    padding: 16px 70px;
+  }
+
+  @include mobile {
+    width: 100%;
+    height: 42px;
+    padding: 10px 40px;
   }
 }
 
@@ -159,6 +172,13 @@ const goPrevPage = () => {
   @include laptop {
     top: 90px;
   }
+
+  @include mobile {
+    width: 22px;
+    height: 22px;
+    top: 75px;
+    left: 8px;
+  }
 }
 
 .reversed {
@@ -169,24 +189,33 @@ const goPrevPage = () => {
     transform: rotate(-90deg);
     height: 8px;
   }
+  @include mobile {
+    right: 8px;
+  }
 }
 
 .grid-wrapper {
-  width: 420px;
-  max-height: 35px;
+  width: 100%;
+  max-height: 100%;
   overflow: hidden;
 }
 
 .arrow {
-  min-width: 23px;
+  position: absolute;
+  width: 23px;
   height: 13px;
-  margin-top: 10px;
   cursor: pointer;
+  z-index: 10;
+  left: 39px;
+  top: 28px;
   background: none;
   transition: transform var(--transition-duration);
 
-  @include laptop {
-    margin-top: 7px;
+  @include mobile {
+    width: 16px;
+    left: auto;
+    right: 10px;
+    top: 16px;
   }
 }
 
@@ -197,6 +226,9 @@ const goPrevPage = () => {
   flex-direction: row-reverse;
   gap: 10px;
   transition: gap var(--transition-duration);
+  @include mobile {
+    gap: 9px;
+  }
 }
 
 .opened {
@@ -218,6 +250,10 @@ const goPrevPage = () => {
     .pagination-grid {
       gap: 10px;
     }
+  }
+
+  @include mobile {
+    height: 170px;
   }
 }
 </style>

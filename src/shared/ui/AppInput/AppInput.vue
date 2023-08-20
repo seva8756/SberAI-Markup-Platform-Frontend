@@ -35,7 +35,7 @@ const updateInput = (event: Event) => {
 
 <template>
   <label :class="['input', { bigplaceholder: bigplaceholder }, { squared: squared }]">
-    <span>{{ label }}</span>
+    <span class="label">{{ label }}</span>
     <div v-if="type === 'file'" class="file-input">
       <input type="file" multiple @change="updateInput" :placeholder="placeholder" />
       <button class="file-button">Choose Files</button>
@@ -52,6 +52,8 @@ const updateInput = (event: Event) => {
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
+
 .file-button {
   outline: none;
   color: var(--text-color);
@@ -112,5 +114,10 @@ const updateInput = (event: Event) => {
 .stretch input {
   word-wrap: break-word;
   overflow-wrap: break-word;
+}
+@include mobile {
+  .label {
+    font-size: var(--font-size-s);
+  }
 }
 </style>

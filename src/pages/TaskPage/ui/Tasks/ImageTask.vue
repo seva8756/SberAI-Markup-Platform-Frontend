@@ -6,22 +6,32 @@ import type { TaskUIProps } from '../../model/types/TaskUIProps'
 import { AnswerUploadImage } from '@/features/AnswerTaskForm'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
+import FlexWrapper from '@/shared/ui/Stack/FlexWrapper/FlexWrapper.vue'
+import { isMobile } from 'mobile-device-detect'
 
 const currentTaskStore = useCurrentTaskStore()
 defineProps<TaskUIProps>()
 </script>
 
 <template>
-  <HStack max align="start" justify="between">
+  <FlexWrapper
+    :direction="isMobile ? 'column' : 'row'"
+    max
+    :gap="isMobile ? '30' : undefined"
+    align="start"
+    justify="between"
+  >
     <VStack align="start" gap="30">
-      <AppText weight="500" size="xl"
-        >1.
-        {{
-          currentTaskStore.currentTask?.question
-            ? currentTaskStore.currentTask?.question
-            : project.question_title
-        }}</AppText
-      >
+      <div :class="{ container: isMobile }">
+        <AppText weight="500" :size="isMobile ? 'l' : 'xl'"
+          >1.
+          {{
+            currentTaskStore.currentTask?.question
+              ? currentTaskStore.currentTask?.question
+              : project.question_title
+          }}</AppText
+        >
+      </div>
       <AnswerUploadImage />
     </VStack>
     <ProjectTaskForm
@@ -35,7 +45,7 @@ defineProps<TaskUIProps>()
       @on-next="currentTaskStore.goToNextTask(project.ID)"
       @on-save="currentTaskStore.saveCurrentTask"
     />
-  </HStack>
+  </FlexWrapper>
 </template>
 
 <style scoped lang="scss"></style>

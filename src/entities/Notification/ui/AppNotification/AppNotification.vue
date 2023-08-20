@@ -40,6 +40,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+@import '@/shared/styles/mixins';
 .notification {
   border-radius: 15px;
   min-width: 350px;
@@ -70,5 +71,12 @@ onMounted(() => {
 .marker {
   width: 20px;
   height: 100%;
+}
+
+@include mobile {
+  .notification {
+    min-width: 300px;
+    height: 65px;
+  }
 }
 </style>
