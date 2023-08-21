@@ -7,7 +7,7 @@ export const welcomeRules: Record<AnswerType, { title: string; desc: string }> =
   },
   [AnswerType.CHOICE]: {
     title: 'Выберите верные пункты',
-    desc: 'Вам необходимо выбрать верные пункты ответов к каждому вопросу представленному к изображению'
+    desc: 'Вам необходимо выбрать верные пункты ответов для каждого подобранного задания'
   },
   [AnswerType.IMAGE]: {
     title: 'Загрузите изображение',

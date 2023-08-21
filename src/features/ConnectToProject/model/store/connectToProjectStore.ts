@@ -32,10 +32,17 @@ export const useConnectToProjectStore = defineStore('connectToProject', {
           const axiosError = JSON.parse(e.response?.data?.error)
           console.log(e)
           this.error = axiosError.name
-          addNotification({
-            message: connectionErrMapper[this.error as ConnectionToProjectErrors],
-            notificationType: NotificationType.ERROR
-          })
+          if (e.response?.status == 500) {
+            addNotification({
+              message: 'Ошибка загрузки проекта',
+              notificationType: NotificationType.ERROR
+            })
+          } else {
+            addNotification({
+              message: connectionErrMapper[this.error as ConnectionToProjectErrors],
+              notificationType: NotificationType.ERROR
+            })
+          }
         } else {
           this.error = e as string
           addNotification({

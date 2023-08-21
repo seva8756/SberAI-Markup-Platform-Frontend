@@ -30,7 +30,7 @@ onMounted(() => {
 <template>
   <AppSkeleton class="wrapper" v-if="isLoading" />
   <template v-else>
-    <swiper-container class="wrapper">
+    <swiper-container v-if="images.length !== 0" class="wrapper">
       <swiper-slide @click="openModal" v-for="(image, index) in images" :key="index">
         <img class="img" :src="base64Src(image)" alt="slider" />
       </swiper-slide>

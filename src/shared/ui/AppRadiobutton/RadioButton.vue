@@ -15,6 +15,10 @@ const props = defineProps({
   label: {
     type: String,
     default: ''
+  },
+  small: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -26,7 +30,12 @@ const isChecked = computed(() => props.modelValue === props.value)
 </script>
 
 <template>
-  <label :class="[getHStack({ gap: isMobile ? '16' : '24' })]">
+  <label
+    :class="[
+      getHStack({ gap: isMobile ? '16' : '24', align: small ? 'start' : 'center' }),
+      { small }
+    ]"
+  >
     <input
       type="radio"
       :checked="isChecked"
@@ -44,27 +53,25 @@ const isChecked = computed(() => props.modelValue === props.value)
 .custom-radio-btn {
   position: relative;
   display: inline-block;
-  width: 36px;
-  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
   border: 3px solid var(--text-color);
   border-radius: 10px;
   vertical-align: text-top;
-}
 
-.custom-radio-btn::before {
-  content: '';
-  /* Рисуем внешний круг */
-  display: inline-block;
-  width: 23px;
-  height: 23px;
-  background-color: var(--text-color);
-  border-radius: 5px;
-  /* Выравниваем по центру */
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: 0.2s ease-in;
+  &::before {
+    content: '';
+    display: inline-block;
+    min-width: 23px;
+    min-height: 23px;
+    background-color: var(--text-color);
+    border-radius: 5px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 0.2s ease-in;
+  }
 }
 
 .real-radio-btn {
@@ -85,14 +92,30 @@ const isChecked = computed(() => props.modelValue === props.value)
   font-weight: 500;
 }
 
+.small {
+  .input_text {
+    font-size: 20px;
+  }
+
+  .custom-radio-btn {
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 10px;
+    &:before {
+      min-width: 16px;
+      min-height: 16px;
+    }
+  }
+}
+
 @include mobile {
   .input_text {
     font-size: 14px;
   }
 
   .custom-radio-btn {
-    width: 20px;
-    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
     border-radius: 5px;
     border: 1px solid var(--text-color);
 
@@ -100,6 +123,24 @@ const isChecked = computed(() => props.modelValue === props.value)
       width: 12px;
       height: 12px;
       border-radius: 3px;
+    }
+  }
+
+  .small {
+    .input_text {
+      font-size: 14px;
+    }
+    .custom-radio-btn {
+      min-width: 20px;
+      min-height: 20px;
+      border-radius: 5px;
+      border: 1px solid var(--text-color);
+
+      &::before {
+        min-width: 12px;
+        min-height: 12px;
+        border-radius: 3px;
+      }
     }
   }
 }

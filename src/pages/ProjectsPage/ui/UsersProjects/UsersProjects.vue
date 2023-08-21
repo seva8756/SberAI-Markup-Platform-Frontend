@@ -1,6 +1,5 @@
 <template>
   <ProjectList
-    class="list"
     :is-loading="projectsListStore.isLoading"
     :projects="filteredProjects"
     :category="projectsListStore.category"
@@ -27,12 +26,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped lang="scss">
-@import '@/shared/styles/mixins';
-.list {
-  padding-bottom: 60px;
-  @include mobile {
-    padding-bottom: 0;
-  }
-}
-</style>
+<style scoped lang="scss"></style>

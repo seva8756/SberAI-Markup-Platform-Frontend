@@ -4,6 +4,7 @@ import { getHStack } from '@/shared/lib/helpers/getHStack'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
+import { taskNumber } from '@/shared/lib/helpers/taskNumber'
 const currentTaskStore = useCurrentTaskStore()
 </script>
 
@@ -15,7 +16,7 @@ const currentTaskStore = useCurrentTaskStore()
     <HStack gap="10">
       <AppText weight="700" size="m">{{ currentTaskStore.currentProject?.title }}</AppText>
       <AppText weight="700" variant="secondary" size="m"
-        >#{{ currentTaskStore.currentTask?.index }}</AppText
+        >#{{ taskNumber(currentTaskStore.currentTask?.index.toString()) }}</AppText
       >
     </HStack>
   </nav>

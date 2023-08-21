@@ -1,5 +1,15 @@
 <template>
-  <VStack :class="isMobile ? 'container' : 'form'" align="start" gap="30">
+  <VStack
+    :class="
+      isMobile
+        ? 'container'
+        : project.answer_type === AnswerType.CHOICE && Object.keys(project.answer_choice).length > 3
+        ? 'form-extended'
+        : 'form'
+    "
+    align="start"
+    gap="30"
+  >
     <AppText :size="isMobile ? 'l' : 'xl'" weight="500">{{ question }}</AppText>
     <AnswerVariants
       v-if="project.answer_type === AnswerType.CHOICE"
@@ -159,6 +169,11 @@ const onSave = () => {
 
 <style scoped lang="scss">
 @import '@/shared/styles/mixins';
+
+.form-extended {
+  width: 100%;
+}
+
 .form {
   width: 720px;
   @include laptop {

@@ -2,6 +2,7 @@
 import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import { computed } from 'vue'
+import { taskNumber } from '../../../../shared/lib/helpers/taskNumber'
 
 interface TaskIndexProps {
   isLoading: boolean
@@ -9,10 +10,6 @@ interface TaskIndexProps {
 }
 
 defineProps<TaskIndexProps>()
-
-const taskNumber = computed(() => {
-  return (index: string | undefined) => (index ? index.padStart(3, '0') : '')
-})
 </script>
 
 <template>

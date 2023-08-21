@@ -1,18 +1,32 @@
 <template>
-  <VStack max v-if="!isLoading" :gap="isMobile ? '16' : '24'">
-    <RadioButton
-      v-for="([key, value], index) in Object.entries(variants)"
-      :class="['answer', { selected: key === modelValue }]"
-      :key="index"
-      :value="key"
-      :model-value="modelValue"
-      :label="value"
-      @update:model-value="handleClick"
-    />
-  </VStack>
-  <VStack max :gap="isMobile ? '16' : '24'" v-else>
+  <VStack max :gap="isMobile ? '16' : '24'" v-if="isLoading">
     <AppSkeleton class="variant-skeleton" v-for="n in 3" :key="n" />
   </VStack>
+  <template v-else>
+    <div v-if="Object.keys(variants).length > 3" class="grid">
+      <RadioButton
+        v-for="([key, value], index) in Object.entries(variants)"
+        :class="['answer', 'answer-small', { selected: key === modelValue }]"
+        :key="index"
+        :value="key"
+        :small="true"
+        :model-value="modelValue"
+        :label="value"
+        @update:model-value="handleClick"
+      />
+    </div>
+    <VStack v-else max :gap="isMobile ? '16' : '24'">
+      <RadioButton
+        v-for="([key, value], index) in Object.entries(variants)"
+        :class="['answer', { selected: key === modelValue }]"
+        :key="index"
+        :value="key"
+        :model-value="modelValue"
+        :label="value"
+        @update:model-value="handleClick"
+      />
+    </VStack>
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -35,6 +49,16 @@ const handleClick = (value: string) => {
 
 <style scoped lang="scss">
 @import '@/shared/styles/mixins';
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  @include mobile {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 .answer {
   width: 100%;
   padding: 30px 45px;
@@ -46,6 +70,10 @@ const handleClick = (value: string) => {
   &.selected {
     background: var(--accent-color);
   }
+}
+
+.answer-small {
+  padding: 14px 30px;
 }
 
 .variant-skeleton {

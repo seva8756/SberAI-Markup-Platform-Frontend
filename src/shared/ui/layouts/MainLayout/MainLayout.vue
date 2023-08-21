@@ -26,7 +26,8 @@ const contentCondition = computed(() => {
 @import '@/shared/styles/mixins';
 .content {
   margin-top: var(--navbar-height);
-  padding-top: 80px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 
   @include mobile {
     margin-top: var(--mobile-navbar-height);

@@ -35,9 +35,9 @@ const close = () => {
 <template>
   <AppSkeleton class="wrapper" v-if="isLoading" />
   <template v-else>
-    <div class="wrapper">
-      <NoImagesBlock v-if="images.length === 0" />
-      <div v-else class="grid">
+    <div v-if="images.length !== 0" class="wrapper">
+      <!--      <NoImagesBlock v-if="images.length === 0" />-->
+      <div class="grid">
         <div class="img-wrapper" v-for="(image, index) in images" :key="index">
           <img @click="open(index)" class="img" :src="base64Image(image)" alt="grid" />
           <img class="img-blur" :src="base64Image(image)" alt="grid" />
