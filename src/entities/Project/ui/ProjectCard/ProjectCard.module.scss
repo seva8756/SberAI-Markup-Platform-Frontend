@@ -18,12 +18,12 @@
 }
 
 .mobile_btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
   width: 42px;
   border-radius: 0 15px 15px 0;
+}
+
+.mobile_text {
+  padding: 15px 10px;
 }
 
 @include mobile {

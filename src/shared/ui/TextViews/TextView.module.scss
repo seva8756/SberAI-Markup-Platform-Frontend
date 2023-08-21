@@ -95,6 +95,9 @@
 }
 
 @include mobile {
+  .s {
+    font-size: var(--font-size-xs);
+  }
   .m {
     font-size: var(--font-size-s);
   }

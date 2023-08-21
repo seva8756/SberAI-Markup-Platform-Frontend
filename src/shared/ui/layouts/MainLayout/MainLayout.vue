@@ -29,7 +29,8 @@ const contentCondition = computed(() => {
   padding-top: 80px;
 
   @include mobile {
-    padding-top: 40px;
+    margin-top: var(--mobile-navbar-height);
+    padding-top: 25px;
     padding-bottom: calc(var(--mobile-navbar-height) + 20px);
   }
 }

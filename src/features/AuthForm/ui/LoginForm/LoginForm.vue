@@ -8,6 +8,7 @@ import { AuthForm, validationErrorsMapper } from '../../const/const'
 import { useAuthFormStore } from '../../model/store/authForm'
 import { routes } from '@/shared/const/routes'
 import { useRouter } from 'vue-router'
+import { isMobile } from 'mobile-device-detect'
 
 interface LoginFormProps {
   formType: AuthForm
@@ -29,7 +30,7 @@ const onLogin = async () => {
 </script>
 
 <template>
-  <VStack max gap="30">
+  <VStack max :gap="isMobile ? '20' : '30'">
     <AppText variant="accent" weight="600">Логин</AppText>
     <hr class="line" />
     <AppInput dataTestId="LoginForm.input" v-model="authFormStore.loginForm.email" label="Почта:" />

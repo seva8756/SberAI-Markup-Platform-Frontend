@@ -171,6 +171,7 @@ const onSave = () => {
 
 .continue {
   width: 120px;
+  height: 52px;
   padding: 15px 30px;
 }
 
@@ -182,7 +183,7 @@ const onSave = () => {
 }
 
 .nav-button {
-  width: 150px;
+  flex: 1;
   height: 100%;
   border-radius: 0 10px 0 0;
 
@@ -192,7 +193,7 @@ const onSave = () => {
 }
 
 .save-btn {
-  width: 85px;
+  flex: 0.5;
   height: 100%;
   border-radius: 10px 10px 0 0;
 }

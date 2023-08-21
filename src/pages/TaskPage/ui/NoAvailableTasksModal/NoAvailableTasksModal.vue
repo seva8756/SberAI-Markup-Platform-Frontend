@@ -26,7 +26,7 @@ defineProps<NoAvailableTasksModalProps>()
 
 <style scoped lang="scss">
 .line {
-  width: 620px;
+  width: 100%;
   height: 3px;
   background: var(--hint-color-muted);
   border: none;

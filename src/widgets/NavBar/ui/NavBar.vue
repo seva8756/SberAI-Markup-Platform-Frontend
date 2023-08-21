@@ -40,8 +40,11 @@ const navLinks = computed(() => {
 
 <template>
   <nav :class="[getHStack({ gap: '30', justify: isMobile ? 'center' : 'between' }), 'navbar']">
-    <router-link :to="routes.projects()">
-      <Logo width="170" height="35" />
+    <router-link
+      :class="[getHStack({ align: 'center', justify: 'center' })]"
+      :to="routes.projects()"
+    >
+      <Logo class="logo" />
     </router-link>
     <template v-if="!isMobile">
       <ul :class="getHStack({ gap: '50' })">
@@ -61,6 +64,10 @@ const navLinks = computed(() => {
   width: 170px;
   height: 35px;
   cursor: pointer;
+
+  @include mobile {
+    width: 140px;
+  }
 }
 .link {
   position: relative;
@@ -92,5 +99,8 @@ const navLinks = computed(() => {
   height: var(--navbar-height);
   padding: 0 80px;
   z-index: var(--navbar-z-index);
+  @include mobile {
+    height: var(--mobile-navbar-height);
+  }
 }
 </style>

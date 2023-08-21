@@ -10,9 +10,9 @@
     </VStack>
     <hr class="line" />
     <VStack gap="24">
-      <AppText :align="isMobile ? 'center' : 'left'" size="xl" weight="600"
-        >В ходе выполнения размертки вам будет попадаться задания разных типов</AppText
-      >
+      <!--      <AppText :align="isMobile ? 'center' : 'left'" size="xl" weight="600"-->
+      <!--        >В ходе выполнения размертки вам будет попадаться задания разных типов</AppText-->
+      <!--      >-->
       <VStack :align="isMobile ? 'center' : 'start'" max gap="24">
         <AppText size="xl" weight="600">{{
           welcomeRules[currentProject.answer_type].title

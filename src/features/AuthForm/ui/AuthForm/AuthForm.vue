@@ -4,6 +4,7 @@ import LoginForm from '../LoginForm/LoginForm.vue'
 import RegisterForm from '../RegisterForm/RegisterForm.vue'
 import { ref } from 'vue'
 import { AuthForm } from '../../const/const'
+import { isMobile } from 'mobile-device-detect'
 
 const currentScreen = ref(AuthForm.LOGIN)
 </script>
@@ -11,8 +12,8 @@ const currentScreen = ref(AuthForm.LOGIN)
 <template>
   <AppCard
     border
-    padding-horizontal="45"
-    padding-vertical="30"
+    :padding-horizontal="isMobile ? '25' : '45'"
+    :padding-vertical="isMobile ? '25' : '30'"
     :class="[currentScreen == AuthForm.LOGIN ? 'auth' : 'register']"
   >
     <LoginForm v-model:formType="currentScreen" v-if="currentScreen === AuthForm.LOGIN" />

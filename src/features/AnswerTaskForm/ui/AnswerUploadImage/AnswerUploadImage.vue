@@ -102,8 +102,8 @@ watchEffect(() => {
 }
 
 .upload-icon {
-  width: 226px;
-  height: 226px;
+  width: 70px;
+  height: 70px;
 }
 
 .image-label {
@@ -158,10 +158,6 @@ watchEffect(() => {
 @include mobile {
   .image-container {
     width: 100%;
-  }
-  .upload-icon {
-    width: 85px;
-    height: 85px;
   }
 }
 </style>

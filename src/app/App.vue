@@ -32,7 +32,7 @@ watchEffect(() => {
   <div v-else>
     <AppLoaderLayout />
   </div>
-  <MobileNavigation v-if="isMobile && !route.meta.customMobileNavbar" />
+  <MobileNavigation v-if="isMobile && !route.meta.customMobileNavbar && !route.meta.customLayout" />
   <NotificationList />
 </template>
 

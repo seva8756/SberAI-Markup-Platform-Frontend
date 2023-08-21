@@ -15,7 +15,7 @@ const currentTaskStore = useCurrentTaskStore()
     <HStack gap="10">
       <AppText weight="700" size="m">{{ currentTaskStore.currentProject?.title }}</AppText>
       <AppText weight="700" variant="secondary" size="m"
-        >#{{ currentTaskStore.currentProject?.code }}</AppText
+        >#{{ currentTaskStore.currentTask?.index }}</AppText
       >
     </HStack>
   </nav>

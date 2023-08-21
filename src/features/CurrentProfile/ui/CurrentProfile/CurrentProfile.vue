@@ -62,15 +62,18 @@ const onLogout = async () => {
   <FlexWrapper
     :direction="isMobile ? 'column' : 'row'"
     class="container"
+    max
     :align="isMobile ? 'center' : 'start'"
     :gap="isMobile ? '30' : '85'"
   >
-    <VStack justify="center" gap="24">
+    <VStack gap="24">
       <img src="@/shared/assets/icons/defaultPfp.png" class="profile-img" alt="" />
-      <AppButton size="xs" border="dashed">Обновить фото</AppButton>
-      <AppButton @click="onLogout" size="xs">Выйти</AppButton>
+      <FlexWrapper gap="24" :direction="isMobile ? 'row' : 'column'">
+        <AppButton size="xs" border="dashed">Обновить фото</AppButton>
+        <AppButton @click="onLogout" size="xs">Выйти</AppButton>
+      </FlexWrapper>
     </VStack>
-    <VStack class="user-information" align="start" gap="16">
+    <VStack max class="user-information" align="start" gap="16">
       <HStack max justify="between">
         <AppText size="xl" weight="600">{{ userStore.getUserFullName }}</AppText>
         <AppText size="l" variant="secondary">ID: {{ userStore.userData?.ID }}</AppText>
@@ -84,12 +87,11 @@ const onLogout = async () => {
         >Статистика</AppText
       >
       <AppText>Количество выполненных заданий: {{ userStore.userData?.completed_tasks }}</AppText>
-      <AppText>Количество размеченных изображений: {{ imgCount }}</AppText>
       <AppText
         >Дата регистрации:
-        {{ parseDateToString(new Date(userStore.userData?.reg_date ?? '')) }}</AppText
+        {{ new Date(userStore.userData?.reg_date ?? '').toLocaleDateString() }}</AppText
       >
-      <AppText>Почта: {{ mail }}</AppText>
+      <AppText>Почта: {{ userStore.userData?.email }}</AppText>
     </VStack>
   </FlexWrapper>
 </template>

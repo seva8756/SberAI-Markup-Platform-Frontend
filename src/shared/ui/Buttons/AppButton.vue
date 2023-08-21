@@ -66,7 +66,7 @@ const classes = computed(() => [
     :disabled="disabled"
     :class="classes"
   >
-    <Loader height="22" v-if="isLoading" />
+    <Loader height="100%" v-if="isLoading" />
     <slot v-else />
   </button>
   <router-link v-else :to="to" :class="classes">
@@ -142,6 +142,7 @@ const classes = computed(() => [
 
 .m {
   width: 250px;
+  height: 42px;
 }
 
 .l {
@@ -191,11 +192,21 @@ const classes = computed(() => [
 
 @include mobile {
   .Button {
-    font-size: var(--font-size-s);
+    font-size: var(--font-size-xs);
   }
 
   .l {
     height: 35px;
+  }
+
+  .m {
+    width: 170px;
+    height: 30px;
+  }
+
+  .s {
+    width: 160px;
+    height: 30px;
   }
 
   .xs {

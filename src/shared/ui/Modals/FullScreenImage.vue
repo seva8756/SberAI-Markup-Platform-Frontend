@@ -16,7 +16,7 @@ defineProps<FullScreenImageProps>()
 
 <style scoped lang="scss">
 .image {
-  max-width: 60%;
+  max-width: 80%;
   max-height: 90%;
 }
 </style>

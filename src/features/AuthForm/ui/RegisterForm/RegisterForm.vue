@@ -45,7 +45,7 @@ const onRegister = async () => {
 </script>
 
 <template>
-  <VStack max gap="30">
+  <VStack max :gap="isMobile ? '20' : '30'">
     <HStack justify="center" max>
       <AppText variant="accent" weight="600">Регистрация</AppText>
     </HStack>

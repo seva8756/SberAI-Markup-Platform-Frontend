@@ -1,6 +1,7 @@
 export interface User {
   ID: number
   completed_tasks: number
+  email: string
   reg_date: string
   first_name: string
   last_name: string

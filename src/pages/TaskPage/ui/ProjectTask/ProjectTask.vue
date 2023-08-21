@@ -32,8 +32,8 @@
       />
       <ImageTask :project="currentProject" v-else />
     </VStack>
-    <NoAvailableTasksModal :on-close="closeModal" :is-open="isVisible" />
   </div>
+  <NoAvailableTasksModal :on-close="closeModal" :is-open="isVisible" />
 </template>
 
 <script setup lang="ts">
@@ -115,7 +115,9 @@ onUnmounted(() => {
   // currentTaskStore.clearCurrentTask()
   // currentTaskStore.$reset()
   // currentTaskStore.resetAnswer()
-  removeUncompletedTask(props.currentProject.ID)
+  if (currentTaskStore.currentTask) {
+    removeUncompletedTask(props.currentProject.ID)
+  }
   document.body.removeEventListener('keydown', onArrowDown)
 })
 </script>

@@ -119,5 +119,11 @@ const updateInput = (event: Event) => {
   .label {
     font-size: var(--font-size-s);
   }
+  .input {
+    input {
+      height: 30px;
+      font-size: var(--font-size-xs);
+    }
+  }
 }
 </style>
