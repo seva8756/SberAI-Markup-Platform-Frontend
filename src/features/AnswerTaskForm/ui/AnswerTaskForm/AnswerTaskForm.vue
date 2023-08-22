@@ -114,6 +114,7 @@ interface AnswerTaskFormProps {
   currentTask: Task | null
   project: Project
   isLoading: boolean
+  hasTwoAnswers?: boolean
   isLastTask: boolean
   noTasksAvailable: boolean
 }
@@ -125,6 +126,10 @@ const { addNotification } = useNotificationStore()
 const { answer, isAutoFill, extendedAnswer } = storeToRefs(answerTaskStore)
 const { fillTextAnswer, setIsAutoFill, setFileName } = answerTaskStore
 const [isVisible, { openModal, closeModal, extra }] = useModal()
+
+const twoAnswersCondition = computed(() => {
+  return props.hasTwoAnswers
+})
 
 const isSaveDisabled = computed(() => {
   return (
@@ -145,8 +150,8 @@ const onChangeAutoFill = (value: boolean) => {
 }
 
 const onNext = () => {
-  if (answer?.value) {
-    emits('onNext', { answer: answer.value, answer_extended: extendedAnswer?.value })
+  if (props.hasTwoAnswers ? answer?.value && extendedAnswer?.value : answer?.value) {
+    emits('onNext', { answer: answer?.value, answer_extended: extendedAnswer?.value })
   } else {
     addNotification({
       message: 'Заполните ответ',

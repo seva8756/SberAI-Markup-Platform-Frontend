@@ -5,6 +5,7 @@ export interface ProjectBase {
   description: string
   title: string
   code: string
+  instruction: string
   completed_tasks: number[]
   answer_type: AnswerType
   question_title: string

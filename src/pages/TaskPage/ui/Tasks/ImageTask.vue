@@ -22,7 +22,7 @@ defineProps<TaskUIProps>()
     justify="between"
   >
     <VStack align="start" gap="30">
-      <div :class="{ container: isMobile }">
+      <div :class="[isMobile ? 'container' : 'image-container']">
         <AppText weight="500" :size="isMobile ? 'l' : 'xl'"
           >1.
           {{
@@ -40,6 +40,7 @@ defineProps<TaskUIProps>()
       :question="'2. Опишите загруженное изображение'"
       :is-loading="currentTaskStore.isLoading"
       :is-last-task="currentTaskStore.isLastTask"
+      :has-two-answers="true"
       :no-tasks-available="currentTaskStore.noTasksAvailable"
       @on-prev="currentTaskStore.goToPreviousTask(project.ID)"
       @on-next="currentTaskStore.goToNextTask(project.ID)"
@@ -48,4 +49,8 @@ defineProps<TaskUIProps>()
   </FlexWrapper>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.image-container {
+  width: 715px;
+}
+</style>

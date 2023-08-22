@@ -15,7 +15,7 @@
         <VStack :align="isMobile ? 'center' : 'start'" max gap="16">
           <AppText size="xl" weight="700">Инструкция</AppText>
           <AppText :align="isMobile ? 'center' : 'left'" size="l">{{
-            welcomeRules[currentProject.answer_type].desc
+            currentProject.instruction ? currentProject.instruction : 'Инструкция отсутствует'
           }}</AppText>
         </VStack>
         <AppButton
@@ -32,7 +32,6 @@
 </template>
 
 <script setup lang="ts">
-import { welcomeRules } from '../../const/welcomeRules'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
