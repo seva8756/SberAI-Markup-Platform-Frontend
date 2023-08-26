@@ -66,7 +66,7 @@ const classes = computed(() => [
     :disabled="disabled"
     :class="classes"
   >
-    <Loader height="100%" v-if="isLoading" />
+    <Loader data-testid="Button.Loader" height="100%" v-if="isLoading" />
     <slot v-else />
   </button>
   <router-link v-else :to="to" :class="classes">

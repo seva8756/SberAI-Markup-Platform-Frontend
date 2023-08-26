@@ -33,7 +33,10 @@ describe('authService', () => {
       ID: 1,
       first_name: 'first',
       last_name: 'last',
-      is_admin: false
+      is_admin: false,
+      completed_tasks: 1,
+      reg_date: '',
+      email: ''
     }
     mocks.post.mockResolvedValue({
       data: mockedUserData

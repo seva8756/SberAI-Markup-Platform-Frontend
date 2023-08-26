@@ -117,7 +117,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
             task.answer_extended = answer_extended
           }
         } catch (e) {
-          removeUncompletedTask(this.projectId)
+          if (this.projectId) removeUncompletedTask(this.projectId)
           if (e instanceof AxiosError) {
             const axiosError = JSON.parse(e.response?.data?.error)
             this.error = axiosError.name

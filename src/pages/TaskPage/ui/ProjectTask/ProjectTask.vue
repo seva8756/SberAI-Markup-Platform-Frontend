@@ -97,7 +97,7 @@ const onArrowDown = (event: KeyboardEvent) => {
 }
 
 watchEffect(() => {
-  if (currentTaskStore.error) {
+  if (currentTaskStore.noTasksAvailable) {
     openModal()
   }
 })

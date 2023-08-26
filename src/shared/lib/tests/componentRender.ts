@@ -18,7 +18,8 @@ export function componentRender(component: Component, initialState = {}, props =
       plugins: [
         createTestingPinia({
           initialState,
-          createSpy: vi.fn
+          createSpy: vi.fn,
+          stubActions: true
         }),
         router
       ]
@@ -31,7 +32,8 @@ export function componentRender(component: Component, initialState = {}, props =
       plugins: [
         createTestingPinia({
           initialState,
-          createSpy: vi.fn
+          createSpy: vi.fn,
+          stubActions: false
         }),
         router
       ]
