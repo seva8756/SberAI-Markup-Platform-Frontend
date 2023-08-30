@@ -98,9 +98,6 @@ watchEffect(() => {
   aspect-ratio: 16 /9;
 }
 
-.form_image-input {
-}
-
 .upload-icon {
   width: 70px;
   height: 70px;

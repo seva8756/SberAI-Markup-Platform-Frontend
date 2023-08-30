@@ -5,7 +5,7 @@ import { useUserStore } from '@/entities/User'
 import { AxiosError } from 'axios'
 import { ValidateAuthData } from '../services/ValidateAuthData/ValidateAuthData'
 import { NotificationType, useNotificationStore } from '@/entities/Notification'
-import { validationErrorsMapper } from '../../const/const'
+import { ValidationErrors, validationErrorsMapper } from '../../const/const'
 
 export const useAuthFormStore = defineStore('authForm', {
   state: (): AuthState => ({

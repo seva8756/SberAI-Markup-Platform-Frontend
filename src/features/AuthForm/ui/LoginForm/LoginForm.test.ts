@@ -4,12 +4,10 @@ import { componentRender } from '@/shared/lib/tests/componentRender'
 import LoginForm from './LoginForm.vue'
 import { useAuthFormStore } from '../../model/store/authForm'
 import { AuthForm } from '../../const/const'
-import $api from '@/shared/api/api'
-import axios from 'axios'
 import type { User } from '@/entities/User'
 import { useUserStore } from '@/entities/User'
-import AuthService from '../../model/services/AuthService/AuthService'
 import { useNotificationStore } from '@/entities/Notification'
+import { AxiosError } from 'axios'
 
 const mocks = vi.hoisted(() => ({
   get: vi.fn(),
@@ -34,16 +32,6 @@ vi.mock('axios', async () => {
   return mockAxios
 })
 
-// const mocks = vi.hoisted(() => ({
-//   login: vi.fn()
-// }))
-// vi.mock('../../model/services/AuthService.ts', async (importOriginal) => {
-//   const mod = await importOriginal<typeof AuthService>()
-//   return {
-//     ...mod,
-//     login: mocks.login
-//   }
-// })
 const initialState = {
   authForm: {
     loginForm: {
@@ -79,6 +67,7 @@ describe('feature/LoginForm', () => {
       reg_date: '',
       email: ''
     }
+
     mocks.post.mockResolvedValue({
       data: mockedUserData
     })
@@ -123,19 +112,23 @@ describe('feature/LoginForm', () => {
     const { getByTestId } = componentRender(LoginForm, initialState, {
       formType: AuthForm.LOGIN
     })
-    mocks.post.mockRejectedValue({
-      response: {
-        data: {
-          error: 'errIncorrectEmailOrPassword'
-        }
+    const axiosError = Object.create(new AxiosError())
+    axiosError.response = {
+      data: {
+        error: JSON.stringify({
+          name: 'errIncorrectEmailOrPassword'
+        })
       }
-    })
+    }
+    mocks.post.mockRejectedValue(axiosError)
     const notificationStore = useNotificationStore()
 
     const loginBtn = getByTestId('LoginForm.loginBtn')
     await fireEvent.click(loginBtn)
     await waitForElementToBeRemoved(() => getByTestId('Button.Loader'))
 
-    expect(notificationStore.notifications.length).toBe(0)
+    // expect(authState.validationErrors.length).toBe(1)
+    expect(notificationStore.notifications.length).not.toBe(0)
+    expect(notificationStore.notifications[0].message).toBe('Неверное имя пользователя или пароль')
   })
 })

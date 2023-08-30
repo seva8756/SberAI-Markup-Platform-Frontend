@@ -13,20 +13,20 @@ const router = createRouter({
 })
 
 export function componentRender(component: Component, initialState = {}, props = {}) {
-  const wrapper = mount(component, {
-    global: {
-      plugins: [
-        createTestingPinia({
-          initialState,
-          createSpy: vi.fn,
-          stubActions: true
-        }),
-        router
-      ]
-    },
-    stubs: ['router-link', 'router-view'],
-    props
-  })
+  // const wrapper = mount(component, {
+  //   global: {
+  //     plugins: [
+  //       createTestingPinia({
+  //         initialState,
+  //         createSpy: vi.fn,
+  //         stubActions: true
+  //       }),
+  //       router
+  //     ]
+  //   },
+  //   stubs: ['router-link', 'router-view'],
+  //   props
+  // })
   return render(component, {
     global: {
       plugins: [
