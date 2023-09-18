@@ -4,6 +4,8 @@ import testImage from '@/shared/assets/testSlider.png'
 import FullScreenImageSwiper from '../FullScreenImageSwiper/FullScreenImageSwiper.vue'
 import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 import NoImagesBlock from '../NoImagesBlock/NoImagesBlock.vue'
+import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
+import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 
 const props = defineProps({
   images: {
@@ -13,6 +15,10 @@ const props = defineProps({
   isLoading: {
     type: Boolean,
     default: false
+  },
+  displayName: {
+    type: String,
+    required: true
   }
 })
 
@@ -35,15 +41,15 @@ const close = () => {
 <template>
   <AppSkeleton class="wrapper" v-if="isLoading" />
   <template v-else>
-    <div v-if="images.length !== 0" class="wrapper">
-      <!--      <NoImagesBlock v-if="images.length === 0" />-->
+    <VStack align="start" gap="4" v-if="images.length !== 0" class="wrapper">
+      <ComponentName :name="displayName" />
       <div class="grid">
         <div class="img-wrapper" v-for="(image, index) in images" :key="index">
           <img @click="open(index)" class="img" :src="base64Image(image)" alt="grid" />
           <img class="img-blur" :src="base64Image(image)" alt="grid" />
         </div>
       </div>
-    </div>
+    </VStack>
   </template>
 
   <FullScreenImageSwiper :images="images" :open="isOpen" :on-close="close" />
@@ -52,21 +58,17 @@ const close = () => {
 <style scoped lang="scss">
 @import '@/shared/styles/mixins';
 .wrapper {
-  width: 849px;
-  height: 483px;
-
-  @include laptop {
-    width: 700px;
-    height: 420px;
-  }
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(415px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(232px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(445px, 1fr));
+  padding: 15px;
+  background: var(--gray-secondary);
   width: 100%;
-  height: 100%;
+  height: 475px;
+  border-radius: 0 23px 23px 23px;
   gap: 18px;
 }
 
@@ -96,5 +98,12 @@ const close = () => {
 .swiper-skeleton {
   width: 850px;
   height: 485px;
+}
+
+@include mobile {
+  .grid {
+    grid-template-rows: repeat(auto-fit, minmax(250px, 1fr));
+    height: 280px;
+  }
 }
 </style>

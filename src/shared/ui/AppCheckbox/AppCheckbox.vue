@@ -73,7 +73,6 @@ const handleClick = (event: Event) => {
 .input_text {
   color: var(--text-color);
   font-size: 18px;
-  font-weight: 500;
 }
 
 @include mobile {

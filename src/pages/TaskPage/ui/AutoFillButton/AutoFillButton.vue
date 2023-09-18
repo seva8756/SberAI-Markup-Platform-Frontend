@@ -19,9 +19,9 @@ defineProps<AnswerVariantsProps>()
 <style scoped lang="scss">
 @import '@/shared/styles/mixins';
 .auto-fill {
-  padding: 15px 25px;
-  background: var(--gray-primary);
-  border-radius: 25px;
+  padding: 8px 25px;
+  background: var(--gray-secondary);
+  border-radius: 32px 32px 0 0;
   cursor: pointer;
   @include mobile {
     padding: 10px 20px;

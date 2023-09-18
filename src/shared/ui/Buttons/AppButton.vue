@@ -117,7 +117,7 @@ const classes = computed(() => [
   color: var(--text-color);
 
   &:hover {
-    background: var(--hint-color-super-muted);
+    background: #2e2e2e;
   }
 
   &.selected {

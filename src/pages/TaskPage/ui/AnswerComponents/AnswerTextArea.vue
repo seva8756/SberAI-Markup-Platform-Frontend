@@ -1,0 +1,69 @@
+<script setup lang="ts">
+import AppTextArea from '@/shared/ui/AppTextArea/AppTextArea.vue'
+import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
+import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
+import AutoFillButton from '../AutoFillButton/AutoFillButton.vue'
+import { computed, onMounted, ref } from 'vue'
+import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
+import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
+
+interface AnswerTextAreaProps {
+  modelValue?: string
+  placeholder?: string
+  displayName: string
+  name: string
+}
+const props = defineProps<AnswerTextAreaProps>()
+const emit = defineEmits(['update:modelValue', 'openModal'])
+const isAutoFill = ref(true)
+const currentTaskStore = useCurrentTaskStore()
+const inputValue = computed(() => {
+  return currentTaskStore.currentTask?.components[props.name].placeholder
+})
+
+const onChangeAutoFill = (value: boolean) => {
+  isAutoFill.value = value
+  if (currentTaskStore.currentTask) {
+    if (currentTaskStore.answer[props.name] && isAutoFill.value) {
+      emit('openModal')
+    } else if (!currentTaskStore.answer[props.name] && isAutoFill.value) {
+      currentTaskStore.setAnswer(props.name, inputValue.value)
+    }
+  }
+}
+const updateInput = (value: string) => {
+  emit('update:modelValue', value)
+}
+
+onMounted(() => {
+  currentTaskStore.setAnswer(props.name, inputValue.value)
+})
+</script>
+
+<template>
+  <VStack align="start" gap="4">
+    <HStack align="end" gap="10">
+      <ComponentName :name="displayName" />
+      <AutoFillButton :on-change="onChangeAutoFill" :model-value="isAutoFill" />
+    </HStack>
+    <AppTextArea
+      background-type="filled"
+      @update:model-value="updateInput"
+      :model-value="modelValue"
+      :placeholder="placeholder"
+    />
+  </VStack>
+</template>
+
+<style scoped lang="scss">
+@import '@/shared/styles/mixins';
+.skeleton {
+  width: 720px;
+  height: 450px;
+  border-radius: 20px;
+  @include mobile {
+    width: 100%;
+    height: 280px;
+  }
+}
+</style>

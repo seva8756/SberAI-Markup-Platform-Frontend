@@ -9,17 +9,11 @@ export default class TaskService {
     return $api.get<Task>(`/projects/${projectId}/task/${taskId}`)
   }
 
-  static async sendAnswer(
-    projectId: number,
-    taskId: number,
-    answer: string,
-    answer_extended?: string
-  ) {
+  static async sendAnswer(projectId: number, taskId: number, answer: Record<string, string>) {
     return $api.post('/projects/task-answer', {
       project_id: projectId,
       task_id: taskId,
-      answer: answer,
-      answer_extended: answer_extended ? answer_extended : undefined
+      answer: answer
     })
   }
 }

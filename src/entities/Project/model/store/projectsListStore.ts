@@ -1,4 +1,4 @@
-import type { Project } from '../..'
+import type { Project } from '../../model/types/project'
 import { $api } from '@/shared/api/api'
 import { defineStore } from 'pinia'
 import type { ProjectsListState } from '../types/projectListTypes'

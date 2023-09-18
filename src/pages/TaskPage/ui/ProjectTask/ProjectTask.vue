@@ -5,7 +5,7 @@
     :current-project="currentProject"
   />
   <div v-else class="container">
-    <VStack gap="70" align="start">
+    <VStack gap="50" align="start">
       <HStack style="position: relative" max justify="between">
         <VStack align="start">
           <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
@@ -22,15 +22,17 @@
           @on-change-current-task="onChangeCurrentTask"
         />
       </HStack>
-      <TextTask
-        v-if="currentTaskStore.currentProject?.answer_type === AnswerType.TEXT"
-        :project="currentProject"
-      />
-      <ChoiceTask
-        :project="currentProject"
-        v-else-if="currentTaskStore.currentProject?.answer_type === AnswerType.CHOICE"
-      />
-      <ImageTask :project="currentProject" v-else />
+      <AppText size="xl" weight="500">{{ currentProject.question_title }}</AppText>
+      <ComponentsConstructor :components="currentProject.components" />
+      <HStack class="btn_wrapper">
+        <AppButton
+          size="custom"
+          class="continue"
+          @click="currentTaskStore.goToNextTask(currentProject.ID)"
+          :is-loading="currentTaskStore.isLoading"
+          >Далее</AppButton
+        >
+      </HStack>
     </VStack>
   </div>
   <NoAvailableTasksModal :on-close="closeModal" :is-open="isVisible" />
@@ -46,15 +48,12 @@ import { useModal } from '@/shared/lib/hooks/useModal'
 import { onMounted, onUnmounted, watchEffect } from 'vue'
 import { type Project, useProjectsListStore } from '@/entities/Project'
 import TasksPagination from '@/features/TasksPagination'
-import TextTask from '../Tasks/TextTask.vue'
-import { AnswerType } from '@/entities/Task'
-import ChoiceTask from '../Tasks/ChoiceTask.vue'
-import ImageTask from '../Tasks/ImageTask.vue'
 import NoAvailableTasksModal from '../NoAvailableTasksModal/NoAvailableTasksModal.vue'
-import { useAnswerTaskStore } from '@/features/AnswerTaskForm'
 import { NotificationType, useNotificationStore } from '@/entities/Notification'
 import ProjectTaskMobile from '../ProjectTaskMobile/ProjectTaskMobile.vue'
 import { isMobile } from 'mobile-device-detect'
+import ComponentsConstructor from '../ComponentsConstructor/ComponentsConstructor.vue'
+import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 
 interface ProjectTaskProps {
   currentProject: Project
@@ -62,7 +61,6 @@ interface ProjectTaskProps {
 
 const props = defineProps<ProjectTaskProps>()
 const currentTaskStore = useCurrentTaskStore()
-const answerTaskStore = useAnswerTaskStore()
 const notificationStore = useNotificationStore()
 const { removeUncompletedTask } = useProjectsListStore()
 // const { currentTask, solvedTasksIds, answer, cachedTasks, isLoading, isAutoFill } =
@@ -83,7 +81,7 @@ const onChangeCurrentTask = ({ id, index }: { id: number; index: number }) => {
 const onArrowDown = (event: KeyboardEvent) => {
   if (event.key === 'ArrowRight') {
     event.preventDefault()
-    if (answerTaskStore.answer) {
+    if (currentTaskStore.answer) {
       currentTaskStore.goToNextTask(props.currentProject.ID)
     } else {
       notificationStore.addNotification({
@@ -105,7 +103,6 @@ watchEffect(() => {
 onMounted(() => {
   if (props.currentProject) {
     currentTaskStore.setCurrentProject(props.currentProject)
-    // currentTaskStore.initPaginationIds(props.currentProject.ID)
     currentTaskStore.fetchCurrentTask(props.currentProject.ID)
   }
   document.body.addEventListener('keydown', onArrowDown)
@@ -122,4 +119,14 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.continue {
+  width: 120px;
+  height: 52px;
+  padding: 15px 30px;
+}
+
+.btn_wrapper {
+  align-self: end;
+}
+</style>

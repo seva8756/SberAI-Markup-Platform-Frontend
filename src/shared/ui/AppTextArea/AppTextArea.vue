@@ -34,6 +34,15 @@ const updateInput = (event: Event) => {
 .textarea {
   resize: none;
   outline: none;
+  &::-webkit-scrollbar {
+    width: 3px;
+    background: var(--gray-secondary);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 3px;
+    background: var(--gray-primary);
+  }
 }
 
 .transparent {
@@ -45,12 +54,12 @@ const updateInput = (event: Event) => {
 }
 
 .filled {
-  border-radius: 28.5px;
+  border-radius: 0px 23px 23px 23px;
   border: 1px solid var(--hint-color-muted);
   background-color: var(--gray-secondary);
   color: var(--text-color);
   width: 100%;
-  height: 350px;
+  height: 475px;
   padding: 25px;
 
   &::placeholder {
@@ -58,7 +67,7 @@ const updateInput = (event: Event) => {
   }
 
   @include mobile {
-    height: 200px;
+    height: 280px;
     font-size: var(--font-size-s);
   }
 }

@@ -9,4 +9,5 @@ export interface CurrentTaskState {
   currentPaginationIndex: number
   isLoading: boolean
   error: null | string
+  answer: Record<string, string>
 }

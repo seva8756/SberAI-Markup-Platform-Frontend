@@ -4,7 +4,6 @@ import $api from '@/shared/api/api'
 import type { Task } from '@/entities/Task'
 import { AxiosError } from 'axios'
 import { type Project, useProjectsListStore } from '@/entities/Project'
-import { useAnswerTaskStore } from '@/features/AnswerTaskForm'
 import { taskErrorsMapper, TaskServerErrors } from '../../const/serverErrors'
 import TaskService from '../services/TaskService'
 import { NotificationType, useNotificationStore } from '@/entities/Notification'
@@ -17,7 +16,8 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     cachedTasks: [],
     currentPaginationIndex: 0,
     isLoading: false,
-    error: null
+    error: null,
+    answer: {}
   }),
   getters: {
     lastCompletedTaskIndex() {
@@ -34,27 +34,19 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
   },
   actions: {
     async fetchCurrentTask(projectId: number) {
-      const answerTaskStore = useAnswerTaskStore()
       const { addCompletedTask } = useProjectsListStore()
       const { addNotification } = useNotificationStore()
       try {
         this.isLoading = true
-        if (answerTaskStore.answer) {
-          await this.sendUserAnswer({
-            answer: answerTaskStore.answer,
-            answer_extended: answerTaskStore.extendedAnswer
-          })
+        if (this.answer) {
+          await this.sendUserAnswer(this.answer)
         }
-        answerTaskStore.setAnswer('')
-        answerTaskStore.setExtendedAnswer('')
+        this.answer = {}
         const res = await TaskService.fetchNewTask(projectId)
         this.currentTask = res.data
         this.cachedTasks.push(this.currentTask)
         addCompletedTask({ projectId, taskId: this.currentTask.index })
         this.setPaginationIndex(0)
-        if (answerTaskStore.isAutoFill && this.currentTask.placeholder) {
-          answerTaskStore.setAnswer(this.currentTask.placeholder)
-        }
         this.error = null
       } catch (e) {
         if (e instanceof AxiosError) {
@@ -92,29 +84,17 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       const res = await $api.get<Task>(`/projects/${projectId}/task/${taskIndex}`)
       return res.data
     },
-    async sendUserAnswer({
-      answer,
-      answer_extended
-    }: {
-      answer: string
-      answer_extended?: string
-    }) {
+    async sendUserAnswer(answer: Record<string, string>) {
       const { addNotification } = useNotificationStore()
       const { removeUncompletedTask } = useProjectsListStore()
 
       if (this.currentTask) {
         try {
-          await TaskService.sendAnswer(
-            this.projectId!,
-            this.currentTask.index,
-            answer,
-            answer_extended
-          )
+          await TaskService.sendAnswer(this.projectId!, this.currentTask.index, answer)
 
           const task = this.cachedTasks.find((task) => task.index === this.currentTask?.index)
           if (task) {
             task.answer = answer
-            task.answer_extended = answer_extended
           }
         } catch (e) {
           if (this.projectId) removeUncompletedTask(this.projectId)
@@ -138,6 +118,8 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       }
     },
     async goToNextTask(projectId: number) {
+      const { addNotification } = useNotificationStore()
+
       if (!this.isLastTask) {
         this.currentPaginationIndex--
         await this.setCurrentTask({
@@ -145,7 +127,19 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
           taskIndex: this.getTaskIdByIndex()
         })
       } else {
-        await this.fetchCurrentTask(projectId)
+        if (
+          this.currentProject &&
+          Object.entries(this.currentProject.components).every(([name, component]) =>
+            component.require ? this.answer[name] : true
+          )
+        ) {
+          await this.fetchCurrentTask(projectId)
+        } else {
+          addNotification({
+            message: 'Заполните ответ',
+            notificationType: NotificationType.ERROR
+          })
+        }
       }
     },
     async goToPreviousTask(projectId: number) {
@@ -157,8 +151,8 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         })
       }
     },
-    async saveCurrentTask(value: { answer: string; answer_extended?: string }) {
-      await this.sendUserAnswer({ ...value })
+    async saveCurrentTask(answer: Record<string, string>) {
+      await this.sendUserAnswer(answer)
     },
     clearCurrentTask() {
       this.currentTask = null
@@ -168,7 +162,6 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
       this.currentPaginationIndex = index
     },
     async setCurrentTask({ projectId, taskIndex }: { projectId: number; taskIndex: number }) {
-      const { setAnswer, setExtendedAnswer } = useAnswerTaskStore()
       const { addNotification } = useNotificationStore()
       const currentTask = this.cachedTasks.find((task) => task.index === taskIndex)
       if (currentTask) {
@@ -198,8 +191,13 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
           this.isLoading = false
         }
       }
-      setAnswer(this.currentTask?.answer)
-      setExtendedAnswer(this.currentTask?.answer_extended)
+      this.answer = this.currentTask?.answer ?? {}
+    },
+    setAnswer(name: string, answer: string) {
+      this.answer = {
+        ...this.answer,
+        [name]: answer
+      }
     }
   }
 })

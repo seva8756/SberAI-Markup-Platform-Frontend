@@ -1,23 +1,12 @@
-import { AnswerType } from '@/entities/Task'
+import type { Component } from '@/entities/Component'
 
-export interface ProjectBase {
+export interface Project {
   ID: number
   description: string
   title: string
   code: string
   instruction: string
   completed_tasks: number[]
-  answer_type: AnswerType
+  components: Record<string, Component>
   question_title: string
 }
-
-export interface ProjectChoice extends ProjectBase {
-  answer_type: AnswerType.CHOICE
-  answer_choice: Record<string, string>
-}
-
-export interface ProjectText extends ProjectBase {
-  answer_type: AnswerType.TEXT
-}
-
-export type Project = ProjectChoice | ProjectText

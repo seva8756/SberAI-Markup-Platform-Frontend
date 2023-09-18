@@ -2,11 +2,10 @@
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
 import TasksPagination from '@/features/TasksPagination'
-import ChoiceTask from '../Tasks/ChoiceTask.vue'
-import ImageTask from '../Tasks/ImageTask.vue'
-import TextTask from '../Tasks/TextTask.vue'
 import type { Project } from '@/entities/Project'
-import { AnswerType } from '@/entities/Task'
+import ComponentsConstructor from '../ComponentsConstructor/ComponentsConstructor.vue'
+import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
+import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 
 const currentTaskStore = useCurrentTaskStore()
 interface ProjectTaskMobileProps {
@@ -18,8 +17,8 @@ defineProps<ProjectTaskMobileProps>()
 </script>
 
 <template>
-  <VStack gap="20" class="task-mobile">
-    <div class="container">
+  <VStack gap="30" class="task-mobile">
+    <VStack gap="16" class="container">
       <div class="wrapper">
         <TasksPagination
           :no-tasks-available="currentTaskStore.noTasksAvailable"
@@ -29,16 +28,17 @@ defineProps<ProjectTaskMobileProps>()
           @on-change-current-task="onChangeCurrentTask"
         />
       </div>
-    </div>
-    <TextTask
-      v-if="currentTaskStore.currentProject?.answer_type === AnswerType.TEXT"
-      :project="currentProject"
-    />
-    <ChoiceTask
-      :project="currentProject"
-      v-else-if="currentTaskStore.currentProject?.answer_type === AnswerType.CHOICE"
-    />
-    <ImageTask :project="currentProject" v-else />
+      <ComponentsConstructor :components="currentProject.components" />
+      <HStack class="btn_wrapper">
+        <AppButton
+          size="custom"
+          class="continue"
+          @click="currentTaskStore.goToNextTask(currentProject.ID)"
+          :is-loading="currentTaskStore.isLoading"
+          >Далее</AppButton
+        >
+      </HStack>
+    </VStack>
   </VStack>
 </template>
 
@@ -52,5 +52,10 @@ defineProps<ProjectTaskMobileProps>()
   width: 100%;
   height: 42px;
   position: relative;
+}
+
+.btn_wrapper {
+  margin-top: 50px;
+  align-self: end;
 }
 </style>
