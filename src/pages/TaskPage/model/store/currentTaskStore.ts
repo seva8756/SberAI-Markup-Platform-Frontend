@@ -28,6 +28,15 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     isLastTask: (state) => state.currentPaginationIndex === 0,
     completedTasks: (state) => state.currentProject?.completed_tasks ?? [],
     projectId: (state) => state.currentProject?.ID,
+    textComponentValue: (state) => (name: string) =>
+      state.currentTask?.answer?.[name] ?? state.currentTask?.components?.[name]?.placeholder,
+    textComponentPlaceholder: (state) => (name: string) =>
+      state.currentTask?.components?.[name]?.placeholder,
+    isAllRequiredFieldFilled: (state) =>
+      state.currentProject &&
+      Object.entries(state.currentProject.components).every(([name, component]) =>
+        component.require ? state.answer[name] : true
+      ),
     getTaskIdByIndex() {
       return () => this.completedTasks[this.currentPaginationIndex]
     }
@@ -127,12 +136,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
           taskIndex: this.getTaskIdByIndex()
         })
       } else {
-        if (
-          this.currentProject &&
-          Object.entries(this.currentProject.components).every(([name, component]) =>
-            component.require ? this.answer[name] : true
-          )
-        ) {
+        if (this.isAllRequiredFieldFilled) {
           await this.fetchCurrentTask(projectId)
         } else {
           addNotification({
@@ -151,8 +155,16 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         })
       }
     },
-    async saveCurrentTask(answer: Record<string, string>) {
-      await this.sendUserAnswer(answer)
+    async saveCurrentTask() {
+      const { addNotification } = useNotificationStore()
+      if (this.isAllRequiredFieldFilled) {
+        await this.sendUserAnswer(this.answer)
+      } else {
+        addNotification({
+          message: 'Заполните ответ',
+          notificationType: NotificationType.ERROR
+        })
+      }
     },
     clearCurrentTask() {
       this.currentTask = null

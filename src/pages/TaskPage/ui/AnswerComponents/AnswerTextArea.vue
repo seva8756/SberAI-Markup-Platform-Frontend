@@ -17,9 +17,6 @@ const props = defineProps<AnswerTextAreaProps>()
 const emit = defineEmits(['update:modelValue', 'openModal'])
 const isAutoFill = ref(true)
 const currentTaskStore = useCurrentTaskStore()
-const inputValue = computed(() => {
-  return currentTaskStore.currentTask?.components[props.name].placeholder
-})
 
 const onChangeAutoFill = (value: boolean) => {
   isAutoFill.value = value
@@ -27,7 +24,7 @@ const onChangeAutoFill = (value: boolean) => {
     if (currentTaskStore.answer[props.name] && isAutoFill.value) {
       emit('openModal')
     } else if (!currentTaskStore.answer[props.name] && isAutoFill.value) {
-      currentTaskStore.setAnswer(props.name, inputValue.value)
+      currentTaskStore.setAnswer(props.name, currentTaskStore.textComponentPlaceholder(props.name))
     }
   }
 }
@@ -36,7 +33,7 @@ const updateInput = (value: string) => {
 }
 
 onMounted(() => {
-  currentTaskStore.setAnswer(props.name, inputValue.value)
+  currentTaskStore.setAnswer(props.name, currentTaskStore.textComponentValue(props.name))
 })
 </script>
 

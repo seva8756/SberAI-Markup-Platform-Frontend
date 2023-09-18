@@ -165,7 +165,7 @@ const handleClick = (value: string) => {
 }
 
 .opened {
-  height: 700px;
+  height: 600px;
 
   .arrow {
     transform: rotate(180deg);

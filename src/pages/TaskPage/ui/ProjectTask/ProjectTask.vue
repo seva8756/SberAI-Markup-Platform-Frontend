@@ -24,7 +24,23 @@
       </HStack>
       <AppText size="xl" weight="500">{{ currentProject.question_title }}</AppText>
       <ComponentsConstructor :components="currentProject.components" />
-      <HStack class="btn_wrapper">
+      <HStack gap="16" class="btn_wrapper">
+        <AppButton
+          size="custom"
+          class="continue"
+          color="gray"
+          @click="currentTaskStore.goToPreviousTask(currentProject.ID)"
+          :is-loading="currentTaskStore.isLoading"
+          >Назад</AppButton
+        >
+        <AppButton
+          size="custom"
+          class="continue"
+          color="gray"
+          @click="currentTaskStore.saveCurrentTask()"
+          :is-loading="currentTaskStore.isLoading"
+          >Сохранить</AppButton
+        >
         <AppButton
           size="custom"
           class="continue"
