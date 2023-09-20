@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Component } from '@/entities/Component'
 import ImagesShowcase from '@/features/ImagesShowcase'
-import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
-import { computed } from 'vue'
+import { useTaskStore } from '../../model/store/currentTaskStore'
+import { computed, ref } from 'vue'
 import AnswerVariants from '../AnswerComponents/AnswerVariants.vue'
 import AnswerTextArea from '../AnswerComponents/AnswerTextArea.vue'
 import AnswerUploadImage from '../AnswerComponents/AnswerUploadImage.vue'
@@ -14,13 +14,28 @@ interface ComponentsConstructorProps {
 }
 
 const props = defineProps<ComponentsConstructorProps>()
-const currentTaskStore = useCurrentTaskStore()
+const taskStore = useTaskStore()
+const [isVisible, { closeModal, openModal }] = useModal()
+const componentName = ref('')
 const sortedComponents = computed(() => {
   return Object.entries(props.components).sort(
     (entry1, entry2) => entry1[1].position - entry2[1].position
   )
 })
-const [isVisible, { closeModal, openModal }] = useModal()
+
+const onOpenModal = (name: string) => {
+  componentName.value = name
+  openModal()
+}
+
+const onApproveAutoFill = () => {
+  if (componentName.value) {
+    taskStore.setAnswer(
+      componentName.value,
+      taskStore.textComponentPlaceholder(componentName.value)
+    )
+  }
+}
 
 // const getCurrentComponent = (component: Component) => {
 //   switch (component.type) {
@@ -36,49 +51,49 @@ const [isVisible, { closeModal, openModal }] = useModal()
 
 <template>
   <div class="wrapper-constructor">
-    <template v-if="currentTaskStore.isLoading">
-      <AppSkeleton class="block" />
-      <AppSkeleton class="block" />
-      <AppSkeleton class="block" />
-    </template>
-    <template v-else>
-      <div
-        v-for="[name, component] in sortedComponents"
-        :key="name"
-        :class="['block', { 'full-width': component.visuals?.fill }]"
-      >
-        <template v-if="component.purpose === 'answer'">
-          <AnswerTextArea
-            v-if="component.type === 'input'"
-            :name="name"
-            :display-name="component.name"
-            v-model="currentTaskStore.answer[name]"
-            placeholder="Введите ответ"
-            @open-modal="openModal()"
-          />
-          <AnswerVariants
-            v-else-if="component.type === 'choice'"
-            :display-name="component.name"
-            v-model="currentTaskStore.answer[name]"
-            :variants="component.options"
-          />
-          <AnswerUploadImage
-            v-else-if="component.type === 'image'"
-            :display-name="component.name"
-            :name="name"
-          />
-        </template>
-        <template v-else>
-          <ImagesShowcase
-            :is-loading="currentTaskStore.isLoading"
-            :display-name="component.name"
-            v-if="component.type === 'images'"
-            :images="currentTaskStore?.currentTask?.components[name].images ?? []"
-          />
-        </template>
-      </div>
-    </template>
-    <ApproveAutoFillModal :on-close="closeModal" :is-open="isVisible" />
+    <div
+      v-for="[name, component] in sortedComponents"
+      :key="name"
+      :class="['block', { 'full-width': component.visuals?.fill }]"
+    >
+      <template v-if="component.purpose === 'answer'">
+        <AnswerTextArea
+          v-if="component.type === 'input'"
+          :name="name"
+          :display-name="component.name"
+          v-model="taskStore.answer[name]"
+          placeholder="Введите ответ"
+          @open-modal="onOpenModal"
+          :is-loading="taskStore.isLoading"
+        />
+        <AnswerVariants
+          v-else-if="component.type === 'choice'"
+          :display-name="component.name"
+          v-model="taskStore.answer[name]"
+          :variants="component.options"
+          :is-loading="taskStore.isLoading"
+        />
+        <AnswerUploadImage
+          v-else-if="component.type === 'image'"
+          :display-name="component.name"
+          :name="name"
+          :is-loading="taskStore.isLoading"
+        />
+      </template>
+      <template v-else>
+        <ImagesShowcase
+          :is-loading="taskStore.isLoading"
+          :display-name="component.name"
+          v-if="component.type === 'images'"
+          :images="taskStore?.currentTask?.components[name].images ?? []"
+        />
+      </template>
+    </div>
+    <ApproveAutoFillModal
+      :on-close="closeModal"
+      :is-open="isVisible"
+      @on-approve="onApproveAutoFill"
+    />
   </div>
 </template>
 

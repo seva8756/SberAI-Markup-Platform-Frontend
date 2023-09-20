@@ -7,7 +7,11 @@ const notificationStore = useNotificationStore()
 </script>
 
 <template>
-  <transition-group :class="['notification-list', getVStack({ gap: '10' })]" tag="div" name="list">
+  <transition-group
+    :class="['notification-list', getVStack({ gap: '10', align: 'end' })]"
+    tag="div"
+    name="list"
+  >
     <AppNotification
       data-testid="Notification"
       v-for="notification in notificationStore.lastThreeNotification"

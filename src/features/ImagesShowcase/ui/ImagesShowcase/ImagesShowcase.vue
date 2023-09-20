@@ -6,6 +6,7 @@ import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 import NoImagesBlock from '../NoImagesBlock/NoImagesBlock.vue'
 import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
+import { base64Src } from '@/shared/lib/helpers/base64Src'
 
 const props = defineProps({
   images: {
@@ -20,10 +21,6 @@ const props = defineProps({
     type: String,
     required: true
   }
-})
-
-const base64Image = computed(() => {
-  return (code?: string) => (code ? `data:image/jpeg;base64,${code}` : testImage)
 })
 
 const isOpen = ref(false)
@@ -45,8 +42,8 @@ const close = () => {
       <ComponentName :name="displayName" />
       <div class="grid">
         <div class="img-wrapper" v-for="(image, index) in images" :key="index">
-          <img @click="open(index)" class="img" :src="base64Image(image)" alt="grid" />
-          <img class="img-blur" :src="base64Image(image)" alt="grid" />
+          <img @click="open(index)" class="img" :src="base64Src(image)" alt="grid" />
+          <img class="img-blur" :src="base64Src(image)" alt="grid" />
         </div>
       </div>
     </VStack>

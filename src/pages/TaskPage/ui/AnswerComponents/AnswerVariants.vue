@@ -1,5 +1,6 @@
 <template>
-  <VStack class="wrapper" max align="start" gap="4">
+  <AppSkeleton v-if="isLoading" />
+  <VStack v-else class="wrapper" max align="start" gap="4">
     <ComponentName :name="displayName" />
     <div class="wrapper-content">
       <div :class="['expand-block', { opened: isOpened, shadow: isItemsOverflow }]">
@@ -35,10 +36,12 @@ import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
 import ArrowDown from '@/shared/assets/icons/arrow_down.svg'
 import { computed, ref } from 'vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
+import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 interface AnswerVariantsProps {
   variants: Record<string, string>
   modelValue?: string
   displayName: string
+  isLoading: boolean
 }
 defineProps<AnswerVariantsProps>()
 

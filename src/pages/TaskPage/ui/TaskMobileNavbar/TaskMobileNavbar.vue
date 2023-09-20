@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import ArrowIcon from '@/shared/assets/icons/arrow_down.svg'
 import { getHStack } from '@/shared/lib/helpers/getHStack'
-import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
+import { useTaskStore } from '../../model/store/currentTaskStore'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import { taskNumber } from '@/shared/lib/helpers/taskNumber'
-const currentTaskStore = useCurrentTaskStore()
+const taskStore = useTaskStore()
 </script>
 
 <template>
@@ -14,9 +14,9 @@ const currentTaskStore = useCurrentTaskStore()
       <ArrowIcon />
     </router-link>
     <HStack gap="10">
-      <AppText weight="700" size="m">{{ currentTaskStore.currentProject?.title }}</AppText>
+      <AppText weight="700" size="m">{{ taskStore.currentProject?.title }}</AppText>
       <AppText weight="700" variant="secondary" size="m"
-        >#{{ taskNumber(currentTaskStore.currentTask?.index.toString()) }}</AppText
+        >#{{ taskNumber(taskStore.currentTask?.index.toString()) }}</AppText
       >
     </HStack>
   </nav>

@@ -3,7 +3,7 @@ import TasksPaginationBullet from '../TasksPaginationBullet/TasksPaginationBulle
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import ArrowIcon from '@/shared/assets/icons/arrow_down.svg'
 import TasksPaginationBulletSkeleton from '../TasksPaginationBullet/TasksPaginationBulletSkeleton.vue'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { getHStack } from '@/shared/lib/helpers/getHStack'
 
 interface TasksPaginationProps {
@@ -31,7 +31,6 @@ const currentPageIds = computed(() => {
 
 const gridBlockWidth = computed(() => {
   if (gridBlock.value) {
-    console.log(gridBlock.value)
     return gridBlock.value.getBoundingClientRect().width
   }
   return 420
@@ -47,6 +46,10 @@ const goNextPage = () => {
 const goPrevPage = () => {
   if (currentPage.value > 0) currentPage.value--
 }
+
+onMounted(() => {
+  console.log(props.tasksIds)
+})
 </script>
 
 <template>

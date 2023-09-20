@@ -7,12 +7,12 @@ interface useModalBind<T> {
 }
 
 export function useModal<T>(): [
-  Ref<UnwrapRef<boolean>>,
+  Ref<boolean>,
   {
-    extra: Ref<T | null>
     openModal: (extraValue?: T | null) => void
     closeModal: () => void
-  }
+  },
+  Ref<T | null>
 ] {
   const isVisible = ref(false)
   const extra = ref<T | null>(null) as Ref<T | null>
@@ -24,10 +24,10 @@ export function useModal<T>(): [
 
   const openModal = (extraValue: T | null = null) => {
     isVisible.value = true
-
     if (extraValue) {
       extra.value = extraValue
+      console.log(extra.value)
     }
   }
-  return [isVisible, { closeModal, openModal, extra: extra }]
+  return [isVisible, { closeModal, openModal }, extra]
 }

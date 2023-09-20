@@ -9,5 +9,6 @@ export interface CurrentTaskState {
   currentPaginationIndex: number
   isLoading: boolean
   error: null | string
+  isAutoFill: Record<string, boolean>
   answer: Record<string, string>
 }

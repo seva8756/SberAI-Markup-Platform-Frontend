@@ -10,15 +10,15 @@
         <VStack align="start">
           <AppText size="xl" weight="700">{{ currentProject.title }}</AppText>
           <TaskIndex
-            :is-loading="currentTaskStore.isLoading"
-            :index="currentTaskStore.currentTask?.index.toString()"
+            :is-loading="taskStore.isLoading"
+            :index="taskStore.currentTask?.index.toString()"
           />
         </VStack>
         <TasksPagination
-          :no-tasks-available="currentTaskStore.noTasksAvailable"
-          :is-loading="currentTaskStore.isLoading"
-          :tasks-ids="currentProject.completed_tasks"
-          :current-index="currentTaskStore.currentPaginationIndex"
+          :no-tasks-available="taskStore.noTasksAvailable"
+          :is-loading="taskStore.isLoading"
+          :tasks-ids="taskStore.completedTasks"
+          :current-index="taskStore.currentPaginationIndex"
           @on-change-current-task="onChangeCurrentTask"
         />
       </HStack>
@@ -29,23 +29,23 @@
           size="custom"
           class="continue"
           color="gray"
-          @click="currentTaskStore.goToPreviousTask(currentProject.ID)"
-          :is-loading="currentTaskStore.isLoading"
+          @click="taskStore.goToPreviousTask(currentProject.ID)"
           >Назад</AppButton
         >
         <AppButton
           size="custom"
           class="continue"
           color="gray"
-          @click="currentTaskStore.saveCurrentTask()"
-          :is-loading="currentTaskStore.isLoading"
+          @click="taskStore.saveCurrentTask()"
+          :is-loading="taskStore.isLoading"
           >Сохранить</AppButton
         >
         <AppButton
           size="custom"
           class="continue"
-          @click="currentTaskStore.goToNextTask(currentProject.ID)"
-          :is-loading="currentTaskStore.isLoading"
+          v-if="taskStore.noTasksAvailable ? !taskStore.isLastTask : true"
+          @click="taskStore.goToNextTask(currentProject.ID)"
+          :is-loading="taskStore.isLoading"
           >Далее</AppButton
         >
       </HStack>
@@ -59,7 +59,7 @@ import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import TaskIndex from '../TaskIndex/TaskIndex.vue'
-import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
+import { useTaskStore } from '../../model/store/currentTaskStore'
 import { useModal } from '@/shared/lib/hooks/useModal'
 import { onMounted, onUnmounted, watchEffect } from 'vue'
 import { type Project, useProjectsListStore } from '@/entities/Project'
@@ -76,18 +76,18 @@ interface ProjectTaskProps {
 }
 
 const props = defineProps<ProjectTaskProps>()
-const currentTaskStore = useCurrentTaskStore()
+const taskStore = useTaskStore()
 const notificationStore = useNotificationStore()
 const { removeUncompletedTask } = useProjectsListStore()
 // const { currentTask, solvedTasksIds, answer, cachedTasks, isLoading, isAutoFill } =
-//   storeToRefs(currentTaskStore)
-// const { fillTextAnswer, fetchCurrentTask, goToNextTask, setAnswer } = currentTaskStore
-const [isVisible, { openModal, closeModal, extra }] = useModal()
+//   storeToRefs(taskStore)
+// const { fillTextAnswer, fetchCurrentTask, goToNextTask, setAnswer } = taskStore
+const [isVisible, { openModal, closeModal }, extra] = useModal()
 
 const onChangeCurrentTask = ({ id, index }: { id: number; index: number }) => {
-  if (index !== currentTaskStore.currentPaginationIndex) {
-    currentTaskStore.setPaginationIndex(index)
-    currentTaskStore.setCurrentTask({
+  if (index !== taskStore.currentPaginationIndex) {
+    taskStore.setPaginationIndex(index)
+    taskStore.setCurrentTask({
       projectId: props.currentProject.ID,
       taskIndex: id
     })
@@ -97,8 +97,8 @@ const onChangeCurrentTask = ({ id, index }: { id: number; index: number }) => {
 const onArrowDown = (event: KeyboardEvent) => {
   if (event.key === 'ArrowRight') {
     event.preventDefault()
-    if (currentTaskStore.answer) {
-      currentTaskStore.goToNextTask(props.currentProject.ID)
+    if (taskStore.answer) {
+      taskStore.goToNextTask(props.currentProject.ID)
     } else {
       notificationStore.addNotification({
         message: 'Заполните ответ',
@@ -106,29 +106,29 @@ const onArrowDown = (event: KeyboardEvent) => {
       })
     }
   } else if (event.key === 'ArrowLeft') {
-    currentTaskStore.goToPreviousTask(props.currentProject.ID)
+    taskStore.goToPreviousTask(props.currentProject.ID)
   }
 }
 
 watchEffect(() => {
-  if (currentTaskStore.noTasksAvailable) {
+  if (taskStore.noTasksAvailable) {
     openModal()
   }
 })
 
 onMounted(() => {
   if (props.currentProject) {
-    currentTaskStore.setCurrentProject(props.currentProject)
-    currentTaskStore.fetchCurrentTask(props.currentProject.ID)
+    taskStore.setCurrentProject(props.currentProject)
+    taskStore.fetchCurrentTask(props.currentProject.ID)
   }
   document.body.addEventListener('keydown', onArrowDown)
 })
 
 onUnmounted(() => {
-  // currentTaskStore.clearCurrentTask()
-  // currentTaskStore.$reset()
-  // currentTaskStore.resetAnswer()
-  if (currentTaskStore.currentTask) {
+  // taskStore.clearCurrentTask()
+  // taskStore.$reset()
+  // taskStore.resetAnswer()
+  if (taskStore.currentTask) {
     removeUncompletedTask(props.currentProject.ID)
   }
   document.body.removeEventListener('keydown', onArrowDown)

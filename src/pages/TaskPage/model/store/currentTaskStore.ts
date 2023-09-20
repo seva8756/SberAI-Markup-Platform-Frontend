@@ -1,14 +1,12 @@
 import { defineStore } from 'pinia'
 import type { CurrentTaskState } from '../types/currentTaskState'
-import $api from '@/shared/api/api'
-import type { Task } from '@/entities/Task'
 import { AxiosError } from 'axios'
 import { type Project, useProjectsListStore } from '@/entities/Project'
 import { taskErrorsMapper, TaskServerErrors } from '../../const/serverErrors'
 import TaskService from '../services/TaskService'
 import { NotificationType, useNotificationStore } from '@/entities/Notification'
 
-export const useCurrentTaskStore = defineStore('currentTaskStore', {
+export const useTaskStore = defineStore('taskStore', {
   state: (): CurrentTaskState => ({
     currentTask: null,
     currentProject: undefined,
@@ -17,16 +15,17 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     currentPaginationIndex: 0,
     isLoading: false,
     error: null,
-    answer: {}
+    answer: {},
+    isAutoFill: {}
   }),
   getters: {
     lastCompletedTaskIndex() {
-      return () => this.completedTasks[this.completedTasks.length - 1]
+      return () => this.completedTasks[0]
     },
     taskIndexById: (state) => (taskId: number) =>
       state.cachedTasks.findIndex((task) => task.index === taskId),
     isLastTask: (state) => state.currentPaginationIndex === 0,
-    completedTasks: (state) => state.currentProject?.completed_tasks ?? [],
+    completedTasks: (state) => state.currentProject?.completed_tasks.toReversed() ?? [],
     projectId: (state) => state.currentProject?.ID,
     textComponentValue: (state) => (name: string) =>
       state.currentTask?.answer?.[name] ?? state.currentTask?.components?.[name]?.placeholder,
@@ -55,6 +54,7 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         this.currentTask = res.data
         this.cachedTasks.push(this.currentTask)
         addCompletedTask({ projectId, taskId: this.currentTask.index })
+        this.setTextAnswers()
         this.setPaginationIndex(0)
         this.error = null
       } catch (e) {
@@ -88,10 +88,6 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
     },
     setCurrentProject(project: Project) {
       this.currentProject = project
-    },
-    async fetchTaskById({ projectId, taskIndex }: { projectId: string; taskIndex: number }) {
-      const res = await $api.get<Task>(`/projects/${projectId}/task/${taskIndex}`)
-      return res.data
     },
     async sendUserAnswer(answer: Record<string, string>) {
       const { addNotification } = useNotificationStore()
@@ -204,6 +200,15 @@ export const useCurrentTaskStore = defineStore('currentTaskStore', {
         }
       }
       this.answer = this.currentTask?.answer ?? {}
+    },
+    setTextAnswers() {
+      if (this.currentTask) {
+        Object.entries(this.currentTask.components).forEach(([key, value]) => {
+          if (value.placeholder) {
+            this.answer[key] = value.placeholder
+          }
+        })
+      }
     },
     setAnswer(name: string, answer: string) {
       this.answer = {

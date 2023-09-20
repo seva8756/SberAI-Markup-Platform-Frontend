@@ -11,18 +11,20 @@ import { useModal } from '@/shared/lib/hooks/useModal'
 import { base64Src } from '@/shared/lib/helpers/base64Src'
 import FullScreenImage from '@/shared/ui/Modals/FullScreenImage.vue'
 import { isMobile } from 'mobile-device-detect'
-import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
+import { useTaskStore } from '../../model/store/currentTaskStore'
 import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
 import BorderIcon from '@/shared/assets/icons/border.svg'
+import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 
 interface AnswerUploadImageProps {
   name: string
   displayName: string
+  isLoading: boolean
 }
 
 const props = defineProps<AnswerUploadImageProps>()
 
-const currentTaskStore = useCurrentTaskStore()
+const currentTaskStore = useTaskStore()
 const { setAnswer } = currentTaskStore
 const { answer } = storeToRefs(currentTaskStore)
 const [isVisible, { closeModal, openModal }] = useModal()
@@ -59,7 +61,8 @@ watchEffect(() => {
 </script>
 
 <template>
-  <VStack align="start" gap="4">
+  <AppSkeleton v-if="isLoading" />
+  <VStack v-else align="start" gap="4">
     <ComponentName :name="displayName" />
     <VStack max align="start" gap="16">
       <VStack max align="center" justify="center" class="image-container">
@@ -98,7 +101,12 @@ watchEffect(() => {
         <BorderIcon class="border" />
       </VStack>
       <AppText v-if="fileName" weight="500" variant="secondary">Загружено: {{ fileName }}</AppText>
-      <FullScreenImage :open="isVisible" :on-close="closeModal" :image="base64Src(answer[name])" />
+      <FullScreenImage
+        v-if="answer[name]"
+        :open="isVisible"
+        :on-close="closeModal"
+        :image="base64Src(answer[name])"
+      />
     </VStack>
   </VStack>
 </template>

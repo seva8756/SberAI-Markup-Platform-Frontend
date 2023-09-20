@@ -3,12 +3,12 @@ import { useRoute } from 'vue-router'
 import { type Project, useProjectsListStore } from '@/entities/Project'
 import { computed, onMounted, onUnmounted, watchEffect } from 'vue'
 import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
-import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
+import { useTaskStore } from '../../model/store/currentTaskStore'
 import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
 
 const { params } = useRoute()
 const projectListStore = useProjectsListStore()
-const currentTaskStore = useCurrentTaskStore()
+const currentTaskStore = useTaskStore()
 
 const projectId = params.id as string
 const currentProject = computed<Project | undefined>(() =>

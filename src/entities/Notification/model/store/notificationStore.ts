@@ -13,7 +13,7 @@ export const useNotificationStore = defineStore('notification', {
   actions: {
     addNotification(notification: Omit<Notification, 'id'>) {
       const existingNotification = this.notifications.find(
-        (item) => item.notificationType === notification.notificationType
+        (item) => item.message === notification.message
       )
       if (!existingNotification) {
         this.notifications.push({

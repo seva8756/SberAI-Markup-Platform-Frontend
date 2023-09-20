@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
-import { useCurrentTaskStore } from '../../model/store/currentTaskStore'
+import { useTaskStore } from '../../model/store/currentTaskStore'
 import TasksPagination from '@/features/TasksPagination'
 import type { Project } from '@/entities/Project'
 import ComponentsConstructor from '../ComponentsConstructor/ComponentsConstructor.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 
-const currentTaskStore = useCurrentTaskStore()
+const currentTaskStore = useTaskStore()
 interface ProjectTaskMobileProps {
   currentProject: Project
   onChangeCurrentTask: (payload: { id: number; index: number }) => void
