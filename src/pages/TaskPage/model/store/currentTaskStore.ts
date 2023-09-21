@@ -20,12 +20,12 @@ export const useTaskStore = defineStore('taskStore', {
   }),
   getters: {
     lastCompletedTaskIndex() {
-      return () => this.completedTasks[0]
+      return () => this.completedTasks[this.completedTasks.length - 1]
     },
     taskIndexById: (state) => (taskId: number) =>
       state.cachedTasks.findIndex((task) => task.index === taskId),
     isLastTask: (state) => state.currentPaginationIndex === 0,
-    completedTasks: (state) => state.currentProject?.completed_tasks.toReversed() ?? [],
+    completedTasks: (state) => state.currentProject?.completed_tasks ?? [],
     projectId: (state) => state.currentProject?.ID,
     textComponentValue: (state) => (name: string) =>
       state.currentTask?.answer?.[name] ?? state.currentTask?.components?.[name]?.placeholder,

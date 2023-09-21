@@ -20,7 +20,10 @@ export const useProjectsListStore = defineStore('projectsListStore', {
       try {
         this.isLoading = true
         const response = await $api.get<Project[]>('/projects/all')
-        this.projects = response.data
+        this.projects = response.data.map((project) => ({
+          ...project,
+          completed_tasks: project.completed_tasks.reverse()
+        }))
       } catch (e) {
         console.log(e)
       } finally {

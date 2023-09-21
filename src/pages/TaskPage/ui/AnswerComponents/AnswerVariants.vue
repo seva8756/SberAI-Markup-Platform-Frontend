@@ -20,9 +20,9 @@
             </div>
           </div>
         </div>
-        <AppButton @click="isOpened = !isOpened" color="gray" class="expand-btn">
-          <ArrowDown class="arrow" width="23" />
-        </AppButton>
+        <!--        <AppButton @click="isOpened = !isOpened" color="gray" class="expand-btn">-->
+        <!--          <ArrowDown class="arrow" width="23" />-->
+        <!--        </AppButton>-->
       </div>
     </div>
   </VStack>

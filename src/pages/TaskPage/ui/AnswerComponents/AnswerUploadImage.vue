@@ -24,9 +24,7 @@ interface AnswerUploadImageProps {
 
 const props = defineProps<AnswerUploadImageProps>()
 
-const currentTaskStore = useTaskStore()
-const { setAnswer } = currentTaskStore
-const { answer } = storeToRefs(currentTaskStore)
+const taskStore = useTaskStore()
 const [isVisible, { closeModal, openModal }] = useModal()
 const fileName = ref('')
 const inputRef = ref<HTMLInputElement | null>(null)
@@ -43,18 +41,18 @@ const onChangeImage = (e: Event) => {
   reader.readAsDataURL(file)
   reader.onload = () => {
     const result = reader.result as string
-    setAnswer(props.name, result.split(',')[1])
+    taskStore.setAnswer(props.name, result.split(',')[1])
   }
 }
 
 const clearImage = () => {
-  setAnswer(props.name, '')
+  taskStore.setAnswer(props.name, '')
   fileName.value = ''
   if (inputRef.value) inputRef.value.value = ''
 }
 
 watchEffect(() => {
-  if (!answer?.value) {
+  if (!taskStore.answer[props.name]) {
     fileName.value = ''
   }
 })
@@ -65,47 +63,58 @@ watchEffect(() => {
   <VStack v-else align="start" gap="4">
     <ComponentName :name="displayName" />
     <VStack max align="start" gap="16">
-      <VStack max align="center" justify="center" class="image-container">
-        <button
-          v-if="answer[name]"
-          @click="clearImage"
-          :class="['close-btn', getVStack({ max: true, align: 'center', justify: 'center' })]"
-        >
-          <CloseIcon />
-        </button>
-        <label
-          for="image"
-          :class="['image-label', getVStack({ align: 'center', justify: 'center' })]"
-        >
-          <VStack v-if="!answer[name]" gap="10">
-            <UploadIcon class="upload-icon" />
-            <AppText variant="accent" :size="isMobile ? 'l' : 'xl'">Загрузить изображение</AppText>
-          </VStack>
-        </label>
-        <input
-          id="image"
-          accept="image/*"
-          className="form_image-input"
-          ref="inputRef"
-          type="file"
-          @change="onChangeImage"
-        />
-        <img v-if="answer[name]" class="upload-image" :src="base64Src(answer[name])" />
-        <button
-          v-if="answer[name] && !isMobile"
-          @click="openModal"
-          :class="['fullscreen-btn', getVStack({ max: true, align: 'center', justify: 'center' })]"
-        >
-          <FullscreenIcon />
-        </button>
-        <BorderIcon class="border" />
+      <VStack max class="card">
+        <VStack max align="center" justify="center" class="image-container">
+          <button
+            v-if="taskStore.answer[name]"
+            @click="clearImage"
+            :class="['close-btn', getVStack({ max: true, align: 'center', justify: 'center' })]"
+          >
+            <CloseIcon />
+          </button>
+          <label
+            for="image"
+            :class="['image-label', getVStack({ align: 'center', justify: 'center' })]"
+          >
+            <VStack v-if="!taskStore.answer[name]" gap="10">
+              <UploadIcon class="upload-icon" />
+              <AppText variant="accent" :size="isMobile ? 'l' : 'xl'"
+                >Загрузить изображение</AppText
+              >
+            </VStack>
+          </label>
+          <input
+            id="image"
+            accept="image/*"
+            className="form_image-input"
+            ref="inputRef"
+            type="file"
+            @change="onChangeImage"
+          />
+          <img
+            v-if="taskStore.answer[name]"
+            class="upload-image"
+            :src="base64Src(taskStore.answer[name])"
+          />
+          <button
+            v-if="taskStore.answer[name] && !isMobile"
+            @click="openModal"
+            :class="[
+              'fullscreen-btn',
+              getVStack({ max: true, align: 'center', justify: 'center' })
+            ]"
+          >
+            <FullscreenIcon />
+          </button>
+          <BorderIcon class="border" />
+        </VStack>
       </VStack>
       <AppText v-if="fileName" weight="500" variant="secondary">Загружено: {{ fileName }}</AppText>
       <FullScreenImage
-        v-if="answer[name]"
+        v-if="taskStore.answer[name]"
         :open="isVisible"
         :on-close="closeModal"
-        :image="base64Src(answer[name])"
+        :image="base64Src(taskStore.answer[name])"
       />
     </VStack>
   </VStack>
@@ -115,6 +124,13 @@ watchEffect(() => {
 @import '@/shared/styles/mixins';
 .image-container {
   position: relative;
+}
+
+.card {
+  padding: 15px;
+  background: var(--gray-secondary);
+  border-radius: 0 23px 23px 23px;
+  background: var(--gray-secondary);
   height: 485px;
   @include mobile {
     height: 280px;

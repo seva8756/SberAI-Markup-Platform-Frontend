@@ -60,7 +60,7 @@ const close = () => {
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(445px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(47%, 1fr));
   padding: 15px;
   background: var(--gray-secondary);
   width: 100%;
@@ -99,7 +99,6 @@ const close = () => {
 
 @include mobile {
   .grid {
-    grid-template-rows: repeat(auto-fit, minmax(250px, 1fr));
     height: 280px;
   }
 }

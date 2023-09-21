@@ -17,12 +17,14 @@
         <TasksPagination
           :no-tasks-available="taskStore.noTasksAvailable"
           :is-loading="taskStore.isLoading"
-          :tasks-ids="taskStore.completedTasks"
+          :tasks-ids="currentProject.completed_tasks"
           :current-index="taskStore.currentPaginationIndex"
           @on-change-current-task="onChangeCurrentTask"
         />
       </HStack>
-      <AppText size="xl" weight="500">{{ currentProject.question_title }}</AppText>
+      <AppText size="xl" weight="500">{{
+        taskStore.currentTask?.question || currentProject.question_title
+      }}</AppText>
       <ComponentsConstructor :components="currentProject.components" />
       <HStack gap="16" class="btn_wrapper">
         <AppButton
