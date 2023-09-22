@@ -25,12 +25,19 @@ export const useTaskStore = defineStore('taskStore', {
     taskIndexById: (state) => (taskId: number) =>
       state.cachedTasks.findIndex((task) => task.index === taskId),
     isLastTask: (state) => state.currentPaginationIndex === 0,
+    isTaskChanged: (state) => {
+      if (state.currentTask?.answer) {
+        return Object.entries(state.currentTask.answer).every(
+          ([key, value]) => state.answer[key] === value
+        )
+      }
+    },
     completedTasks: (state) => state.currentProject?.completed_tasks ?? [],
     projectId: (state) => state.currentProject?.ID,
     textComponentValue: (state) => (name: string) =>
-      state.currentTask?.answer?.[name] ?? state.currentTask?.components?.[name]?.placeholder,
+      state.currentTask?.answer?.[name] || state.currentTask?.components?.[name]?.placeholder,
     textComponentPlaceholder: (state) => (name: string) =>
-      state.currentTask?.components?.[name]?.placeholder,
+      state.currentTask?.components?.[name]?.placeholder ?? '',
     isAllRequiredFieldFilled: (state) =>
       state.currentProject &&
       Object.entries(state.currentProject.components).every(([name, component]) =>
@@ -199,7 +206,7 @@ export const useTaskStore = defineStore('taskStore', {
           this.isLoading = false
         }
       }
-      this.answer = this.currentTask?.answer ?? {}
+      this.answer = { ...this.currentTask?.answer } ?? {}
     },
     setTextAnswers() {
       if (this.currentTask) {

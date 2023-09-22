@@ -31,16 +31,17 @@
           size="custom"
           class="continue"
           color="gray"
-          @click="taskStore.goToPreviousTask(currentProject.ID)"
-          >Назад</AppButton
+          :disabled="taskStore.isTaskChanged"
+          @click="taskStore.saveCurrentTask()"
+          :is-loading="taskStore.isLoading"
+          >Сохранить</AppButton
         >
         <AppButton
           size="custom"
           class="continue"
           color="gray"
-          @click="taskStore.saveCurrentTask()"
-          :is-loading="taskStore.isLoading"
-          >Сохранить</AppButton
+          @click="taskStore.goToPreviousTask(currentProject.ID)"
+          >Назад</AppButton
         >
         <AppButton
           size="custom"
