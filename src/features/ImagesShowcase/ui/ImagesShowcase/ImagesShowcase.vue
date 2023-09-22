@@ -7,6 +7,7 @@ import NoImagesBlock from '../NoImagesBlock/NoImagesBlock.vue'
 import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import { base64Src } from '@/shared/lib/helpers/base64Src'
+import ComponentSkeleton from '@/pages/TaskPage/ui/ComponentSkeleton.vue'
 
 const props = defineProps({
   images: {
@@ -36,7 +37,7 @@ const close = () => {
 </script>
 
 <template>
-  <AppSkeleton class="wrapper" v-if="isLoading" />
+  <ComponentSkeleton v-if="isLoading" />
   <template v-else>
     <VStack align="start" gap="4" v-if="images.length !== 0" class="wrapper">
       <ComponentName :name="displayName" />

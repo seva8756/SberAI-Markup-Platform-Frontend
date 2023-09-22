@@ -1,11 +1,10 @@
 <template>
-  <div :class="['skeleton', { constructor: isConstructor }]" :style="{ borderRadius }" />
+  <div :class="['skeleton']" :style="{ borderRadius }" />
 </template>
 
 <script setup lang="ts">
 interface AppSkeletonProps {
   borderRadius?: string
-  isConstructor?: boolean
 }
 defineProps<AppSkeletonProps>()
 </script>
@@ -18,14 +17,6 @@ defineProps<AppSkeletonProps>()
   border-radius: 5px;
   background-size: 200% 100%;
   animation: 1.5s shine linear infinite;
-}
-
-.constructor {
-  flex: 1 0 45%;
-  height: 525px;
-  @include mobile {
-    height: 325px;
-  }
 }
 
 @keyframes shine {

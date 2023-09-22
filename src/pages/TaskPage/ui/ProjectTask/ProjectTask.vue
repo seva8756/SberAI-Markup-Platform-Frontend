@@ -31,6 +31,7 @@
           size="custom"
           class="continue"
           color="gray"
+          v-if="taskStore.noTasksAvailable || !taskStore.isLastTask"
           :disabled="taskStore.isTaskChanged"
           @click="taskStore.saveCurrentTask()"
           :is-loading="taskStore.isLoading"

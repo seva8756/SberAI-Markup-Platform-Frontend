@@ -15,6 +15,7 @@ import { useTaskStore } from '../../model/store/currentTaskStore'
 import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
 import BorderIcon from '@/shared/assets/icons/border.svg'
 import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
+import ComponentSkeleton from '@/pages/TaskPage/ui/ComponentSkeleton.vue'
 
 interface AnswerUploadImageProps {
   name: string
@@ -59,7 +60,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <AppSkeleton v-if="isLoading" />
+  <ComponentSkeleton v-if="isLoading" />
   <VStack v-else align="start" gap="4">
     <ComponentName :name="displayName" />
     <VStack max align="start" gap="16">

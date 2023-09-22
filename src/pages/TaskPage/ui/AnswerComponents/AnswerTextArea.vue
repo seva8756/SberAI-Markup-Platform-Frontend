@@ -7,6 +7,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useTaskStore } from '../../model/store/currentTaskStore'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
+import ComponentSkeleton from '@/pages/TaskPage/ui/ComponentSkeleton.vue'
 
 interface AnswerTextAreaProps {
   modelValue?: string
@@ -40,7 +41,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <AppSkeleton v-if="isLoading" />
+  <ComponentSkeleton v-if="isLoading" />
   <VStack v-else align="start" gap="4">
     <HStack align="end" gap="10">
       <ComponentName :name="displayName" />
@@ -55,15 +56,4 @@ onMounted(() => {
   </VStack>
 </template>
 
-<style scoped lang="scss">
-@import '@/shared/styles/mixins';
-.skeleton {
-  width: 720px;
-  height: 450px;
-  border-radius: 20px;
-  @include mobile {
-    width: 100%;
-    height: 280px;
-  }
-}
-</style>
+<style scoped lang="scss"></style>

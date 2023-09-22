@@ -1,5 +1,5 @@
 <template>
-  <AppSkeleton v-if="isLoading" />
+  <ComponentSkeleton v-if="isLoading" />
   <VStack v-else class="wrapper" max align="start" gap="4">
     <ComponentName :name="displayName" />
     <div class="wrapper-content">
@@ -37,6 +37,7 @@ import ArrowDown from '@/shared/assets/icons/arrow_down.svg'
 import { computed, ref } from 'vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
 import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
+import ComponentSkeleton from '@/pages/TaskPage/ui/ComponentSkeleton.vue'
 interface AnswerVariantsProps {
   variants: Record<string, string>
   modelValue?: string
@@ -143,10 +144,11 @@ const handleClick = (value: string) => {
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 100px;
+    height: 54px;
     border-radius: 23px;
     z-index: 3;
-    background: linear-gradient(0deg, rgba(37, 37, 37, 0.9) 52.08%, rgba(21, 21, 21, 0) 100%);
+    pointer-events: none;
+    background: linear-gradient(0deg, rgb(37 37 37 / 53%) 52.08%, rgba(21, 21, 21, 0) 100%);
   }
 }
 
@@ -174,12 +176,6 @@ const handleClick = (value: string) => {
     transform: rotate(180deg);
     transition: transform var(--transition-duration);
   }
-}
-
-.variant-skeleton {
-  width: 720px;
-  height: 96px;
-  border-radius: 20px;
 }
 
 @include mobile {
