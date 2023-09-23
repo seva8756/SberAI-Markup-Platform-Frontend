@@ -181,6 +181,9 @@ onMounted(() => {
     height: 22px;
     top: 75px;
     left: 8px;
+    svg {
+      width: 10px;
+    }
   }
 }
 

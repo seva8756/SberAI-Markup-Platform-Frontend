@@ -1,9 +1,7 @@
 <template>
   <div class="container">
-    <VStack :align="isMobile ? 'center' : 'start'" gap="10">
-      <AppText :align="isMobile ? 'center' : 'left'" size="xl" weight="700">{{
-        currentProject.title
-      }}</AppText>
+    <VStack :align="'start'" gap="10">
+      <AppText :align="'left'" size="xl" weight="700">{{ currentProject.title }}</AppText>
       <AppText size="l" variant="secondary" weight="400"
         >Код проекта: {{ currentProject.code }}</AppText
       >
@@ -12,9 +10,9 @@
     <VStack max gap="50" align="start">
       <AppText size="l">{{ currentProject.description }}</AppText>
       <VStack align="end" max gap="30">
-        <VStack :align="isMobile ? 'center' : 'start'" max gap="16">
+        <VStack :align="'start'" max gap="16">
           <AppText size="xl" weight="700">Инструкция</AppText>
-          <AppText :align="isMobile ? 'center' : 'left'" size="l">{{
+          <AppText :align="'left'" size="l">{{
             currentProject.instruction ? currentProject.instruction : 'Инструкция отсутствует'
           }}</AppText>
         </VStack>

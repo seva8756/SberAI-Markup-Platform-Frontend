@@ -7,7 +7,7 @@ import NoImagesBlock from '../NoImagesBlock/NoImagesBlock.vue'
 import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import { base64Src } from '@/shared/lib/helpers/base64Src'
-import ComponentSkeleton from '@/pages/TaskPage/ui/ComponentSkeleton.vue'
+import ComponentSkeleton from '@/shared/ui/Skeletons/ComponentSkeleton.vue'
 
 const props = defineProps({
   images: {
@@ -68,6 +68,7 @@ const close = () => {
   height: 475px;
   border-radius: 0 23px 23px 23px;
   gap: 18px;
+  overflow: hidden;
 }
 
 .img-wrapper {

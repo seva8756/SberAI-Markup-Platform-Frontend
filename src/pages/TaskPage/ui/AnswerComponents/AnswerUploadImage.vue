@@ -14,7 +14,7 @@ import { isMobile } from 'mobile-device-detect'
 import { useTaskStore } from '../../model/store/currentTaskStore'
 import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
 import BorderIcon from '@/shared/assets/icons/border.svg'
-import ComponentSkeleton from '../ComponentSkeleton.vue'
+import ComponentSkeleton from '../../../../shared/ui/Skeletons/ComponentSkeleton.vue'
 
 interface AnswerUploadImageProps {
   name: string

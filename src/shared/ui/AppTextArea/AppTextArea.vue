@@ -54,7 +54,7 @@ const updateInput = (event: Event) => {
 }
 
 .filled {
-  border-radius: 0px 23px 23px 23px;
+  border-radius: 0 23px 23px 23px;
   border: 1px solid var(--hint-color-muted);
   background-color: var(--gray-secondary);
   color: var(--text-color);
@@ -67,6 +67,7 @@ const updateInput = (event: Event) => {
   }
 
   @include mobile {
+    border-radius: 0 0 23px 23px;
     height: 280px;
     font-size: var(--font-size-s);
   }

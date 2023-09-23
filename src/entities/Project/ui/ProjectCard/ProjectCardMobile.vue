@@ -29,7 +29,7 @@ defineProps({
   >
     <HStack align="stretch" max justify="between">
       <HStack :class="classes.mobile_text" gap="8">
-        <component :is="projectCardIconMapper[project.answer_type]" :class="classes.icon" />
+        <!--        <component :is="projectCardIconMapper[project.answer_type]" :class="classes.icon" />-->
         <VStack gap="10" align="start" :class="classes.text_info">
           <HStack gap="10">
             <AppText weight="700">{{ project.title }}</AppText>

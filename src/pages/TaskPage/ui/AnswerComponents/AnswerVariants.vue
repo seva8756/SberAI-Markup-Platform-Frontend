@@ -33,7 +33,7 @@ import RadioButton from '@/shared/ui/AppRadiobutton/RadioButton.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
 import { computed, ref } from 'vue'
-import ComponentSkeleton from '../ComponentSkeleton.vue'
+import ComponentSkeleton from '../../../../shared/ui/Skeletons/ComponentSkeleton.vue'
 interface AnswerVariantsProps {
   variants: Record<string, string>
   modelValue?: string
@@ -174,6 +174,10 @@ const handleClick = (value: string) => {
 }
 
 @include mobile {
+  .variants {
+    padding: 25px 20px;
+  }
+
   .answer {
     padding: 16px 30px;
     border-radius: 15px;

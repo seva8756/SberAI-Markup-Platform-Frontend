@@ -6,7 +6,7 @@ import AutoFillButton from '../AutoFillButton/AutoFillButton.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useTaskStore } from '../../model/store/currentTaskStore'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
-import ComponentSkeleton from '../ComponentSkeleton.vue'
+import ComponentSkeleton from '../../../../shared/ui/Skeletons/ComponentSkeleton.vue'
 
 interface AnswerTextAreaProps {
   modelValue?: string

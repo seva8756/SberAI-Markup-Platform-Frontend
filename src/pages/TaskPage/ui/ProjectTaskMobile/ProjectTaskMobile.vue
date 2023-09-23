@@ -6,8 +6,9 @@ import type { Project } from '@/entities/Project'
 import ComponentsConstructor from '../ComponentsConstructor/ComponentsConstructor.vue'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
 import AppButton from '@/shared/ui/Buttons/AppButton.vue'
+import AppText from '@/shared/ui/TextViews/AppText/AppText.vue'
 
-const currentTaskStore = useTaskStore()
+const taskStore = useTaskStore()
 interface ProjectTaskMobileProps {
   currentProject: Project
   onChangeCurrentTask: (payload: { id: number; index: number }) => void
@@ -18,23 +19,44 @@ defineProps<ProjectTaskMobileProps>()
 
 <template>
   <VStack gap="30" class="task-mobile">
-    <VStack gap="16" class="container">
+    <VStack align="start" gap="16" class="container">
       <div class="wrapper">
         <TasksPagination
-          :no-tasks-available="currentTaskStore.noTasksAvailable"
-          :is-loading="currentTaskStore.isLoading"
+          :no-tasks-available="taskStore.noTasksAvailable"
+          :is-loading="taskStore.isLoading"
           :tasks-ids="currentProject.completed_tasks"
-          :current-index="currentTaskStore.currentPaginationIndex"
+          :current-index="taskStore.currentPaginationIndex"
           @on-change-current-task="onChangeCurrentTask"
         />
       </div>
+      <AppText size="l" weight="500">{{
+        taskStore.currentTask?.question || currentProject.question_title
+      }}</AppText>
       <ComponentsConstructor :components="currentProject.components" />
-      <HStack class="btn_wrapper">
+      <HStack gap="16" class="btn_wrapper">
         <AppButton
           size="custom"
           class="continue"
-          @click="currentTaskStore.goToNextTask(currentProject.ID)"
-          :is-loading="currentTaskStore.isLoading"
+          color="gray"
+          v-if="taskStore.noTasksAvailable || !taskStore.isLastTask"
+          :disabled="taskStore.isTaskChanged"
+          @click="taskStore.saveCurrentTask()"
+          :is-loading="taskStore.isLoading"
+          >Сохранить</AppButton
+        >
+        <AppButton
+          size="custom"
+          class="continue"
+          color="gray"
+          @click="taskStore.goToPreviousTask(currentProject.ID)"
+          >Назад</AppButton
+        >
+        <AppButton
+          size="custom"
+          class="continue"
+          v-if="taskStore.noTasksAvailable ? !taskStore.isLastTask : true"
+          @click="taskStore.goToNextTask(currentProject.ID)"
+          :is-loading="taskStore.isLoading"
           >Далее</AppButton
         >
       </HStack>
