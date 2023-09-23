@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { computed, type PropType, ref } from 'vue'
-import testImage from '@/shared/assets/testSlider.png'
 import FullScreenImageSwiper from '../FullScreenImageSwiper/FullScreenImageSwiper.vue'
-import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
-import NoImagesBlock from '../NoImagesBlock/NoImagesBlock.vue'
 import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
 import { base64Src } from '@/shared/lib/helpers/base64Src'

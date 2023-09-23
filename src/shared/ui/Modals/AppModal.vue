@@ -45,7 +45,7 @@ onUnmounted(() => {
   padding: 30px 45px;
   border-radius: 20px;
   @include mobile {
-    max-width: 85%;
+    max-width: 90%;
     padding: 30px 30px;
   }
 }

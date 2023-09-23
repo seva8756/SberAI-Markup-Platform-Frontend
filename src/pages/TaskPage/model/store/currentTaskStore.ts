@@ -106,7 +106,7 @@ export const useTaskStore = defineStore('taskStore', {
 
           const task = this.cachedTasks.find((task) => task.index === this.currentTask?.index)
           if (task) {
-            task.answer = answer
+            task.answer = { ...answer }
           }
         } catch (e) {
           if (this.projectId) removeUncompletedTask(this.projectId)
