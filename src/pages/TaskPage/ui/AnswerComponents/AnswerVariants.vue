@@ -31,13 +31,9 @@
 <script setup lang="ts">
 import RadioButton from '@/shared/ui/AppRadiobutton/RadioButton.vue'
 import VStack from '@/shared/ui/Stack/VStack/VStack.vue'
-import { isMobile } from 'mobile-device-detect'
 import ComponentName from '@/shared/ui/ComponentName/ComponentName.vue'
-import ArrowDown from '@/shared/assets/icons/arrow_down.svg'
 import { computed, ref } from 'vue'
-import AppButton from '@/shared/ui/Buttons/AppButton.vue'
-import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
-import ComponentSkeleton from '@/pages/TaskPage/ui/ComponentSkeleton.vue'
+import ComponentSkeleton from '../ComponentSkeleton.vue'
 interface AnswerVariantsProps {
   variants: Record<string, string>
   modelValue?: string
@@ -75,7 +71,6 @@ const handleClick = (value: string) => {
   position: absolute;
   width: 100%;
   height: 91%;
-  z-index: 100;
   transition: height var(--transition-duration);
 }
 

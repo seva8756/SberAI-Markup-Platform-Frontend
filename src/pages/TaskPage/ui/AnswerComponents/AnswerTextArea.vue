@@ -6,8 +6,7 @@ import AutoFillButton from '../AutoFillButton/AutoFillButton.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useTaskStore } from '../../model/store/currentTaskStore'
 import HStack from '@/shared/ui/Stack/HStack/HStack.vue'
-import AppSkeleton from '@/shared/ui/Skeletons/AppSkeleton.vue'
-import ComponentSkeleton from '@/pages/TaskPage/ui/ComponentSkeleton.vue'
+import ComponentSkeleton from '../ComponentSkeleton.vue'
 
 interface AnswerTextAreaProps {
   modelValue?: string
@@ -36,7 +35,7 @@ const updateInput = (value: string) => {
 }
 
 onMounted(() => {
-  currentTaskStore.setAnswer(props.name, currentTaskStore.textComponentValue(props.name))
+  currentTaskStore.setAnswer(props.name, currentTaskStore.textComponentValue(props.name) ?? '')
 })
 </script>
 
