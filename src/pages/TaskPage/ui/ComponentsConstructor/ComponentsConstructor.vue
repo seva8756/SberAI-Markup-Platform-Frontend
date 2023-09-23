@@ -64,25 +64,25 @@ const onApproveAutoFill = () => {
           v-model="taskStore.answer[name]"
           placeholder="Введите ответ"
           @open-modal="onOpenModal"
-          :is-loading="true"
+          :is-loading="taskStore.isLoading"
         />
         <AnswerVariants
           v-else-if="component.type === 'choice'"
           :display-name="component.name"
           v-model="taskStore.answer[name]"
           :variants="component.options"
-          :is-loading="true"
+          :is-loading="taskStore.isLoading"
         />
         <AnswerUploadImage
           v-else-if="component.type === 'image'"
           :display-name="component.name"
           :name="name"
-          :is-loading="true"
+          :is-loading="taskStore.isLoading"
         />
       </template>
       <template v-else>
         <ImagesShowcase
-          :is-loading="true"
+          :is-loading="taskStore.isLoading"
           :display-name="component.name"
           v-if="component.type === 'images'"
           :images="taskStore?.currentTask?.components[name].images ?? []"
